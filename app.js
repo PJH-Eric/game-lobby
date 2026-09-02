@@ -41,7 +41,7 @@
 
   function cardMarkup(game) {
     const isFavorite = state.favorites.includes(game.id);
-    return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" style="--card-color:${colors[game.accent] || colors.sky}">
+    return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="開啟${escapeHtml(game.title)}" style="--card-color:${colors[game.accent] || colors.sky}">
       <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${isFavorite ? '取消收藏' : '收藏'} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || categoryLabels[game.category] || '推薦')}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
       <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || categoryLabels[game.category] || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(game.launchUrl)}" target="_blank" rel="noopener">立即遊玩 <span>→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">了解玩法</button></div></div>
     </article>`;
@@ -69,9 +69,21 @@
   }
 
   function bindCardEvents() {
+    $$('.game-card').forEach((card) => {
+      const launchGame = () => openGame(state.games.find((game) => game.id === card.dataset.gameId));
+      card.addEventListener('click', (event) => { if (!event.target.closest('button, a')) launchGame(); });
+      card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); launchGame(); } });
+    });
     $$('[data-details]').forEach((button) => button.addEventListener('click', () => openDetails(button.dataset.details)));
     $$('[data-favorite]').forEach((button) => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
     $$('.play-link').forEach((link) => link.addEventListener('click', () => playSfx('open')));
+  }
+
+  function openGame(game) {
+    if (!game?.launchUrl) return;
+    playSfx('open');
+    const gameWindow = window.open(game.launchUrl, '_blank', 'noopener,noreferrer');
+    if (!gameWindow) window.location.assign(game.launchUrl);
   }
 
   function toggleFavorite(id) {
