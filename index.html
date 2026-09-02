@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff8ed">
+  <meta name="description" content="遊戲小小島：跳棋、翻牌、數獨、小小市場、貓狗大戰與打地鼠的可愛遊戲大廳">
+  <title>遊戲小小島｜六個可愛小遊戲</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-sky" aria-hidden="true">
+    <span class="cloud cloud-one"></span>
+    <span class="cloud cloud-two"></span>
+    <span class="sparkle sparkle-one">✦</span>
+    <span class="sparkle sparkle-two">✦</span>
+  </div>
+
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="遊戲小小島首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 54 54" role="img"><path d="M11 28c0-10 7-17 16-17s16 7 16 17v8c0 7-6 12-16 12S11 43 11 36v-8Z" fill="#ff8e78" stroke="#362f3b" stroke-width="3"/><path d="M14 26c1-10 6-16 13-16 7 0 12 6 13 16-8-4-18-4-26 0Z" fill="#ffd66b" stroke="#362f3b" stroke-width="3"/><circle cx="21" cy="31" r="2.4" fill="#362f3b"/><circle cx="33" cy="31" r="2.4" fill="#362f3b"/><path d="M24 37c2 2 4 2 6 0" fill="none" stroke="#362f3b" stroke-linecap="round" stroke-width="2.4"/></svg>
+        </span>
+        <span><strong>遊戲小小島</strong><small>PLAYFUL ISLAND</small></span>
+      </a>
+      <nav class="main-nav" aria-label="主要導覽">
+        <a class="nav-link active" href="#games">所有遊戲</a>
+        <button class="nav-link" type="button" data-view="recent">最近玩過 <span class="nav-count" id="recent-count">0</span></button>
+      </nav>
+      <button class="icon-button settings-button" id="settings-open" type="button" aria-label="開啟大廳設定" aria-haspopup="dialog" aria-controls="settings-modal">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.4 3-.5 2a7.8 7.8 0 0 0-1.7 1L5.3 5.2 3.2 7.3l1.1 1.9a7.8 7.8 0 0 0-1 1.7l-2 .5v3l2 .5a7.8 7.8 0 0 0 1 1.7l-1.1 1.9 2.1 2.1 1.9-1.1a7.8 7.8 0 0 0 1.7 1l.5 2h3l.5-2a7.8 7.8 0 0 0 1.7-1l1.9 1.1 2.1-2.1-1.1-1.9a7.8 7.8 0 0 0 1-1.7l2-.5v-3l-2-.5a7.8 7.8 0 0 0-1-1.7l1.1-1.9-2.1-2.1-1.9 1.1a7.8 7.8 0 0 0-1.7-1l-.5-2h-3Z"/><circle cx="10.9" cy="12.9" r="3.1"/></svg>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow-pill"><span class="dot-pulse"></span>今天也來玩一局吧</div>
+          <h1 id="hero-title">六個小遊戲，<br><em>一座可愛小島。</em></h1>
+          <p class="hero-text">不用迷路，想動腦、想比賽、想和朋友一起玩，從這裡選一個喜歡的遊戲出發吧！</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#games">探索遊戲 <span>↓</span></a>
+            <button class="text-button" id="random-game" type="button"><span class="dice-icon">✦</span>幫我隨機選一個</button>
+          </div>
+          <div class="hero-stats" aria-label="遊戲大廳統計">
+            <div><strong id="game-total">6</strong><span>個遊戲</span></div>
+            <i></i>
+            <div><strong>2–5</strong><span>人同樂</span></div>
+            <i></i>
+            <div><strong>100%</strong><span>可愛</span></div>
+          </div>
+        </div>
+
+        <div class="hero-scene" aria-label="小島插畫" role="img">
+          <div class="sun"></div>
+          <div class="scene-cloud scene-cloud-a"></div>
+          <div class="scene-cloud scene-cloud-b"></div>
+          <div class="island-shadow"></div>
+          <div class="island">
+            <span class="island-grass grass-a"></span><span class="island-grass grass-b"></span><span class="island-grass grass-c"></span>
+            <div class="island-path"></div>
+            <div class="tree tree-a"><span class="tree-top"></span><span class="tree-trunk"></span></div>
+            <div class="tree tree-b"><span class="tree-top"></span><span class="tree-trunk"></span></div>
+            <div class="tiny-house"><span class="roof"></span><span class="house-body"></span><span class="door"></span></div>
+            <div class="island-character"><span class="ear ear-left"></span><span class="ear ear-right"></span><span class="face"><i></i><i></i><b></b></span><span class="body"></span></div>
+            <div class="flag"><span></span></div>
+          </div>
+          <div class="scene-card scene-card-one"><span class="mini-icon">⌘</span><b>選個遊戲</b><small>開始冒險</small></div>
+          <div class="scene-card scene-card-two"><span class="mini-heart">♥</span><b>好友一起玩</b><small>歡迎來到小島</small></div>
+        </div>
+      </section>
+
+      <section class="games-section" id="games" aria-labelledby="games-title">
+        <div class="section-heading">
+          <div><span class="section-kicker">ISLAND ARCADE</span><h2 id="games-title">今天想玩什麼？</h2></div>
+          <p id="games-helper">每一張卡片都能直接帶你前往遊戲。</p>
+        </div>
+        <div class="toolbar">
+          <div class="filter-list" role="group" aria-label="遊戲分類">
+            <button class="filter-chip active" type="button" data-filter="all">全部 <span id="all-count">6</span></button>
+            <button class="filter-chip" type="button" data-filter="brain">動動腦</button>
+            <button class="filter-chip" type="button" data-filter="action">反應派</button>
+            <button class="filter-chip" type="button" data-filter="cozy">療癒系</button>
+          </div>
+          <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="game-search" type="search" placeholder="搜尋遊戲…" aria-label="搜尋遊戲"></label>
+        </div>
+        <div class="games-grid" id="games-grid" aria-live="polite">
+          <div class="loading-state"><span class="loader"></span><p>正在把遊戲卡片搬上島…</p></div>
+        </div>
+        <div class="empty-state" id="empty-state" hidden><div class="empty-art">◌</div><h3>還沒有找到這類遊戲</h3><p>換個關鍵字，或回到全部遊戲看看吧。</p><button class="button button-soft" type="button" id="clear-filter">看全部遊戲</button></div>
+      </section>
+
+      <section class="tip-banner" aria-label="遊戲小提醒">
+        <div class="tip-icon"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M18 4c-6.5 0-11 4.5-11 10.5 0 4.3 2.2 6.5 5.3 8.8.8.6 1.2 1.5 1.2 2.5h9c0-1 .4-1.9 1.2-2.5 3.1-2.3 5.3-4.5 5.3-8.8C29 8.5 24.5 4 18 4Z" fill="#ffe38b" stroke="#362f3b" stroke-width="2.5"/><path d="M14 30h8M15.5 33h5" stroke="#362f3b" stroke-linecap="round" stroke-width="2.5"/><path d="M18 9v8m-3-4 3-3 3 3" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2"/></svg></div>
+        <div><strong>小提醒：遊戲是獨立啟動的</strong><p>大廳只負責帶路；如果卡片顯示尚未連線，先到對應遊戲資料夾執行啟動指令即可。</p></div>
+        <a href="#how-to" class="tip-link">查看設定方式 <span>→</span></a>
+      </section>
+
+      <section class="howto" id="how-to" aria-labelledby="howto-title">
+        <span class="section-kicker">READY WHEN YOU ARE</span><h2 id="howto-title">三步就能出發</h2>
+        <div class="howto-grid">
+          <article><span class="step-number">01</span><div class="step-illustration step-choose">⌘</div><h3>挑一個喜歡的</h3><p>用分類或搜尋找到今天的遊戲。</p></article>
+          <article><span class="step-number">02</span><div class="step-illustration step-click">↗</div><h3>點擊立即遊玩</h3><p>每張卡都連到對應的遊戲入口。</p></article>
+          <article><span class="step-number">03</span><div class="step-illustration step-party">✦</div><h3>開始你的回合</h3><p>單機、AI 或線上房間，隨時換一款。</p></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><a class="footer-brand" href="#top">遊戲小小島</a><span>把每一次點擊，都變成一點點開心。</span><span class="footer-version">Lobby v1.0</span></footer>
+  </div>
+
+  <div class="modal-backdrop" id="details-modal" role="dialog" aria-modal="true" aria-labelledby="details-title" aria-hidden="true" hidden>
+    <section class="modal-card details-card" tabindex="-1">
+      <button class="modal-close" type="button" data-close-modal aria-label="關閉遊戲介紹">×</button>
+      <div class="details-visual" id="details-visual"></div>
+      <div class="details-content"><span class="section-kicker" id="details-eyebrow">遊戲介紹</span><h2 id="details-title"></h2><p id="details-description"></p><div class="details-meta" id="details-tags"></div><div class="details-row"><div><span>遊玩方式</span><strong id="details-modes"></strong></div><div><span>操作提示</span><strong id="details-controls"></strong></div></div><a class="button button-primary" id="details-launch" href="#" target="_blank" rel="noopener">立即遊玩 <span>↗</span></a></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true" hidden>
+    <section class="modal-card settings-card" tabindex="-1">
+      <div class="modal-heading"><div><span class="section-kicker">ISLAND SETTINGS</span><h2 id="settings-title">大廳設定</h2></div><button class="modal-close" type="button" data-close-modal aria-label="關閉大廳設定">×</button></div>
+      <p class="modal-intro">調整你的遊戲小小島體驗，設定會保存在這台裝置上。</p>
+      <div class="settings-list">
+        <label class="setting-row"><span class="setting-copy"><strong>背景音樂</strong><small>大廳環境音樂</small></span><input class="switch" id="setting-music" type="checkbox"><span class="switch-ui" aria-hidden="true"></span></label>
+        <label class="setting-row"><span class="setting-copy"><strong>按鈕音效</strong><small>點擊時播放輕柔提示</small></span><input class="switch" id="setting-sfx" type="checkbox" checked><span class="switch-ui" aria-hidden="true"></span></label>
+        <label class="setting-row"><span class="setting-copy"><strong>減少動態</strong><small>降低漂浮與卡片動畫</small></span><input class="switch" id="setting-motion" type="checkbox"><span class="switch-ui" aria-hidden="true"></span></label>
+      </div>
+      <div class="settings-note"><span>i</span><p>每個遊戲也有自己的設定；進入遊戲後可在右上角齒輪調整。</p></div>
+      <div class="modal-actions"><button class="text-button" id="settings-reset" type="button">恢復預設</button><button class="button button-primary" data-close-modal type="button">完成</button></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
