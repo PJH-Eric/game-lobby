@@ -3,7 +3,7 @@
 
   const STORAGE_KEY = 'game-lobby-preferences-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
-  const state = { games: [], filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), lastFocus: null, openModal: null };
+  const state = { games: [], filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), presence: {}, lastFocus: null, openModal: null };
   const categoryLabels = { brain: '動動腦', action: '反應派', cozy: '療癒系' };
   const colors = { sky: '#b8e1f5', pink: '#ffb5c5', lilac: '#d8c9f2', mint: '#bfe8d5', peach: '#ffc5a6', lemon: '#ffe49a' };
   const iconStroke = '#352f3c';
@@ -43,8 +43,16 @@
     const isFavorite = state.favorites.includes(game.id);
     return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="開啟${escapeHtml(game.title)}" style="--card-color:${colors[game.accent] || colors.sky}">
       <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${isFavorite ? '取消收藏' : '收藏'} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || categoryLabels[game.category] || '推薦')}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
-      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || categoryLabels[game.category] || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(game.launchUrl)}" target="_blank" rel="noopener">立即遊玩 <span>→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">了解玩法</button></div></div>
+      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || categoryLabels[game.category] || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="presence-status" data-presence="${escapeHtml(game.id)}" aria-live="polite">${presenceMarkup(game)}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(game.launchUrl)}" target="_blank" rel="noopener">立即遊玩 <span>→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">了解玩法</button></div></div>
     </article>`;
+  }
+
+  function presenceMarkup(game) {
+    if (!game.presenceUrl) return '<span class="presence-muted">線上人數尚未設定</span>';
+    const presence = state.presence[game.id];
+    if (!presence || presence.status === 'checking') return '<span class="presence-dot is-checking" aria-hidden="true"></span>查詢在線人數…';
+    if (presence.status !== 'ok') return '<span class="presence-dot is-offline" aria-hidden="true"></span>暫時無法取得在線人數';
+    return `<span class="presence-dot" aria-hidden="true"></span>在線 ${presence.online} 人 ・ 玩家 ${presence.players} ・ 觀戰 ${presence.spectators} ・ 房間 ${presence.rooms}`;
   }
 
   function visibleGames() {
@@ -190,6 +198,44 @@
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 
+  function validCount(value) {
+    return Number.isInteger(value) && value >= 0;
+  }
+
+  function normalizePresence(payload) {
+    const counts = ['online', 'players', 'spectators', 'lobby', 'rooms'];
+    if (!payload || counts.some((key) => !validCount(payload[key]))) throw new Error('在線人數格式不正確');
+    return { status: 'ok', ...Object.fromEntries(counts.map((key) => [key, payload[key]])) };
+  }
+
+  async function fetchPresence(game) {
+    if (!game.presenceUrl) {
+      state.presence[game.id] = { status: 'unset' };
+      return;
+    }
+    state.presence[game.id] = { status: 'checking' };
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    try {
+      const response = await fetch(game.presenceUrl, { cache: 'no-store', signal: controller.signal });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      state.presence[game.id] = normalizePresence(await response.json());
+    } catch (error) {
+      state.presence[game.id] = { status: 'error' };
+      console.warn(`[presence] ${game.id} 無法取得在線人數`, error);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function refreshPresence() {
+    if (!state.games.length) return;
+    state.games.forEach((game) => { state.presence[game.id] = game.presenceUrl ? { status: 'checking' } : { status: 'unset' }; });
+    renderGames();
+    await Promise.all(state.games.map(fetchPresence));
+    renderGames();
+  }
+
   async function loadGames() {
     try {
       const response = await fetch('config/games.json', { cache: 'no-store' });
@@ -198,6 +244,8 @@
       if (!config || !Array.isArray(config.games)) throw new Error('設定檔格式不正確');
       state.games = config.games;
       renderGames();
+      refreshPresence();
+      setInterval(refreshPresence, 30000);
     } catch (error) {
       $('#games-grid').innerHTML = `<div class="empty-state"><div class="empty-art">!</div><h3>遊戲清單讀取失敗</h3><p>請確認伺服器正在執行，再重新整理頁面。</p><button class="button button-soft" type="button" id="retry-games">重新載入</button></div>`;
       $('#retry-games').addEventListener('click', loadGames);

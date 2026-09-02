@@ -15,6 +15,7 @@
       "modes": ["單機練習", "線上房間", "觀戰"],
       "controls": "點選棋子，再點選合法落點",
       "launchUrl": "https://pjh-eric.github.io/chinese-checkers/",
+      "presenceUrl": "https://chinese-checkers-7p4g.onrender.com/api/presence",
       "localPort": 3000,
       "projectFolder": "chinese-checkers",
       "badge": "熱門"
@@ -31,6 +32,7 @@
       "modes": ["單機挑戰", "電腦對戰", "線上房間"],
       "controls": "點擊卡牌翻面，找出相同圖案",
       "launchUrl": "https://pjh-eric.github.io/flip-match/",
+      "presenceUrl": "https://flip-match-y7h8.onrender.com/api/presence",
       "localPort": 3001,
       "projectFolder": "flip-match",
       "badge": "動動腦"
@@ -47,6 +49,7 @@
       "modes": ["單機解題", "線上觀戰", "格子留言"],
       "controls": "選擇格子，再用數字鍵盤填入",
       "launchUrl": "https://pjh-eric.github.io/sudoku/",
+      "presenceUrl": "https://sudoku-g2sz.onrender.com/api/presence",
       "localPort": 3010,
       "projectFolder": "sudoku",
       "badge": "耐玩"
@@ -63,6 +66,7 @@
       "modes": ["單人任務", "小幫手 AI", "線上合作"],
       "controls": "點商品放進購物籃，再到櫃檯結帳",
       "launchUrl": "https://pjh-eric.github.io/little-supermarket/",
+      "presenceUrl": "https://little-supermarket-server.onrender.com/api/presence",
       "localPort": 3031,
       "projectFolder": "little-supermarket",
       "badge": "一起玩"
@@ -79,6 +83,7 @@
       "modes": ["三段 AI", "線上房間", "觀戰"],
       "controls": "拖曳瞄準並蓄力，放開發射",
       "launchUrl": "https://pjh-eric.github.io/cat-dog-war/",
+      "presenceUrl": "https://cat-dog-war.onrender.com/api/presence",
       "localPort": 3020,
       "projectFolder": "cat-dog-war",
       "badge": "主打"
@@ -95,6 +100,7 @@
       "modes": ["單機練習", "多人搶分", "觀戰"],
       "controls": "直接點擊冒出的地鼠",
       "launchUrl": "https://pjh-eric.github.io/whack-a-mole/",
+      "presenceUrl": "https://whack-a-mole-a2ty.onrender.com/api/presence",
       "localPort": 3030,
       "projectFolder": "whack-a-mole",
       "badge": "快手"

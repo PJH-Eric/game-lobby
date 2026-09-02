@@ -14,6 +14,7 @@ assert.equal(new Set(config.games.map((game) => game.id)).size, 6);
 for (const game of config.games) {
   assert.ok(game.title && game.description && game.icon && game.launchUrl);
   assert.match(game.launchUrl, /^https?:\/\//);
+  assert.match(game.presenceUrl, /^https?:\/\/[^/]+\/api\/presence$/);
   assert.ok(Array.isArray(game.tags) && game.tags.length > 0);
 }
 for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
