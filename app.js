@@ -64,7 +64,6 @@
     const games = visibleGames();
     gamesGrid.innerHTML = games.length ? games.map(cardMarkup).join('') : '';
     emptyState.hidden = games.length > 0;
-    $('#game-total').textContent = state.games.length;
     $('#all-count').textContent = state.games.length;
     $('#recent-count').textContent = state.recent.length;
     $('#games-helper').textContent = state.filter === 'all' && !state.query ? '每一張卡片都能直接帶你前往遊戲。' : `找到 ${games.length} 個適合你的遊戲。`;
@@ -148,14 +147,6 @@
     bindCardEvents();
   }
 
-  function randomGame() {
-    const game = state.games[Math.floor(Math.random() * state.games.length)];
-    if (!game) return;
-    markRecent(game.id);
-    showToast(`今天就玩「${game.title}」吧！`);
-    window.open(game.launchUrl, '_blank', 'noopener,noreferrer');
-  }
-
   function applyPreferences() {
     document.body.classList.toggle('reduce-motion', Boolean(state.preferences.motion));
     $('#setting-music').checked = Boolean(state.preferences.music);
@@ -193,7 +184,6 @@
     $$('.filter-chip').forEach((button) => button.addEventListener('click', () => { playSfx('click'); setFilter(button.dataset.filter); }));
     $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; state.filter = 'all'; $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all')); renderGames(); });
     $('#clear-filter').addEventListener('click', () => { state.query = ''; $('#game-search').value = ''; setFilter('all'); });
-    $('#random-game').addEventListener('click', randomGame);
     $$('[data-view="recent"]').forEach((button) => button.addEventListener('click', showRecent));
     $('#settings-open').addEventListener('click', () => { playSfx('click'); openModal($('#settings-modal')); });
     $$('[data-close-modal]').forEach((button) => button.addEventListener('click', () => closeModal(button.closest('.modal-backdrop'))));
