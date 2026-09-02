@@ -2,9 +2,8 @@
   'use strict';
 
   const STORAGE_KEY = 'game-lobby-preferences-v1';
-  const RECENT_KEY = 'game-lobby-recent-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
-  const state = { games: [], filter: 'all', query: '', recent: readList(RECENT_KEY), favorites: readList(FAVORITES_KEY), preferences: readPreferences(), lastFocus: null, openModal: null };
+  const state = { games: [], filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), lastFocus: null, openModal: null };
   const categoryLabels = { brain: '動動腦', action: '反應派', cozy: '療癒系' };
   const colors = { sky: '#b8e1f5', pink: '#ffb5c5', lilac: '#d8c9f2', mint: '#bfe8d5', peach: '#ffc5a6', lemon: '#ffe49a' };
   const iconStroke = '#352f3c';
@@ -44,7 +43,7 @@
     const isFavorite = state.favorites.includes(game.id);
     return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" style="--card-color:${colors[game.accent] || colors.sky}">
       <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${isFavorite ? '取消收藏' : '收藏'} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || categoryLabels[game.category] || '推薦')}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
-      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || categoryLabels[game.category] || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(game.launchUrl)}" target="_blank" rel="noopener" data-launch="${escapeHtml(game.id)}">立即遊玩 <span>→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">了解玩法</button></div></div>
+      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || categoryLabels[game.category] || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(game.launchUrl)}" target="_blank" rel="noopener">立即遊玩 <span>→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">了解玩法</button></div></div>
     </article>`;
   }
 
@@ -65,7 +64,6 @@
     gamesGrid.innerHTML = games.length ? games.map(cardMarkup).join('') : '';
     emptyState.hidden = games.length > 0;
     $('#all-count').textContent = state.games.length;
-    $('#recent-count').textContent = state.recent.length;
     $('#games-helper').textContent = state.filter === 'all' && !state.query ? '每一張卡片都能直接帶你前往遊戲。' : `找到 ${games.length} 個適合你的遊戲。`;
     bindCardEvents();
   }
@@ -73,13 +71,7 @@
   function bindCardEvents() {
     $$('[data-details]').forEach((button) => button.addEventListener('click', () => openDetails(button.dataset.details)));
     $$('[data-favorite]').forEach((button) => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
-    $$('[data-launch]').forEach((link) => link.addEventListener('click', (event) => { event.stopPropagation(); markRecent(link.dataset.launch); playSfx('open'); }));
-  }
-
-  function markRecent(id) {
-    state.recent = [id, ...state.recent.filter((item) => item !== id)].slice(0, 6);
-    saveList(RECENT_KEY, state.recent);
-    $('#recent-count').textContent = state.recent.length;
+    $$('.play-link').forEach((link) => link.addEventListener('click', () => playSfx('open')));
   }
 
   function toggleFavorite(id) {
@@ -104,8 +96,7 @@
     $('#details-visual').innerHTML = iconSvg(game.icon);
     const launch = $('#details-launch');
     launch.href = game.launchUrl;
-    launch.dataset.launch = game.id;
-    launch.onclick = () => { markRecent(game.id); playSfx('open'); };
+    launch.onclick = () => playSfx('open');
     openModal(modal);
   }
 
@@ -133,18 +124,6 @@
     state.filter = filter;
     $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === filter));
     renderGames();
-  }
-
-  function showRecent() {
-    const recentGames = state.recent.map((id) => state.games.find((game) => game.id === id)).filter(Boolean);
-    if (!recentGames.length) { showToast('你還沒有玩過遊戲，先挑一款試試吧！'); return; }
-    state.query = '';
-    $('#game-search').value = '';
-    $('#games-grid').innerHTML = recentGames.map(cardMarkup).join('');
-    $('#empty-state').hidden = true;
-    $('#games-helper').textContent = '這裡是你最近開過的遊戲。';
-    document.querySelector('#games').scrollIntoView({ behavior: 'smooth' });
-    bindCardEvents();
   }
 
   function applyPreferences() {
@@ -184,7 +163,6 @@
     $$('.filter-chip').forEach((button) => button.addEventListener('click', () => { playSfx('click'); setFilter(button.dataset.filter); }));
     $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; state.filter = 'all'; $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all')); renderGames(); });
     $('#clear-filter').addEventListener('click', () => { state.query = ''; $('#game-search').value = ''; setFilter('all'); });
-    $$('[data-view="recent"]').forEach((button) => button.addEventListener('click', showRecent));
     $('#settings-open').addEventListener('click', () => { playSfx('click'); openModal($('#settings-modal')); });
     $$('[data-close-modal]').forEach((button) => button.addEventListener('click', () => closeModal(button.closest('.modal-backdrop'))));
     $$('.modal-backdrop').forEach((modal) => modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(modal); }));
