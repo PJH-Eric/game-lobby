@@ -44,20 +44,20 @@ https://pjh-eric.github.io/game-lobby/
 3. 開啟 **Settings → Actions → General**，確認 Workflow permissions 允許 workflow 使用必要的 repository 權限；若目前是唯讀，改成 **Read and write permissions** 後儲存。
 4. 到 **Actions** 頁確認「建置並部署遊戲小小島」執行成功；之後每次 push `main` 都會自動重新部署。
 
-GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前 `config/games.json` 的 `launchUrl` 是本機網址；如果要讓公開頁面上的遊戲連結也能給其他人使用，還需要先把各個遊戲部署到各自的公開網址，再把 `launchUrl` 更新成 `https://...`。
+GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前六個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
 ## 啟動既有遊戲
 
-大廳的連結集中在 `config/games.json`。預設使用以下本機埠：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向六個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
 
-| 遊戲 | 埠 | 啟動方式 |
-| --- | ---: | --- |
-| 跳棋小島 | 3000 | 在 `chinese-checkers` 執行 `npm start` |
-| 翻牌配對碰 | 3001 | 在 `flip-match` 執行 `$env:PORT=3001; npm start` |
-| 數獨小學堂 | 3010 | 在 `sudoku` 執行 `npm start` |
-| 貓狗大戰 | 3020 | 在 `cat-dog-war` 執行 `npm start` |
-| 打地鼠大亂鬥 | 3030 | 在 `whack-a-mole` 執行 `npm start` |
-| 小小市場 | 3031 | 在 `little-supermarket` 執行 `$env:PORT=3031; npm start` |
+| 遊戲 | 正式入口 | 本機測試埠 |
+| --- | --- | ---: |
+| 跳棋小島 | `github.io/chinese-checkers` | 3000 |
+| 翻牌配對碰 | `github.io/flip-match` | 3001 |
+| 數獨小學堂 | `github.io/sudoku` | 3010 |
+| 貓狗大戰 | `github.io/cat-dog-war` | 3020 |
+| 打地鼠大亂鬥 | `github.io/whack-a-mole` | 3030 |
+| 小小市場 | `github.io/little-supermarket` | 3031 |
 
 如果你的遊戲使用不同網址，只要修改 `launchUrl`；卡片標題、分類、色彩、圖示、標籤、玩法與操作說明也都由同一份 JSON 驅動。
 
