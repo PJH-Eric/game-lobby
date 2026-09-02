@@ -21,6 +21,11 @@ for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
   assert.ok(fs.existsSync(path.join(root, file)), `${file} should exist`);
 }
 
+const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
+assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
+
 const port = 3187;
 const child = spawn(process.execPath, ['server.js'], { cwd: root, env: { ...process.env, PORT: String(port), HOST: '127.0.0.1' }, stdio: ['ignore', 'pipe', 'pipe'] });
 
