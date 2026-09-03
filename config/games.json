@@ -104,6 +104,23 @@
       "localPort": 3030,
       "projectFolder": "whack-a-mole",
       "badge": "快手"
+    },
+    {
+      "id": "fruit-link",
+      "title": "水果連連看",
+      "eyebrow": "消除競速",
+      "description": "找出兩顆一樣的水果，用轉彎不超過兩次的路線把它們連起來消掉。",
+      "icon": "fruit",
+      "accent": "lime",
+      "category": "brain",
+      "tags": ["單機", "多人", "消除"],
+      "modes": ["幼幼班", "單機闖關", "線上搶消", "觀戰"],
+      "controls": "依序點兩顆一樣的水果，連得起來就消掉",
+      "launchUrl": "https://pjh-eric.github.io/fruit-link/",
+      "presenceUrl": "https://fruit-link.onrender.com/api/presence",
+      "localPort": 3040,
+      "projectFolder": "fruit-link",
+      "badge": "新上架"
     }
   ]
 }
