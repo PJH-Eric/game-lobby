@@ -55,23 +55,6 @@
       "badge": "耐玩"
     },
     {
-      "id": "little-supermarket",
-      "title": "小小市場",
-      "eyebrow": "合作任務",
-      "description": "照著購物清單找商品、分類和數數，推著小車一起完成採買。",
-      "icon": "market",
-      "accent": "mint",
-      "category": "cozy",
-      "tags": ["幼兒", "合作", "教育"],
-      "modes": ["單人任務", "小幫手 AI", "線上合作"],
-      "controls": "點商品放進購物籃，再到櫃檯結帳",
-      "launchUrl": "https://pjh-eric.github.io/little-supermarket/",
-      "presenceUrl": "https://little-supermarket-server.onrender.com/api/presence",
-      "localPort": 3031,
-      "projectFolder": "little-supermarket",
-      "badge": "一起玩"
-    },
-    {
       "id": "cat-dog-war",
       "title": "貓狗大戰",
       "eyebrow": "砲擊對戰",
