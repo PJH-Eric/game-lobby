@@ -177,7 +177,7 @@
       ],
       "controls": "方向鍵或搖桿移動，空白鍵放水球",
       "launchUrl": "https://pjh-eric.github.io/bubble-battle/",
-      "presenceUrl": "https://bubble-battle.onrender.com/api/presence",
+      "presenceUrl": "https://bubble-battle-7cpz.onrender.com/api/presence",
       "localPort": 3050,
       "projectFolder": "bubble-battle",
       "badge": "新上架"
