@@ -11,8 +11,16 @@
       "icon": "checkers",
       "accent": "sky",
       "category": "brain",
-      "tags": ["單機", "多人", "策略"],
-      "modes": ["單機練習", "線上房間", "觀戰"],
+      "tags": [
+        "單機",
+        "多人",
+        "策略"
+      ],
+      "modes": [
+        "單機練習",
+        "線上房間",
+        "觀戰"
+      ],
       "controls": "點選棋子，再點選合法落點",
       "launchUrl": "https://pjh-eric.github.io/chinese-checkers/",
       "presenceUrl": "https://chinese-checkers-7p4g.onrender.com/api/presence",
@@ -28,8 +36,16 @@
       "icon": "cards",
       "accent": "pink",
       "category": "brain",
-      "tags": ["單機", "AI 對戰", "記憶"],
-      "modes": ["單機挑戰", "電腦對戰", "線上房間"],
+      "tags": [
+        "單機",
+        "AI 對戰",
+        "記憶"
+      ],
+      "modes": [
+        "單機挑戰",
+        "電腦對戰",
+        "線上房間"
+      ],
       "controls": "點擊卡牌翻面，找出相同圖案",
       "launchUrl": "https://pjh-eric.github.io/flip-match/",
       "presenceUrl": "https://flip-match-y7h8.onrender.com/api/presence",
@@ -45,8 +61,16 @@
       "icon": "sudoku",
       "accent": "lilac",
       "category": "brain",
-      "tags": ["單機", "數字", "五種難度"],
-      "modes": ["單機解題", "線上觀戰", "格子留言"],
+      "tags": [
+        "單機",
+        "數字",
+        "五種難度"
+      ],
+      "modes": [
+        "單機解題",
+        "線上觀戰",
+        "格子留言"
+      ],
       "controls": "選擇格子，再用數字鍵盤填入",
       "launchUrl": "https://pjh-eric.github.io/sudoku/",
       "presenceUrl": "https://sudoku-g2sz.onrender.com/api/presence",
@@ -62,8 +86,16 @@
       "icon": "catdog",
       "accent": "peach",
       "category": "action",
-      "tags": ["單機", "AI 對戰", "多人"],
-      "modes": ["三段 AI", "線上房間", "觀戰"],
+      "tags": [
+        "單機",
+        "AI 對戰",
+        "多人"
+      ],
+      "modes": [
+        "三段 AI",
+        "線上房間",
+        "觀戰"
+      ],
       "controls": "拖曳瞄準並蓄力，放開發射",
       "launchUrl": "https://pjh-eric.github.io/cat-dog-war/",
       "presenceUrl": "https://cat-dog-war.onrender.com/api/presence",
@@ -79,8 +111,16 @@
       "icon": "mole",
       "accent": "lemon",
       "category": "action",
-      "tags": ["單機", "AI 對手", "最多五人"],
-      "modes": ["單機練習", "多人搶分", "觀戰"],
+      "tags": [
+        "單機",
+        "AI 對手",
+        "最多五人"
+      ],
+      "modes": [
+        "單機練習",
+        "多人搶分",
+        "觀戰"
+      ],
       "controls": "直接點擊冒出的地鼠",
       "launchUrl": "https://pjh-eric.github.io/whack-a-mole/",
       "presenceUrl": "https://whack-a-mole-a2ty.onrender.com/api/presence",
@@ -96,13 +136,50 @@
       "icon": "fruit",
       "accent": "lime",
       "category": "brain",
-      "tags": ["單機", "多人", "消除"],
-      "modes": ["幼幼班", "單機闖關", "線上搶消", "觀戰"],
+      "tags": [
+        "單機",
+        "多人",
+        "消除"
+      ],
+      "modes": [
+        "幼幼班",
+        "單機闖關",
+        "線上搶消",
+        "觀戰"
+      ],
       "controls": "依序點兩顆一樣的水果，連得起來就消掉",
       "launchUrl": "https://pjh-eric.github.io/fruit-link/",
       "presenceUrl": "https://fruit-link.onrender.com/api/presence",
       "localPort": 3040,
       "projectFolder": "fruit-link",
+      "badge": "消除王"
+    },
+    {
+      "id": "bubble-battle",
+      "title": "泡泡大作戰",
+      "eyebrow": "水球對戰",
+      "description": "丟水球把對手關進泡泡，泡泡一破就出局；隊友可以衝過來把你救出來。",
+      "icon": "bubble",
+      "accent": "mint",
+      "category": "action",
+      "tags": [
+        "單機",
+        "四段 AI",
+        "最多八人",
+        "組隊"
+      ],
+      "modes": [
+        "幼幼班",
+        "單機練習",
+        "線上房間",
+        "組隊對戰",
+        "觀戰"
+      ],
+      "controls": "方向鍵或搖桿移動，空白鍵放水球",
+      "launchUrl": "https://pjh-eric.github.io/bubble-battle/",
+      "presenceUrl": "https://bubble-battle.onrender.com/api/presence",
+      "localPort": 3050,
+      "projectFolder": "bubble-battle",
       "badge": "新上架"
     }
   ]

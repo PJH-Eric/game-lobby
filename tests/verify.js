@@ -9,8 +9,8 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 6);
-assert.equal(new Set(config.games.map((game) => game.id)).size, 6);
+assert.equal(config.games.length, 7);
+assert.equal(new Set(config.games.map((game) => game.id)).size, 7);
 assert.ok(!config.games.some((game) => game.id === 'little-supermarket'));
 for (const game of config.games) {
   assert.ok(game.title && game.description && game.icon && game.launchUrl);
@@ -55,7 +55,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 6);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 7);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');
