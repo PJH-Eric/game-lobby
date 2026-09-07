@@ -153,34 +153,6 @@
       "localPort": 3040,
       "projectFolder": "fruit-link",
       "badge": "消除王"
-    },
-    {
-      "id": "bubble-battle",
-      "title": "泡泡大作戰",
-      "eyebrow": "水球對戰",
-      "description": "丟水球把對手關進泡泡，泡泡一破就出局；隊友可以衝過來把你救出來。",
-      "icon": "bubble",
-      "accent": "mint",
-      "category": "action",
-      "tags": [
-        "單機",
-        "四段 AI",
-        "最多八人",
-        "組隊"
-      ],
-      "modes": [
-        "幼幼班",
-        "單機練習",
-        "線上房間",
-        "組隊對戰",
-        "觀戰"
-      ],
-      "controls": "方向鍵或搖桿移動，空白鍵放水球",
-      "launchUrl": "https://pjh-eric.github.io/bubble-battle/",
-      "presenceUrl": "https://bubble-battle-7cpz.onrender.com/api/presence",
-      "localPort": 3050,
-      "projectFolder": "bubble-battle",
-      "badge": "新上架"
     }
   ]
 }
