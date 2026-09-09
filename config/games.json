@@ -153,6 +153,33 @@
       "localPort": 3040,
       "projectFolder": "fruit-link",
       "badge": "消除王"
+    },
+    {
+      "id": "stair-kids",
+      "title": "小朋友下樓梯",
+      "eyebrow": "反應閃避",
+      "description": "一直往下踩到新的階梯，別被追上來的天花板頂到，也別掉出畫面外。",
+      "icon": "stairs",
+      "accent": "mint",
+      "category": "action",
+      "tags": [
+        "單機",
+        "多人",
+        "反應"
+      ],
+      "modes": [
+        "幼幼班",
+        "單機挑戰",
+        "電腦對戰",
+        "線上房間",
+        "觀戰"
+      ],
+      "controls": "只有左右兩個方向（← → 或 A D），沒有跳",
+      "launchUrl": "https://pjh-eric.github.io/stair-kids/",
+      "presenceUrl": "https://stair-kids.onrender.com/api/presence",
+      "localPort": 3060,
+      "projectFolder": "stair-kids",
+      "badge": "新上架"
     }
   ]
 }
