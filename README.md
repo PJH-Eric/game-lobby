@@ -102,7 +102,17 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 }
 ```
 
-目前 `icon` 可用 `checkers`、`cards`、`sudoku`、`market`、`catdog`、`mole`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
+目前 `icon` 可用 `checkers`、`cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`fruit`、`bubble`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
+
+### 大廳自己的名字也吃設定檔
+
+`config/games.json` 最上層的 `title` 就是大廳的名字，`app.js` 的 `applyLobbyTitle()`
+會把它套到分頁標題、左上角品牌、頁尾與 `<meta name="description">`，**遊戲數量是數出來的**。
+
+以前這四處各寫死一份「遊戲小小島」，改 `title` 不會有任何反應；分頁標題那句
+「六個可愛小遊戲」在上架第七款（小朋友下樓梯）之後就數錯了，說明文字也一直漏掉新遊戲。
+`index.html` 裡留的那一份只是設定檔還沒讀到前的備援，所以**不寫數量、也不列遊戲名字**
+（`tests/verify.js` 會擋：備援字串一出現「N 個遊戲」或任何一款遊戲的名字就紅）。
 
 ## 設計與範圍
 

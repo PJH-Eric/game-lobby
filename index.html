@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fff8ed">
-  <meta name="description" content="遊戲小小島：跳棋、翻牌、數獨、貓狗大戰、打地鼠與水果連連看的可愛遊戲大廳">
-  <title>遊戲小小島｜六個可愛小遊戲</title>
+  <meta name="description" id="page-description" content="遊戲小小島：把可愛的小遊戲收在同一個大廳，點一下就開始玩">
+  <!-- 這幾處的「遊戲小小島」與說明是設定檔還沒讀到前的備援，真正的來源是
+       config/games.json 的 title（app.js 的 applyLobbyTitle 會蓋過去，連遊戲數量也是數出來的）。
+       所以這裡不寫數量、也不列遊戲名字 —— 那兩樣每次上架新遊戲都會過期。 -->
+  <title>遊戲小小島｜可愛小遊戲大廳</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,11 +21,11 @@
 
   <div class="app-shell">
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="遊戲小小島首頁">
+      <a class="brand" id="brand-link" href="#top" aria-label="遊戲小小島首頁">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 54 54" role="img"><path d="M11 28c0-10 7-17 16-17s16 7 16 17v8c0 7-6 12-16 12S11 43 11 36v-8Z" fill="#ff8e78" stroke="#362f3b" stroke-width="3"/><path d="M14 26c1-10 6-16 13-16 7 0 12 6 13 16-8-4-18-4-26 0Z" fill="#ffd66b" stroke="#362f3b" stroke-width="3"/><circle cx="21" cy="31" r="2.4" fill="#362f3b"/><circle cx="33" cy="31" r="2.4" fill="#362f3b"/><path d="M24 37c2 2 4 2 6 0" fill="none" stroke="#362f3b" stroke-linecap="round" stroke-width="2.4"/></svg>
         </span>
-        <span><strong>遊戲小小島</strong><small>PLAYFUL ISLAND</small></span>
+        <span><strong id="brand-title">遊戲小小島</strong><small>PLAYFUL ISLAND</small></span>
       </a>
       <nav class="main-nav" aria-label="主要導覽">
         <a class="nav-link active" href="#games">所有遊戲</a>
@@ -69,7 +72,7 @@
       </section>
     </main>
 
-    <footer class="site-footer"><a class="footer-brand" href="#top">遊戲小小島</a><span>把每一次點擊，都變成一點點開心。</span><span class="footer-version">Lobby v1.0</span></footer>
+    <footer class="site-footer"><a class="footer-brand" id="footer-brand" href="#top">遊戲小小島</a><span>把每一次點擊，都變成一點點開心。</span><span class="footer-version">Lobby v1.0</span></footer>
   </div>
 
   <div class="modal-backdrop" id="details-modal" role="dialog" aria-modal="true" aria-labelledby="details-title" aria-hidden="true" hidden>

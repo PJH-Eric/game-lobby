@@ -238,6 +238,30 @@
     renderGames();
   }
 
+  /**
+   * 大廳的名字一律跟著設定檔的 title 走（index.html 裡那幾份只是設定檔還沒讀到前的備援）。
+   *
+   * 以前是四個地方各寫死一份「遊戲小小島」，改名要改四處；而且 <title> 上那句
+   * 「六個可愛小遊戲」在上架第七款（小朋友下樓梯）之後就數錯了 —— 數量改成數出來的。
+   * 說明文字同理：把遊戲名字一個個列在 HTML 裡，每次上架都會漏掉新的，直接從清單接。
+   */
+  function applyLobbyTitle(config) {
+    const title = String(config.title || '').trim();
+    if (!title) return;                          /* 設定檔沒寫就留 HTML 裡那一份 */
+    const names = config.games.map((game) => game.title).filter(Boolean);
+    document.title = `${title}｜${names.length} 個可愛小遊戲`;
+    const brand = $('#brand-title');
+    if (brand) brand.textContent = title;
+    const brandLink = $('#brand-link');
+    if (brandLink) brandLink.setAttribute('aria-label', `${title}首頁`);
+    const footer = $('#footer-brand');
+    if (footer) footer.textContent = title;
+    const description = $('#page-description');
+    if (description && names.length) {
+      description.setAttribute('content', `${title}：${names.join('、')}的可愛遊戲大廳`);
+    }
+  }
+
   async function loadGames() {
     try {
       const response = await fetch('config/games.json', { cache: 'no-store' });
@@ -245,6 +269,7 @@
       const config = await response.json();
       if (!config || !Array.isArray(config.games)) throw new Error('設定檔格式不正確');
       state.games = config.games;
+      applyLobbyTitle(config);
       renderGames();
       refreshPresence();
       setInterval(refreshPresence, 30000);

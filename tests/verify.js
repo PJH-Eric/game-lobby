@@ -28,6 +28,24 @@ const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
 
+/* 大廳的名字要跟著設定檔走。以前四個地方各寫死一份「遊戲小小島」，
+ * 改 config 的 title 不會有任何反應；<title> 上那句「六個可愛小遊戲」
+ * 在上架第七款（小朋友下樓梯）之後也數錯了。 */
+assert.ok(config.title, 'config 要有 title');
+assert.ok(appSource.includes('applyLobbyTitle(config)'), '讀完設定檔要套用標題');
+assert.ok(appSource.includes('document.title'), 'applyLobbyTitle 要改分頁標題');
+for (const id of ['brand-title', 'brand-link', 'footer-brand', 'page-description']) {
+  assert.ok(indexHtml.includes(`id="${id}"`), `index.html 缺少可套用標題的節點：${id}`);
+}
+/* 備援字串（設定檔還沒讀到前顯示的那一份）不可以寫遊戲數量或列遊戲名字 ——
+ * 那兩樣每次上架新遊戲都會過期，這次就是這樣壞的。 */
+const head = indexHtml.slice(0, indexHtml.indexOf('</head>'));
+assert.ok(!/[一二三四五六七八九十\d]+\s*個(?:可愛)?(?:小)?遊戲/.test(head),
+  'index.html 的備援標題不可以寫死遊戲數量（數量由 applyLobbyTitle 從清單數出來）');
+assert.deepEqual(config.games.filter((game) => head.includes(game.title)).map((game) => game.title), [],
+  'index.html 的備援說明不可以列出遊戲名字');
+assert.ok(head.includes(config.title), '備援標題要跟 config 的 title 同名');
+
 const port = 3187;
 const child = spawn(process.execPath, ['server.js'], { cwd: root, env: { ...process.env, PORT: String(port), HOST: '127.0.0.1' }, stdio: ['ignore', 'pipe', 'pipe'] });
 
