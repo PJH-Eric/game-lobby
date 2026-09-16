@@ -180,6 +180,33 @@
       "localPort": 3060,
       "projectFolder": "stair-kids",
       "badge": "新上架"
+    },
+    {
+      "id": "caterpillar-race",
+      "title": "毛毛蟲賽車",
+      "eyebrow": "競速對決",
+      "description": "左右兩顆鍵，扭出速度。抓對節奏左右交替，毛毛蟲就會自己衝刺。",
+      "icon": "caterpillar",
+      "accent": "lime",
+      "category": "action",
+      "tags": [
+        "單機",
+        "AI 對戰",
+        "多人",
+        "競速"
+      ],
+      "modes": [
+        "單機練習",
+        "電腦對戰",
+        "線上房間",
+        "觀戰"
+      ],
+      "controls": "左右鍵轉向，空白鍵用道具；手機用左下右下兩顆大圓鍵",
+      "launchUrl": "https://pjh-eric.github.io/caterpillar-race/",
+      "presenceUrl": "https://caterpillar-race.onrender.com/api/presence",
+      "localPort": 3070,
+      "projectFolder": "caterpillar-race",
+      "badge": "新遊戲"
     }
   ]
 }
