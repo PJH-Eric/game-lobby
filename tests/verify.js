@@ -27,6 +27,10 @@ const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
+assert.ok(/PRESENCE_TIMEOUT_MS\s*=\s*15000/.test(appSource), '在線人數請求要給冷啟動足夠時間');
+assert.ok(/PRESENCE_RETRIES\s*=\s*3/.test(appSource), '在線人數失敗要自動重試');
+assert.ok(appSource.includes('伺服器啟動中'), '在線人數冷啟動要顯示可理解狀態');
+assert.ok(/presenceRefreshing/.test(appSource), '在線人數輪詢不可重疊');
 
 /* 大廳的名字要跟著設定檔走。以前四個地方各寫死一份「遊戲小小島」，
  * 改 config 的 title 不會有任何反應；<title> 上那句「六個可愛小遊戲」

@@ -4,6 +4,10 @@
   const STORAGE_KEY = 'game-lobby-preferences-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
   const state = { games: [], filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), presence: {}, lastFocus: null, openModal: null };
+  const PRESENCE_TIMEOUT_MS = 15000;
+  const PRESENCE_RETRIES = 3;
+  const PRESENCE_RETRY_DELAY_MS = 750;
+  let presenceRefreshing = false;
   const categoryLabels = { brain: '動動腦', action: '反應派', cozy: '療癒系' };
   const colors = { sky: '#b8e1f5', pink: '#ffb5c5', lilac: '#d8c9f2', mint: '#bfe8d5', peach: '#ffc5a6', lemon: '#ffe49a', lime: '#d7ec9c' };
   const iconStroke = '#352f3c';
@@ -55,6 +59,7 @@
     if (!game.presenceUrl) return '<span class="presence-muted">線上人數尚未設定</span>';
     const presence = state.presence[game.id];
     if (!presence || presence.status === 'checking') return '<span class="presence-dot is-checking" aria-hidden="true"></span>查詢在線人數…';
+    if (presence.status === 'waking') return '<span class="presence-dot is-checking" aria-hidden="true"></span>伺服器啟動中…';
     if (presence.status !== 'ok') return '<span class="presence-dot is-offline" aria-hidden="true"></span>暫時無法取得在線人數';
     return `<span class="presence-dot" aria-hidden="true"></span>在線 ${presence.online} 人 ・ 玩家 ${presence.players} ・ 觀戰 ${presence.spectators} ・ 房間 ${presence.rooms}`;
   }
@@ -216,27 +221,41 @@
       state.presence[game.id] = { status: 'unset' };
       return;
     }
-    state.presence[game.id] = { status: 'checking' };
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 5000);
-    try {
-      const response = await fetch(game.presenceUrl, { cache: 'no-store', signal: controller.signal });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      state.presence[game.id] = normalizePresence(await response.json());
-    } catch (error) {
-      state.presence[game.id] = { status: 'error' };
-      console.warn(`[presence] ${game.id} 無法取得在線人數`, error);
-    } finally {
-      clearTimeout(timer);
+    for (let attempt = 0; attempt < PRESENCE_RETRIES; attempt += 1) {
+      state.presence[game.id] = { status: attempt ? 'waking' : 'checking' };
+      renderGames();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), PRESENCE_TIMEOUT_MS);
+      try {
+        const response = await fetch(game.presenceUrl, { cache: 'no-store', signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        state.presence[game.id] = normalizePresence(await response.json());
+        renderGames();
+        return;
+      } catch (error) {
+        if (attempt === PRESENCE_RETRIES - 1) {
+          state.presence[game.id] = { status: 'error' };
+          console.warn(`[presence] ${game.id} 無法取得在線人數`, error);
+        }
+      } finally {
+        clearTimeout(timer);
+      }
+      if (attempt < PRESENCE_RETRIES - 1) await new Promise((resolve) => setTimeout(resolve, PRESENCE_RETRY_DELAY_MS));
     }
+    renderGames();
   }
 
   async function refreshPresence() {
-    if (!state.games.length) return;
+    if (!state.games.length || presenceRefreshing) return;
+    presenceRefreshing = true;
     state.games.forEach((game) => { state.presence[game.id] = game.presenceUrl ? { status: 'checking' } : { status: 'unset' }; });
     renderGames();
-    await Promise.all(state.games.map(fetchPresence));
-    renderGames();
+    try {
+      await Promise.all(state.games.map(fetchPresence));
+    } finally {
+      presenceRefreshing = false;
+      renderGames();
+    }
   }
 
   /**
