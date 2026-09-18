@@ -207,6 +207,33 @@
       "localPort": 3070,
       "projectFolder": "caterpillar-race",
       "badge": "新遊戲"
+    },
+    {
+      "id": "draw-guess",
+      "title": "你畫我猜",
+      "eyebrow": "畫圖猜謎",
+      "description": "輪流畫畫、猜題搶分；單機可和電腦玩，也能開房間邀朋友一起挑戰。",
+      "icon": "drawguess",
+      "accent": "lilac",
+      "category": "brain",
+      "tags": [
+        "單機",
+        "AI 對戰",
+        "多人",
+        "畫畫"
+      ],
+      "modes": [
+        "單機練習",
+        "三段 AI",
+        "線上房間",
+        "觀戰"
+      ],
+      "controls": "畫家用畫筆在畫布作畫，猜題者輸入答案",
+      "launchUrl": "https://pjh-eric.github.io/draw-guess/",
+      "presenceUrl": "https://draw-guess-61ij.onrender.com/api/presence",
+      "localPort": 3030,
+      "projectFolder": "draw-guess",
+      "badge": "新上架"
     }
   ]
 }

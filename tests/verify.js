@@ -9,8 +9,13 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 8);
-assert.equal(new Set(config.games.map((game) => game.id)).size, 8);
+assert.equal(config.games.length, 9);
+assert.equal(new Set(config.games.map((game) => game.id)).size, 9);
+const drawGuess = config.games.find((game) => game.id === 'draw-guess');
+assert.ok(drawGuess, '清單要包含你畫我猜');
+assert.equal(drawGuess.launchUrl, 'https://pjh-eric.github.io/draw-guess/');
+assert.equal(drawGuess.presenceUrl, 'https://draw-guess-61ij.onrender.com/api/presence');
+assert.equal(drawGuess.icon, 'drawguess');
 assert.ok(!config.games.some((game) => game.id === 'little-supermarket'));
 assert.ok(!config.games.some((game) => game.id === 'bubble-battle'));
 for (const game of config.games) {
@@ -25,6 +30,7 @@ for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
 
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+assert.ok(appSource.includes('drawguess: `<svg'), '你畫我猜要有專屬圖示');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
 assert.ok(/PRESENCE_TIMEOUT_MS\s*=\s*15000/.test(appSource), '在線人數請求要給冷啟動足夠時間');
@@ -78,7 +84,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 8);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 9);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');
