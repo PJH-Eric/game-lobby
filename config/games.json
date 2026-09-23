@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "遊戲小小島",
-  "featuredGameId": "cat-dog-war",
+  "featuredGameId": "chinese-checkers",
   "games": [
     {
       "id": "chinese-checkers",
@@ -77,31 +77,6 @@
       "localPort": 3010,
       "projectFolder": "sudoku",
       "badge": "耐玩"
-    },
-    {
-      "id": "cat-dog-war",
-      "title": "貓狗大戰",
-      "eyebrow": "砲擊對戰",
-      "description": "調整角度與力道，讓毛線球和骨頭畫出漂亮拋物線。",
-      "icon": "catdog",
-      "accent": "peach",
-      "category": "action",
-      "tags": [
-        "單機",
-        "AI 對戰",
-        "多人"
-      ],
-      "modes": [
-        "三段 AI",
-        "線上房間",
-        "觀戰"
-      ],
-      "controls": "拖曳瞄準並蓄力，放開發射",
-      "launchUrl": "https://pjh-eric.github.io/cat-dog-war/",
-      "presenceUrl": "https://cat-dog-war.onrender.com/api/presence",
-      "localPort": 3020,
-      "projectFolder": "cat-dog-war",
-      "badge": "主打"
     },
     {
       "id": "whack-a-mole",

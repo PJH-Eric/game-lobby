@@ -1,11 +1,10 @@
 # 遊戲小小島
 
-一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的九個遊戲：
+一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的八個遊戲：
 
 - 跳棋小島
 - 翻牌配對碰
 - 數獨小學堂
-- 貓狗大戰
 - 打地鼠大亂鬥
 - 水果連連看
 - 小朋友下樓梯
@@ -47,18 +46,17 @@ https://pjh-eric.github.io/game-lobby/
 3. 開啟 **Settings → Actions → General**，確認 Workflow permissions 允許 workflow 使用必要的 repository 權限；若目前是唯讀，改成 **Read and write permissions** 後儲存。
 4. 到 **Actions** 頁確認「建置並部署遊戲小小島」執行成功；之後每次 push `main` 都會自動重新部署。
 
-GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前九個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
+GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前八個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
 ## 啟動既有遊戲
 
-大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向九個遊戲各自的 GitHub Pages。`presenceUrl` 指向對應後端的 `/api/presence`，`localPort` 只供本機開發時使用，不會影響正式連結：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向八個遊戲各自的 GitHub Pages。`presenceUrl` 指向對應後端的 `/api/presence`，`localPort` 只供本機開發時使用，不會影響正式連結：
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |
 | 跳棋小島 | `github.io/chinese-checkers` | 3000 |
 | 翻牌配對碰 | `github.io/flip-match` | 3001 |
 | 數獨小學堂 | `github.io/sudoku` | 3010 |
-| 貓狗大戰 | `github.io/cat-dog-war` | 3020 |
 | 打地鼠大亂鬥 | `github.io/whack-a-mole` | 3030 |
 | 水果連連看 | `github.io/fruit-link` | 3040 |
 | 小朋友下樓梯 | `github.io/stair-kids` | 3060 |
@@ -71,11 +69,11 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 ## 統一在線人數 API
 
-九個遊戲伺服器都提供 `GET /api/presence`，回應格式固定如下：
+大廳中各遊戲伺服器都提供 `GET /api/presence`，回應格式固定如下：
 
 ```json
 {
-  "gameId": "cat-dog-war",
+  "gameId": "chinese-checkers",
   "online": 3,
   "players": 2,
   "spectators": 1,
