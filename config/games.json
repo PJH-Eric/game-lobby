@@ -232,7 +232,7 @@
       ],
       "controls": "牌點和當前喊數相同時，拍紅色拍牌鈕、牌堆或按空白鍵。",
       "launchUrl": "https://pjh-eric.github.io/heart-attack/",
-      "presenceUrl": "https://heart-attack.onrender.com/api/presence",
+      "presenceUrl": "https://heart-attack-xfc5.onrender.com/api/presence",
       "localPort": 3080,
       "projectFolder": "heart-attack",
       "badge": "新遊戲"
