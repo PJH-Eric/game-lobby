@@ -209,6 +209,33 @@
       "localPort": 3030,
       "projectFolder": "draw-guess",
       "badge": "新上架"
+    },
+    {
+      "id": "heart-attack",
+      "title": "海島心臟病",
+      "eyebrow": "反應挑戰",
+      "description": "輪流翻牌並喊數，牌點和喊數相同時趕快拍下牌堆，考驗你的眼力與手速。",
+      "icon": "heartattack",
+      "accent": "pink",
+      "category": "action",
+      "tags": [
+        "單機",
+        "四段 AI",
+        "線上多人",
+        "反應"
+      ],
+      "modes": [
+        "單機練習",
+        "四段 AI",
+        "線上房間",
+        "觀戰"
+      ],
+      "controls": "牌點和當前喊數相同時，拍紅色拍牌鈕、牌堆或按空白鍵。",
+      "launchUrl": "https://pjh-eric.github.io/heart-attack/",
+      "presenceUrl": "https://heart-attack.onrender.com/api/presence",
+      "localPort": 3080,
+      "projectFolder": "heart-attack",
+      "badge": "新遊戲"
     }
   ]
 }
