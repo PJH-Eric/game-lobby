@@ -8,9 +8,9 @@
 - 打地鼠大亂鬥
 - 水果連連看
 - 小朋友下樓梯
-- 毛毛蟲賽車
 - 你畫我猜
 - 海島心臟病
+- 寶島大富翁
 
 大廳本身不重寫既有遊戲，也不假裝提供跨遊戲的多人伺服器；每張卡片會在目前分頁帶到對應遊戲的獨立入口，並從各遊戲的統一 presence API 顯示在線狀態。
 
@@ -61,7 +61,6 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 | 打地鼠大亂鬥 | `github.io/whack-a-mole` | 3030 |
 | 水果連連看 | `github.io/fruit-link` | 3040 |
 | 小朋友下樓梯 | `github.io/stair-kids` | 3060 |
-| 毛毛蟲賽車 | `github.io/caterpillar-race` | 3070 |
 | 你畫我猜 | `github.io/draw-guess` | 3030 |
 | 海島心臟病 | `github.io/heart-attack` | 3080 |
 | 寶島大富翁 | `github.io/richman` | 3100 |
