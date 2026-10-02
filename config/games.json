@@ -23,7 +23,7 @@
       ],
       "controls": "點選棋子，再點選合法落點",
       "launchUrl": "https://pjh-eric.github.io/chinese-checkers/",
-      "presenceUrl": "https://chinese-checkers-7p4g.onrender.com/api/presence",
+      "presenceUrl": "https://chinese-checkers-sg.onrender.com/api/presence",
       "localPort": 3000,
       "projectFolder": "chinese-checkers",
       "badge": "熱門"
@@ -48,7 +48,7 @@
       ],
       "controls": "點擊卡牌翻面，找出相同圖案",
       "launchUrl": "https://pjh-eric.github.io/flip-match/",
-      "presenceUrl": "https://flip-match-y7h8.onrender.com/api/presence",
+      "presenceUrl": "https://flip-match-sg.onrender.com/api/presence",
       "localPort": 3001,
       "projectFolder": "flip-match",
       "badge": "動動腦"
@@ -73,7 +73,7 @@
       ],
       "controls": "選擇格子，再用數字鍵盤填入",
       "launchUrl": "https://pjh-eric.github.io/sudoku/",
-      "presenceUrl": "https://sudoku-g2sz.onrender.com/api/presence",
+      "presenceUrl": "https://sudoku-sg.onrender.com/api/presence",
       "localPort": 3010,
       "projectFolder": "sudoku",
       "badge": "耐玩"
@@ -98,7 +98,7 @@
       ],
       "controls": "直接點擊冒出的地鼠",
       "launchUrl": "https://pjh-eric.github.io/whack-a-mole/",
-      "presenceUrl": "https://whack-a-mole-a2ty.onrender.com/api/presence",
+      "presenceUrl": "https://whack-a-mole-sg.onrender.com/api/presence",
       "localPort": 3030,
       "projectFolder": "whack-a-mole",
       "badge": "快手"
@@ -124,7 +124,7 @@
       ],
       "controls": "依序點兩顆一樣的水果，連得起來就消掉",
       "launchUrl": "https://pjh-eric.github.io/fruit-link/",
-      "presenceUrl": "https://fruit-link.onrender.com/api/presence",
+      "presenceUrl": "https://fruit-link-sg.onrender.com/api/presence",
       "localPort": 3040,
       "projectFolder": "fruit-link",
       "badge": "消除王"
@@ -151,7 +151,7 @@
       ],
       "controls": "只有左右兩個方向（← → 或 A D），沒有跳",
       "launchUrl": "https://pjh-eric.github.io/stair-kids/",
-      "presenceUrl": "https://stair-kids.onrender.com/api/presence",
+      "presenceUrl": "https://stair-kids-sg.onrender.com/api/presence",
       "localPort": 3060,
       "projectFolder": "stair-kids",
       "badge": "新上架"
@@ -178,7 +178,7 @@
       ],
       "controls": "畫家用畫筆在畫布作畫，猜題者輸入答案",
       "launchUrl": "https://pjh-eric.github.io/draw-guess/",
-      "presenceUrl": "https://draw-guess-61ij.onrender.com/api/presence",
+      "presenceUrl": "https://draw-guess-sg.onrender.com/api/presence",
       "localPort": 3030,
       "projectFolder": "draw-guess",
       "badge": "新上架"
@@ -205,7 +205,7 @@
       ],
       "controls": "牌點和當前喊數相同時，拍紅色拍牌鈕、牌堆或按空白鍵。",
       "launchUrl": "https://pjh-eric.github.io/heart-attack/",
-      "presenceUrl": "https://heart-attack-xfc5.onrender.com/api/presence",
+      "presenceUrl": "https://heart-attack-sg.onrender.com/api/presence",
       "localPort": 3080,
       "projectFolder": "heart-attack",
       "badge": "新遊戲"
@@ -233,7 +233,7 @@
       ],
       "controls": "點擊按鈕擲骰、買地；點棋盤格子看說明；空白鍵快速操作",
       "launchUrl": "https://pjh-eric.github.io/richman/",
-      "presenceUrl": "https://richman-ub43.onrender.com/api/presence",
+      "presenceUrl": "https://richman-sg.onrender.com/api/presence",
       "localPort": 3100,
       "projectFolder": "richman",
       "badge": "新遊戲"
@@ -261,7 +261,7 @@
       ],
       "controls": "方向鍵／WASD 移動，空白鍵放炸彈；手機用左下搖桿與炸彈鈕",
       "launchUrl": "https://pjh-eric.github.io/bomb-squad/",
-      "presenceUrl": "https://bomb-squad.duckdns.org/api/presence",
+      "presenceUrl": "https://bomb-squad-sg.onrender.com/api/presence",
       "localPort": 3120,
       "projectFolder": "bomb-squad",
       "badge": "新遊戲"
