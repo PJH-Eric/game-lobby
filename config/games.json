@@ -237,6 +237,34 @@
       "localPort": 3100,
       "projectFolder": "richman",
       "badge": "新遊戲"
+    },
+    {
+      "id": "bomb-squad",
+      "title": "炸彈小隊",
+      "eyebrow": "爆破對戰",
+      "description": "放炸彈、炸磚塊、撿道具，在連鎖爆炸裡活到最後當小隊長！",
+      "icon": "bomb",
+      "accent": "peach",
+      "category": "action",
+      "tags": [
+        "單機",
+        "四段 AI",
+        "線上多人",
+        "動作"
+      ],
+      "modes": [
+        "單機對戰",
+        "四段 AI",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "方向鍵／WASD 移動，空白鍵放炸彈；手機用左下搖桿與炸彈鈕",
+      "launchUrl": "https://pjh-eric.github.io/bomb-squad/",
+      "presenceUrl": "https://bomb-squad.duckdns.org/api/presence",
+      "localPort": 3120,
+      "projectFolder": "bomb-squad",
+      "badge": "新遊戲"
     }
   ]
 }
