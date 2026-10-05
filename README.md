@@ -2,7 +2,6 @@
 
 一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十個遊戲：
 
-- 跳棋小島
 - 翻牌配對碰
 - 數獨小學堂
 - 打地鼠大亂鬥
@@ -12,6 +11,7 @@
 - 海島心臟病
 - 寶島大富翁
 - 炸彈小隊
+- 彩虹泡泡砲
 
 大廳本身不重寫既有遊戲，也不假裝提供跨遊戲的多人伺服器；每張卡片會在目前分頁帶到對應遊戲的獨立入口，並從各遊戲的統一 presence API 顯示在線狀態。
 
@@ -56,7 +56,6 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |
-| 跳棋小島 | `github.io/chinese-checkers` | 3000 |
 | 翻牌配對碰 | `github.io/flip-match` | 3001 |
 | 數獨小學堂 | `github.io/sudoku` | 3010 |
 | 打地鼠大亂鬥 | `github.io/whack-a-mole` | 3030 |
@@ -66,6 +65,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 | 海島心臟病 | `github.io/heart-attack` | 3080 |
 | 寶島大富翁 | `github.io/richman` | 3100 |
 | 炸彈小隊 | `github.io/bomb-squad` | 3120 |
+| 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 
@@ -77,7 +77,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 ```json
 {
-  "gameId": "chinese-checkers",
+  "gameId": "flip-match",
   "online": 3,
   "players": 2,
   "spectators": 1,
@@ -112,7 +112,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 }
 ```
 
-目前 `icon` 可用 `checkers`、`cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
+目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`rainbow`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
 
 ### 大廳自己的名字也吃設定檔
 
