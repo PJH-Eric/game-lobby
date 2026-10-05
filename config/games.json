@@ -265,7 +265,7 @@
       ],
       "controls": "點哪裡泡泡就飛向哪裡；右下角小泡泡可以換泡泡",
       "launchUrl": "https://pjh-eric.github.io/rainbow-bubble/",
-      "presenceUrl": "https://rainbow-bubble-sg.onrender.com/api/presence",
+      "presenceUrl": "https://rainbow-bubble-server.onrender.com/api/presence",
       "localPort": 3140,
       "projectFolder": "rainbow-bubble",
       "badge": "新遊戲"

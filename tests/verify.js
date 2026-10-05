@@ -26,7 +26,7 @@ assert.equal(bombSquad.icon, 'bomb');
 const rainbowBubble = config.games.find((game) => game.id === 'rainbow-bubble');
 assert.ok(rainbowBubble, '清單要包含彩虹泡泡砲');
 assert.equal(rainbowBubble.launchUrl, 'https://pjh-eric.github.io/rainbow-bubble/');
-assert.equal(rainbowBubble.presenceUrl, 'https://rainbow-bubble-sg.onrender.com/api/presence');
+assert.equal(rainbowBubble.presenceUrl, 'https://rainbow-bubble-server.onrender.com/api/presence');
 assert.equal(rainbowBubble.icon, 'rainbow');
 assert.ok(!config.games.some((game) => game.id === 'little-supermarket'));
 assert.ok(!config.games.some((game) => game.id === 'bubble-battle'));
