@@ -294,7 +294,7 @@
       ],
       "controls": "在桌面拖曳瞄準、拉力度條，按「擊球」出桿；擊球點可展開調旋轉",
       "launchUrl": "https://pjh-eric.github.io/pool-duel/",
-      "presenceUrl": "https://pool-duel-sg.onrender.com/api/presence",
+      "presenceUrl": "https://pool-duel.onrender.com/api/presence",
       "localPort": 3160,
       "projectFolder": "pool-duel",
       "badge": "新遊戲"
