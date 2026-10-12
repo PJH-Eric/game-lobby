@@ -269,6 +269,35 @@
       "localPort": 3140,
       "projectFolder": "rainbow-bubble",
       "badge": "新遊戲"
+    },
+    {
+      "id": "pool-duel",
+      "title": "撞球對決",
+      "eyebrow": "回合運動",
+      "description": "寫實質感的 2 人撞球：簡化九球、八號球、搶分賽。可對電腦或開房間邀朋友，也能觀戰。",
+      "icon": "pool",
+      "accent": "mint",
+      "category": "action",
+      "tags": [
+        "單機",
+        "四段 AI",
+        "線上多人",
+        "運動"
+      ],
+      "modes": [
+        "幼幼班",
+        "單機練習",
+        "四段 AI",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "在桌面拖曳瞄準、拉力度條，按「擊球」出桿；擊球點可展開調旋轉",
+      "launchUrl": "https://pjh-eric.github.io/pool-duel/",
+      "presenceUrl": "https://pool-duel-sg.onrender.com/api/presence",
+      "localPort": 3160,
+      "projectFolder": "pool-duel",
+      "badge": "新遊戲"
     }
   ]
 }
