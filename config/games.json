@@ -298,6 +298,35 @@
       "localPort": 3160,
       "projectFolder": "pool-duel",
       "badge": "新遊戲"
+    },
+    {
+      "id": "reversi",
+      "title": "黑白棋",
+      "eyebrow": "棋類對弈",
+      "description": "木質棋盤與大理石棋子，夾住對手的棋子翻成自己的顏色。可挑戰五段電腦，或開房間邀朋友對戰、觀戰。",
+      "icon": "reversi",
+      "accent": "mint",
+      "category": "brain",
+      "tags": [
+        "單機",
+        "五段 AI",
+        "線上多人",
+        "棋類"
+      ],
+      "modes": [
+        "幼幼班",
+        "單機練習",
+        "五段 AI",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "點棋盤上的提示點落子（觸控第一次預覽、再點一次確認），方向鍵加 Enter 也可以",
+      "launchUrl": "https://pjh-eric.github.io/reversi/",
+      "presenceUrl": "https://reversi.onrender.com/api/presence",
+      "localPort": 3180,
+      "projectFolder": "reversi",
+      "badge": "新遊戲"
     }
   ]
 }
