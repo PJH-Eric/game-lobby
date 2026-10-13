@@ -57,7 +57,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 部署後在 Google Search Console 完成一次設定：
 
 1. 新增資源 → 選 **網址前置字元**，輸入 `https://pjh-eric.github.io/game-lobby/`。
-2. 驗證擁有權（建議 **HTML 標記**）：複製 `content="…"` 裡那串字，貼到 GitHub repo 的 **Settings → Secrets and variables → Actions → Variables**，新增變數 `GOOGLE_SITE_VERIFICATION`，重新執行部署後回 Search Console 按驗證。
+2. 驗證擁有權（建議 **HTML 標記**）：複製 `content="…"` 裡那串字，填進 `config/games.json` 的 `googleSiteVerification`（也可改用 GitHub Actions 變數 `GOOGLE_SITE_VERIFICATION`，優先於設定檔），推上 `main` 部署完成後回 Search Console 按驗證。
 3. 左側 **Sitemap** 輸入 `sitemap.xml` 並提交。
 4. 到 **網址檢查** 貼上大廳網址，按 **要求建立索引**，可加快第一次收錄。
 

@@ -29,9 +29,9 @@ const description = `${config.title}：${names.join('、')}的可愛遊戲大廳
 const ogImage = `${siteUrl}assets/og-image.png`;
 
 /* Google Search Console 的 HTML 標籤驗證碼（選填）：
- * 在 GitHub repo 的 Settings → Secrets and variables → Actions → Variables 新增
- * GOOGLE_SITE_VERIFICATION，值只放 content 的那串字，不用改程式。 */
-const verification = String(process.env.GOOGLE_SITE_VERIFICATION || '').trim();
+ * 預設讀 config/games.json 的 googleSiteVerification；
+ * 若設了環境變數 GOOGLE_SITE_VERIFICATION（例如 GitHub Actions 變數）則以它為準。 */
+const verification = String(process.env.GOOGLE_SITE_VERIFICATION || config.googleSiteVerification || '').trim();
 
 const jsonLd = {
   '@context': 'https://schema.org',
