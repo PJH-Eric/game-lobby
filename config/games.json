@@ -323,7 +323,7 @@
       ],
       "controls": "點棋盤上的提示點落子（觸控第一次預覽、再點一次確認），方向鍵加 Enter 也可以",
       "launchUrl": "https://pjh-eric.github.io/reversi/?lobby=https://pjh-eric.github.io/game-lobby/",
-      "presenceUrl": "https://reversi.onrender.com/api/presence",
+      "presenceUrl": "https://reversi-agj3.onrender.com/api/presence",
       "localPort": 3180,
       "projectFolder": "reversi",
       "badge": "新遊戲"
