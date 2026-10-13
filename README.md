@@ -127,6 +127,12 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`rainbow`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
 
+### 分類、標籤與徽章規則
+
+- `category` 目前有 `brain`（動動腦）、`board`（棋盤策略）、`action`（反應派）。新增分類要同時改 `index.html` 的篩選鈕與 `app.js` 的 `categoryLabels`，而且每個分類至少要有一款遊戲（測試會檢查）。
+- `tags` 最多 5 個，順序固定為：玩法類型（記憶、邏輯、消除、畫畫、策略、棋類、卡牌、反應、闖關、動作、射擊、運動，可加 `3D`）→ `幼幼班`（有支援才加）→ 遊玩模式（`單機`、`電腦對戰`、`線上多人`、`觀戰`）。只能用這份詞彙，新增標籤請同步更新 `tests/verify.js` 的 `allowedTags`。
+- `badge` 寫一句短的特色（例如「耐玩」「快手」）；「新遊戲」只給最新上架的最多兩款，之後有新遊戲上架時，把較舊的改成特色徽章。
+
 ### 大廳自己的名字也吃設定檔
 
 `config/games.json` 最上層的 `title` 就是大廳的名字，`app.js` 的 `applyLobbyTitle()`

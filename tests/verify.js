@@ -79,6 +79,32 @@ assert.ok(indexHtml.includes('<!--SEO:GAMES-->'), 'index.html 缺少 SEO:GAMES �
 assert.ok(fs.existsSync(path.join(root, 'assets', 'og-image.png')), '要有社群分享圖 assets/og-image.png');
 assert.ok(fs.existsSync(path.join(root, 'favicon.svg')), '要有 favicon.svg');
 
+/* 分類與標籤規則：
+ * 1. 每款遊戲的 category 都要有對應的篩選鈕與中文名稱，而且每個篩選鈕底下至少有一款遊戲（不留空分類）。
+ * 2. 標籤用統一詞彙，不再出現「AI 對戰／AI 對手／四段 AI」這類同義不同寫法。
+ * 3. 「新遊戲」徽章只給最新上架的少數幾款，避免全部都是新遊戲而失去辨識度。 */
+const chipCategories = [...indexHtml.matchAll(/data-filter="([a-z]+)"/g)].map((match) => match[1]).filter((key) => key !== 'all');
+const labelMatch = appSource.match(/const categoryLabels = \{([^}]*)\}/);
+assert.ok(labelMatch, 'app.js 要有 categoryLabels');
+const labelKeys = [...labelMatch[1].matchAll(/(\w+):/g)].map((match) => match[1]);
+assert.deepEqual([...chipCategories].sort(), [...labelKeys].sort(), '篩選鈕與 categoryLabels 的分類要一致');
+for (const key of chipCategories) {
+  assert.ok(config.games.some((game) => game.category === key), `分類 ${key} 底下沒有任何遊戲`);
+}
+for (const game of config.games) {
+  assert.ok(chipCategories.includes(game.category), `${game.id} 的分類 ${game.category} 沒有對應篩選鈕`);
+}
+const allowedTags = new Set(['記憶', '邏輯', '消除', '畫畫', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '動作', '射擊', '運動',
+  '幼幼班', '單機', '電腦對戰', '線上多人', '觀戰']);
+for (const game of config.games) {
+  assert.ok(game.tags.length <= 5, `${game.id} 的標籤不要超過 5 個`);
+  assert.equal(new Set(game.tags).size, game.tags.length, `${game.id} 的標籤有重複`);
+  for (const tag of game.tags) {
+    assert.ok(allowedTags.has(tag), `${game.id} 的標籤「${tag}」不在統一詞彙裡（新增標籤請同步更新 tests/verify.js 與 README）`);
+  }
+}
+assert.ok(config.games.filter((game) => /^新/.test(game.badge)).length <= 2, '「新遊戲」徽章最多給兩款');
+
 const port = 3187;
 const child = spawn(process.execPath, ['server.js'], { cwd: root, env: { ...process.env, PORT: String(port), HOST: '127.0.0.1' }, stdio: ['ignore', 'pipe', 'pipe'] });
 

@@ -14,9 +14,10 @@
       "accent": "pink",
       "category": "brain",
       "tags": [
+        "記憶",
         "單機",
-        "AI 對戰",
-        "記憶"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "單機挑戰",
@@ -28,7 +29,7 @@
       "presenceUrl": "https://flip-match-sg.onrender.com/api/presence",
       "localPort": 3001,
       "projectFolder": "flip-match",
-      "badge": "動動腦"
+      "badge": "經典"
     },
     {
       "id": "sudoku",
@@ -39,9 +40,9 @@
       "accent": "lilac",
       "category": "brain",
       "tags": [
+        "邏輯",
         "單機",
-        "數字",
-        "五種難度"
+        "觀戰"
       ],
       "modes": [
         "單機解題",
@@ -64,9 +65,10 @@
       "accent": "lemon",
       "category": "action",
       "tags": [
+        "反應",
         "單機",
-        "AI 對手",
-        "最多五人"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "單機練習",
@@ -89,9 +91,10 @@
       "accent": "lime",
       "category": "brain",
       "tags": [
+        "消除",
+        "幼幼班",
         "單機",
-        "多人",
-        "消除"
+        "線上多人"
       ],
       "modes": [
         "幼幼班",
@@ -115,9 +118,11 @@
       "accent": "mint",
       "category": "action",
       "tags": [
+        "闖關",
+        "幼幼班",
         "單機",
-        "多人",
-        "反應"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "幼幼班",
@@ -131,7 +136,7 @@
       "presenceUrl": "https://stair-kids-sg.onrender.com/api/presence",
       "localPort": 3060,
       "projectFolder": "stair-kids",
-      "badge": "新上架"
+      "badge": "闖關"
     },
     {
       "id": "draw-guess",
@@ -142,10 +147,10 @@
       "accent": "lilac",
       "category": "brain",
       "tags": [
+        "畫畫",
         "單機",
-        "AI 對戰",
-        "多人",
-        "畫畫"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "單機練習",
@@ -158,7 +163,7 @@
       "presenceUrl": "https://draw-guess-sg.onrender.com/api/presence",
       "localPort": 3030,
       "projectFolder": "draw-guess",
-      "badge": "新上架"
+      "badge": "派對"
     },
     {
       "id": "heart-attack",
@@ -169,10 +174,10 @@
       "accent": "pink",
       "category": "action",
       "tags": [
+        "卡牌",
         "單機",
-        "四段 AI",
-        "線上多人",
-        "反應"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "單機練習",
@@ -185,7 +190,7 @@
       "presenceUrl": "https://heart-attack-sg.onrender.com/api/presence",
       "localPort": 3080,
       "projectFolder": "heart-attack",
-      "badge": "新遊戲"
+      "badge": "拚手速"
     },
     {
       "id": "richman",
@@ -194,13 +199,13 @@
       "description": "3D 台灣風景棋盤，買地蓋房、用道具收過路費，最後存活的人獲勝。",
       "icon": "market",
       "accent": "lemon",
-      "category": "brain",
+      "category": "board",
       "tags": [
-        "單機",
-        "四段 AI",
-        "線上多人",
         "策略",
-        "3D"
+        "3D",
+        "單機",
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "單機練習",
@@ -213,7 +218,7 @@
       "presenceUrl": "https://richman-sg.onrender.com/api/presence",
       "localPort": 3100,
       "projectFolder": "richman",
-      "badge": "新遊戲"
+      "badge": "3D"
     },
     {
       "id": "bomb-squad",
@@ -224,10 +229,10 @@
       "accent": "peach",
       "category": "action",
       "tags": [
+        "動作",
         "單機",
-        "四段 AI",
-        "線上多人",
-        "動作"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "單機對戰",
@@ -241,7 +246,7 @@
       "presenceUrl": "https://bomb-squad-sg.onrender.com/api/presence",
       "localPort": 3120,
       "projectFolder": "bomb-squad",
-      "badge": "新遊戲"
+      "badge": "火爆"
     },
     {
       "id": "rainbow-bubble",
@@ -252,10 +257,11 @@
       "accent": "sky",
       "category": "action",
       "tags": [
+        "射擊",
+        "幼幼班",
         "單機",
-        "四段 AI",
-        "線上多人",
-        "幼幼班"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "幼幼班",
@@ -270,7 +276,7 @@
       "presenceUrl": "https://rainbow-bubble-server.onrender.com/api/presence",
       "localPort": 3140,
       "projectFolder": "rainbow-bubble",
-      "badge": "新遊戲"
+      "badge": "療癒"
     },
     {
       "id": "pool-duel",
@@ -281,10 +287,11 @@
       "accent": "mint",
       "category": "action",
       "tags": [
+        "運動",
+        "幼幼班",
         "單機",
-        "四段 AI",
-        "線上多人",
-        "運動"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "幼幼班",
@@ -308,12 +315,13 @@
       "description": "木質棋盤與大理石棋子，夾住對手的棋子翻成自己的顏色。可挑戰五段電腦，或開房間邀朋友對戰、觀戰。",
       "icon": "reversi",
       "accent": "mint",
-      "category": "brain",
+      "category": "board",
       "tags": [
+        "棋類",
+        "幼幼班",
         "單機",
-        "五段 AI",
-        "線上多人",
-        "棋類"
+        "電腦對戰",
+        "線上多人"
       ],
       "modes": [
         "幼幼班",
