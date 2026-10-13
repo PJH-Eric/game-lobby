@@ -95,7 +95,13 @@ for (const game of config.games) {
   assert.ok(chipCategories.includes(game.category), `${game.id} 的分類 ${game.category} 沒有對應篩選鈕`);
 }
 const allowedTags = new Set(['記憶', '邏輯', '消除', '畫畫', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '動作', '射擊', '運動',
-  '幼幼班', '單機', '電腦對戰', '線上多人', '觀戰']);
+  '幼幼班', '單機', '電腦對戰', '線上多人', '線上雙人', '觀戰']);
+/* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
+const twoPlayerOnly = new Set(['stair-kids', 'pool-duel', 'reversi']);
+for (const game of config.games) {
+  assert.equal(game.tags.includes('線上雙人'), twoPlayerOnly.has(game.id), `${game.id} 的人數標籤要寫${twoPlayerOnly.has(game.id) ? '線上雙人' : '線上多人'}`);
+  assert.ok(!(game.tags.includes('線上雙人') && game.tags.includes('線上多人')), `${game.id} 不可同時是雙人與多人`);
+}
 for (const game of config.games) {
   assert.ok(game.tags.length <= 5, `${game.id} 的標籤不要超過 5 個`);
   assert.equal(new Set(game.tags).size, game.tags.length, `${game.id} 的標籤有重複`);
