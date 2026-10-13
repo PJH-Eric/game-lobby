@@ -8,7 +8,7 @@
   const PRESENCE_RETRIES = 3;
   const PRESENCE_RETRY_DELAY_MS = 750;
   let presenceRefreshing = false;
-  const categoryLabels = { brain: '動動腦', board: '棋盤策略', action: '反應派' };
+  const categoryLabels = { brain: '動動腦', turn: '回合策略', action: '反應派' };
   const colors = { sky: '#b8e1f5', pink: '#ffb5c5', lilac: '#d8c9f2', mint: '#bfe8d5', peach: '#ffc5a6', lemon: '#ffe49a', lime: '#d7ec9c' };
   const iconStroke = '#352f3c';
 

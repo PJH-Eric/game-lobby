@@ -199,7 +199,7 @@
       "description": "3D 台灣風景棋盤，買地蓋房、用道具收過路費，最後存活的人獲勝。",
       "icon": "market",
       "accent": "lemon",
-      "category": "board",
+      "category": "turn",
       "tags": [
         "策略",
         "3D",
@@ -285,7 +285,7 @@
       "description": "寫實質感的 2 人撞球：簡化九球、八號球、14-1 連續進球。可對電腦或開房間邀朋友，也能觀戰。",
       "icon": "pool",
       "accent": "mint",
-      "category": "action",
+      "category": "turn",
       "tags": [
         "運動",
         "幼幼班",
@@ -315,7 +315,7 @@
       "description": "木質棋盤與大理石棋子，夾住對手的棋子翻成自己的顏色。可挑戰五段電腦，或開房間邀朋友對戰、觀戰。",
       "icon": "reversi",
       "accent": "mint",
-      "category": "board",
+      "category": "turn",
       "tags": [
         "棋類",
         "幼幼班",
