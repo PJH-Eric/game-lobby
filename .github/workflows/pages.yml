@@ -29,6 +29,8 @@ jobs:
         run: npm ci
       - name: 執行驗證與 Pages 建置
         run: npm run verify
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
       - name: 上傳 Pages 產物
         uses: actions/upload-pages-artifact@v3
         with:

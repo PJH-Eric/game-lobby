@@ -9,6 +9,8 @@
        config/games.json 的 title（app.js 的 applyLobbyTitle 會蓋過去，連遊戲數量也是數出來的）。
        所以這裡不寫數量、也不列遊戲名字 —— 那兩樣每次上架新遊戲都會過期。 -->
   <title>遊戲小小島｜可愛小遊戲大廳</title>
+  <!--SEO:HEAD-->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -51,6 +53,7 @@
           <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="game-search" type="search" placeholder="搜尋遊戲…" aria-label="搜尋遊戲"></label>
         </div>
         <div class="games-grid" id="games-grid" aria-live="polite">
+          <!--SEO:GAMES-->
           <div class="loading-state"><span class="loader"></span><p>正在把遊戲卡片搬上島…</p></div>
         </div>
         <div class="empty-state" id="empty-state" hidden><div class="empty-art">◌</div><h3>還沒有找到這類遊戲</h3><p>換個關鍵字，或回到全部遊戲看看吧。</p><button class="button button-soft" type="button" id="clear-filter">看全部遊戲</button></div>

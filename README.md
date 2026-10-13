@@ -50,6 +50,19 @@ https://pjh-eric.github.io/game-lobby/
 
 GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
+## 讓 Google 收錄（SEO）
+
+`npm run build:pages` 產生 `dist` 時會自動加上：canonical 網址、Open Graph／Twitter 分享標籤、JSON-LD（WebSite＋遊戲 ItemList）、無 JavaScript 也能看到的遊戲連結清單（`<noscript>`），以及 `sitemap.xml`。網址來源是 `config/games.json` 的 `siteUrl`，遊戲清單則直接從同一份設定檔產生，上架新遊戲不必另外改 SEO。
+
+部署後在 Google Search Console 完成一次設定：
+
+1. 新增資源 → 選 **網址前置字元**，輸入 `https://pjh-eric.github.io/game-lobby/`。
+2. 驗證擁有權（建議 **HTML 標記**）：複製 `content="…"` 裡那串字，貼到 GitHub repo 的 **Settings → Secrets and variables → Actions → Variables**，新增變數 `GOOGLE_SITE_VERIFICATION`，重新執行部署後回 Search Console 按驗證。
+3. 左側 **Sitemap** 輸入 `sitemap.xml` 並提交。
+4. 到 **網址檢查** 貼上大廳網址，按 **要求建立索引**，可加快第一次收錄。
+
+注意：GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取（只認網域根目錄），沒有 robots.txt 代表全部允許抓取，所以不需要。各遊戲是各自的 repo，要被收錄請在各遊戲專案另外做同樣設定；sitemap 只能列出所屬路徑底下的網址。
+
 ## 啟動既有遊戲
 
 大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十個遊戲各自的 GitHub Pages。`presenceUrl` 指向對應後端的 `/api/presence`，`localPort` 只供本機開發時使用，不會影響正式連結：

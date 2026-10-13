@@ -71,6 +71,14 @@ assert.deepEqual(config.games.filter((game) => head.includes(game.title)).map((g
   'index.html 的備援說明不可以列出遊戲名字');
 assert.ok(head.includes(config.title), '備援標題要跟 config 的 title 同名');
 
+/* SEO：建置時會把 canonical／OG／JSON-LD 與無 JS 後備清單塞進這兩個標記，
+ * 並產生 sitemap.xml；標記或 siteUrl 被改掉就不會被 Google 收錄得完整。 */
+assert.match(config.siteUrl || '', /^https:\/\/.+\/$/, 'config 要有以 / 結尾的 https siteUrl（供 canonical 與 sitemap）');
+assert.ok(indexHtml.includes('<!--SEO:HEAD-->'), 'index.html 缺少 SEO:HEAD 標記');
+assert.ok(indexHtml.includes('<!--SEO:GAMES-->'), 'index.html 缺少 SEO:GAMES 標記');
+assert.ok(fs.existsSync(path.join(root, 'assets', 'og-image.png')), '要有社群分享圖 assets/og-image.png');
+assert.ok(fs.existsSync(path.join(root, 'favicon.svg')), '要有 favicon.svg');
+
 const port = 3187;
 const child = spawn(process.execPath, ['server.js'], { cwd: root, env: { ...process.env, PORT: String(port), HOST: '127.0.0.1' }, stdio: ['ignore', 'pipe', 'pipe'] });
 

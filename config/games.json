@@ -1,6 +1,7 @@
 {
   "version": 1,
   "title": "遊戲小小島",
+  "siteUrl": "https://pjh-eric.github.io/game-lobby/",
   "featuredGameId": "flip-match",
   "games": [
     {
