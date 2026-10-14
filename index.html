@@ -83,7 +83,7 @@
       </section>
     </main>
 
-    <footer class="site-footer"><a class="footer-brand" id="footer-brand" href="#top">遊戲小小島</a><span>把每一次點擊，都變成一點點開心。</span><span class="footer-visitors">累計訪客：<span id="visitor-count">–</span></span><span class="footer-version">Lobby v1.0</span></footer>
+    <footer class="site-footer"><a class="footer-brand" id="footer-brand" href="#top">遊戲小小島</a><span>把每一次點擊，都變成一點點開心。</span><span class="footer-visitors">累計不重複訪客：<span id="visitor-count">–</span></span><span class="footer-version">Lobby v1.0</span></footer>
   </div>
 
   <div class="modal-backdrop" id="details-modal" role="dialog" aria-modal="true" aria-labelledby="details-title" aria-hidden="true" hidden>
@@ -111,10 +111,17 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script data-goatcounter="https://pjh-games.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <script>
-    /* 累計訪客數：讀 GoatCounter 公開計數；失敗時維持顯示「–」，不影響大廳 */
-    fetch('https://pjh-games.goatcounter.com/counter/TOTAL.json')
-      .then(function (r) { return r.json(); })
-      .then(function (d) { document.getElementById('visitor-count').textContent = d.count; })
+    /* GA4 報表由 Pages workflow 產生靜態快照；未設定授權時保留「–」。 */
+    fetch('visitor-count.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('GA4 visitor count is unavailable');
+        return r.json();
+      })
+      .then(function (d) {
+        var count = Number(d.count);
+        if (d.source !== 'google-analytics' || d.metric !== 'totalUsers' || !Number.isSafeInteger(count)) return;
+        document.getElementById('visitor-count').textContent = new Intl.NumberFormat('zh-TW').format(count);
+      })
       .catch(function () {});
   </script>
   <script src="app.js"></script>

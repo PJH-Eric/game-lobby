@@ -50,6 +50,16 @@ https://pjh-eric.github.io/game-lobby/
 
 GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
+### 頁尾的 GA4 累計不重複訪客數
+
+頁尾讀取 GA4 Data API 的 `totalUsers` 指標，查詢範圍從 `2020-01-01` 到今天；實際數字只會包含 GA 標籤開始收集後的資料，不會匯入舊的 GoatCounter 計數。Pages workflow 在每次部署及每日排程時更新靜態計數檔，GA 報表資料可能有處理延遲。
+
+設定方式：
+
+1. 在 Google Cloud 啟用 **Google Analytics Data API v1**，建立服務帳戶與 JSON 金鑰，並在 GA4 資源的存取管理中授予該服務帳戶「檢視者」權限。
+2. 到 GitHub repository 的 **Settings → Secrets and variables → Actions**，新增 Repository secret `GA_SERVICE_ACCOUNT_JSON`（服務帳戶 JSON 金鑰完整內容）。目前 GA4 Property ID `558900909` 已設在 Pages workflow。不要把金鑰提交到 repository。
+3. 推送一次 `main` 或手動執行「建置並部署遊戲小小島」workflow；之後會每天自動更新。尚未設定授權時，頁尾會顯示「–」。
+
 ## 讓 Google 收錄（SEO）
 
 `npm run build:pages` 產生 `dist` 時會自動加上：canonical 網址、Open Graph／Twitter 分享標籤、JSON-LD（WebSite＋遊戲 ItemList）、無 JavaScript 也能看到的遊戲連結清單（`<noscript>`），以及 `sitemap.xml`。網址來源是 `config/games.json` 的 `siteUrl`，遊戲清單則直接從同一份設定檔產生，上架新遊戲不必另外改 SEO。

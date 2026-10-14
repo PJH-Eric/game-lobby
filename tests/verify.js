@@ -1,8 +1,10 @@
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 const { spawn } = require('node:child_process');
+const { createReportRequest, getTotalUsers } = require('../scripts/update-ga-visitor-count');
 
 const root = path.resolve(__dirname, '..');
 const configPath = path.join(root, 'config', 'games.json');
@@ -114,6 +116,40 @@ for (const game of config.games) {
 }
 assert.ok(config.games.filter((game) => /^新/.test(game.badge)).length <= 2, '「新遊戲」徽章最多給兩款');
 
+async function verifyGaVisitorCountApi() {
+  const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const serviceAccount = {
+    client_email: 'ga-reader@example.iam.gserviceaccount.com',
+    private_key: privateKey.export({ format: 'pem', type: 'pkcs8' }).toString(),
+    token_uri: 'https://oauth2.googleapis.com/token',
+  };
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push({ url, options });
+    if (url === serviceAccount.token_uri) {
+      const form = new URLSearchParams(options.body);
+      const assertion = form.get('assertion');
+      const [header, payload, signature] = assertion.split('.');
+      const unsigned = `${header}.${payload}`;
+      assert.equal(form.get('grant_type'), 'urn:ietf:params:oauth:grant-type:jwt-bearer');
+      assert.ok(crypto.verify('RSA-SHA256', Buffer.from(unsigned), publicKey, Buffer.from(signature, 'base64url')));
+      assert.equal(JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')).scope,
+        'https://www.googleapis.com/auth/analytics.readonly');
+      return { ok: true, json: async () => ({ access_token: 'mock-access-token' }) };
+    }
+
+    assert.equal(url, 'https://analyticsdata.googleapis.com/v1beta/properties/123456789:runReport');
+    assert.equal(options.headers.authorization, 'Bearer mock-access-token');
+    assert.deepEqual(JSON.parse(options.body), createReportRequest());
+    return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '42' }] }] }) };
+  };
+
+  const count = await getTotalUsers({ propertyId: '123456789', serviceAccount, fetchImpl });
+  assert.equal(count, 42);
+  assert.equal(calls.length, 2);
+  await assert.rejects(getTotalUsers({ propertyId: 'G-PG79WZK8Y', serviceAccount, fetchImpl }), /numeric GA4 property ID/);
+}
+
 const port = 3187;
 const child = spawn(process.execPath, ['server.js'], { cwd: root, env: { ...process.env, PORT: String(port), HOST: '127.0.0.1' }, stdio: ['ignore', 'pipe', 'pipe'] });
 
@@ -131,6 +167,7 @@ function request(url) {
 
 (async () => {
   try {
+    await verifyGaVisitorCountApi();
     for (let attempt = 0; attempt < 20; attempt += 1) {
       try { await request(`http://127.0.0.1:${port}/health`); break; } catch { await new Promise((resolve) => setTimeout(resolve, 50)); }
     }

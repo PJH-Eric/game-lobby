@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '23 0 * * *'
 
 permissions:
   contents: read
@@ -31,6 +33,12 @@ jobs:
         run: npm run verify
         env:
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+      - name: 更新 GA4 累計不重複訪客數
+        run: node scripts/update-ga-visitor-count.js
+        continue-on-error: true
+        env:
+          GA_PROPERTY_ID: '558900909'
+          GA_SERVICE_ACCOUNT_JSON: ${{ secrets.GA_SERVICE_ACCOUNT_JSON }}
       - name: 上傳 Pages 產物
         uses: actions/upload-pages-artifact@v3
         with:
