@@ -24,8 +24,8 @@ const safeJson = (value) => JSON.stringify(value, null, 2).replace(/</g, '\\u003
 
 const games = config.games;
 const names = games.map((game) => game.title);
-const pageTitle = `${config.title}｜${games.length} 個可愛小遊戲`;
-const description = `${config.title}：${names.join('、')}的可愛遊戲大廳，單機、電腦對戰與線上房間，點一下就開始玩。`;
+const pageTitle = `${config.title}｜免費線上多人小遊戲・免下載・手機平板可玩`;
+const description = `${config.title}：免費線上多人小遊戲大廳，免下載、打開網頁就能玩，手機、平板、電腦都可以，親子與小朋友同樂也適合。收錄${names.join('、')}，支援單機、電腦對戰與線上房間。`;
 const ogImage = `${siteUrl}assets/og-image.png`;
 
 /* Google Search Console 的 HTML 標籤驗證碼（選填）：

@@ -275,7 +275,7 @@
     const title = String(config.title || '').trim();
     if (!title) return;                          /* 設定檔沒寫就留 HTML 裡那一份 */
     const names = config.games.map((game) => game.title).filter(Boolean);
-    document.title = `${title}｜${names.length} 個可愛小遊戲`;
+    document.title = `${title}｜免費線上多人小遊戲・免下載・手機平板可玩`;
     const brand = $('#brand-title');
     if (brand) brand.textContent = title;
     const brandLink = $('#brand-link');
@@ -284,7 +284,7 @@
     if (footer) footer.textContent = title;
     const description = $('#page-description');
     if (description && names.length) {
-      description.setAttribute('content', `${title}：${names.join('、')}的可愛遊戲大廳`);
+      description.setAttribute('content', `${title}：免費線上多人小遊戲大廳，免下載、打開網頁就能玩，手機、平板、電腦都可以，親子與小朋友同樂也適合。收錄${names.join('、')}，支援單機、電腦對戰與線上房間。`);
     }
   }
 

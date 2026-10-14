@@ -61,6 +61,8 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 3. 左側 **Sitemap** 輸入 `sitemap.xml` 並提交。
 4. 到 **網址檢查** 貼上大廳網址，按 **要求建立索引**，可加快第一次收錄。
 
+關鍵字寫法：標題與說明（`scripts/build-pages.js`、`app.js`、`index.html` 三處要一致）用玩家會搜的詞——「免費」「免下載」「線上多人」「手機平板可玩」「親子／小朋友」，比只寫遊戲名稱好找。GitHub repo 的 About 也要填上網址並加 topics（例如 `browser-game`、`socket-io`、`html5-game`）。
+
 注意：GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取（只認網域根目錄），沒有 robots.txt 代表全部允許抓取，所以不需要。各遊戲是各自的 repo，要被收錄請在各遊戲專案另外做同樣設定；sitemap 只能列出所屬路徑底下的網址。
 
 ## 啟動既有遊戲
