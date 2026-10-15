@@ -395,6 +395,34 @@
       "localPort": 3200,
       "projectFolder": "pinball-hoops",
       "badge": "投籃"
+    },
+    {
+      "id": "shoot-balloon",
+      "title": "射氣球",
+      "eyebrow": "夜市射擊",
+      "description": "氣球從攤位後面往上飄，點一下射破加分，白鴿、天燈和炸彈氣球可別射。四段難度，也能線上搶分或觀戰。",
+      "icon": "balloon",
+      "accent": "lemon",
+      "category": "action",
+      "tags": [
+        "射擊",
+        "單機",
+        "電腦對戰",
+        "線上多人"
+      ],
+      "modes": [
+        "單機四段難度",
+        "電腦對戰",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "點氣球射擊（鍵盤：方向鍵移動準星、空白鍵發射）",
+      "launchUrl": "https://pjh-eric.github.io/shoot-balloon/",
+      "presenceUrl": "https://shoot-balloon.onrender.com/api/presence",
+      "localPort": 3220,
+      "projectFolder": "shoot-balloon",
+      "badge": "射氣球"
     }
   ]
 }

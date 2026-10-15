@@ -11,7 +11,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 14);
+assert.equal(config.games.length, 15);
 assert.equal(new Set(config.games.map((game) => game.id)).size, config.games.length);
 assert.ok(config.games.some((game) => game.id === config.featuredGameId));
 assert.ok(!config.games.some((game) => game.id === 'chinese-checkers'), '大廳不列出跳棋小島');
@@ -56,6 +56,12 @@ assert.ok(appSource.includes('drawguess: `<svg'), '你畫我猜要有專屬圖�
 assert.ok(appSource.includes('bomb: `<svg'), '炸彈小隊要有專屬圖示');
 assert.ok(appSource.includes('rainbow: `<svg'), '彩虹泡泡砲要有專屬圖示');
 assert.ok(appSource.includes('pinball: `<svg'), '彈珠籃球要有專屬圖示');
+assert.ok(appSource.includes('balloon: `<svg'), '射氣球要有專屬圖示');
+const shootBalloon = config.games.find((game) => game.id === 'shoot-balloon');
+assert.ok(shootBalloon, '清單要包含射氣球');
+assert.equal(shootBalloon.launchUrl, 'https://pjh-eric.github.io/shoot-balloon/');
+assert.equal(shootBalloon.presenceUrl, 'https://shoot-balloon.onrender.com/api/presence');
+assert.equal(shootBalloon.icon, 'balloon');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
 assert.ok(/PRESENCE_TIMEOUT_MS\s*=\s*15000/.test(appSource), '在線人數請求要給冷啟動足夠時間');
@@ -184,7 +190,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 14);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 15);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');

@@ -92,6 +92,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 | 炸彈小隊 | `github.io/bomb-squad` | 3120 |
 | 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
 | 彈珠籃球 | `github.io/pinball-hoops` | 3200 |
+| 射氣球 | `github.io/shoot-balloon` | 3220 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 
@@ -138,7 +139,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 }
 ```
 
-目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`rainbow`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
+目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`rainbow`、`balloon`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
 
 ### 分類、標籤與徽章規則
 
