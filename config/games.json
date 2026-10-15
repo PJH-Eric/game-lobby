@@ -366,6 +366,35 @@
       "localPort": 3080,
       "projectFolder": "amaze-go",
       "badge": "益智"
+    },
+    {
+      "id": "pinball-hoops",
+      "title": "彈珠籃球",
+      "eyebrow": "彈珠投籃",
+      "description": "只有一片彈板，點畫面揮板把球打進會上下移動的籃框。限時衝分，四段難度，也能線上同台競分或觀戰。",
+      "icon": "pinball",
+      "accent": "peach",
+      "category": "action",
+      "tags": [
+        "運動",
+        "幼幼班",
+        "單機",
+        "電腦對戰",
+        "線上多人"
+      ],
+      "modes": [
+        "單機四段難度",
+        "電腦對戰",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "點畫面任何地方（或按空白鍵）揮板，把球打進籃框",
+      "launchUrl": "https://pjh-eric.github.io/pinball-hoops/",
+      "presenceUrl": "https://pinball-hoops.onrender.com/api/presence",
+      "localPort": 3200,
+      "projectFolder": "pinball-hoops",
+      "badge": "投籃"
     }
   ]
 }

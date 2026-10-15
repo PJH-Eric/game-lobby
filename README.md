@@ -91,6 +91,7 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 | 寶島大富翁 | `github.io/richman` | 3100 |
 | 炸彈小隊 | `github.io/bomb-squad` | 3120 |
 | 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
+| 彈珠籃球 | `github.io/pinball-hoops` | 3200 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 
