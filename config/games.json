@@ -337,6 +337,35 @@
       "localPort": 3180,
       "projectFolder": "reversi",
       "badge": "新遊戲"
+    },
+    {
+      "id": "amaze-go",
+      "title": "箭頭解密",
+      "eyebrow": "益智解謎",
+      "description": "點箭頭讓它沿尖端飛出棋盤，被擋住就會撞回。四段難度闖關，也能和電腦或朋友搶著清空棋盤。",
+      "icon": "arrows",
+      "accent": "sky",
+      "category": "brain",
+      "tags": [
+        "邏輯",
+        "闖關",
+        "電腦對戰",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "闖關模式",
+        "電腦對戰",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "點擊箭頭讓它飛出棋盤，注意別被其他箭頭擋住",
+      "launchUrl": "https://pjh-eric.github.io/amaze-go/",
+      "presenceUrl": "https://amaze-go-server.onrender.com/api/presence",
+      "localPort": 3080,
+      "projectFolder": "amaze-go",
+      "badge": "益智"
     }
   ]
 }
