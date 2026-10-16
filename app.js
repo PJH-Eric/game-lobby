@@ -108,15 +108,27 @@
     $$('.game-card').forEach((card) => {
       const launchGame = () => openGame(state.games.find((game) => game.id === card.dataset.gameId));
       card.addEventListener('click', (event) => { if (!event.target.closest('button, a')) launchGame(); });
-      card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); launchGame(); } });
+      card.addEventListener('keydown', (event) => { if (event.target === card && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); launchGame(); } });
     });
     $$('[data-details]').forEach((button) => button.addEventListener('click', () => openDetails(button.dataset.details)));
     $$('[data-favorite]').forEach((button) => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
-    $$('.play-link').forEach((link) => link.addEventListener('click', () => playSfx('open')));
+    $$('.play-link').forEach((link) => link.addEventListener('click', () => {
+      trackSelection(link.closest('.game-card').dataset.gameId);
+      playSfx('open');
+    }));
+  }
+
+  function trackSelection(id) {
+    try {
+      if (typeof window.gtag === 'function') window.gtag('event', 'select_content', {
+        content_type: 'game', item_id: id, game_id: id, transport_type: 'beacon'
+      });
+    } catch (error) { /* 統計服務失敗不影響開啟遊戲。 */ }
   }
 
   function openGame(game) {
     if (!game?.launchUrl) return;
+    trackSelection(game.id);
     playSfx('open');
     window.location.assign(gameUrl(game));
   }
@@ -149,7 +161,7 @@
     $('#details-visual').innerHTML = iconSvg(game.icon);
     const launch = $('#details-launch');
     launch.href = gameUrl(game);
-    launch.onclick = () => playSfx('open');
+    launch.onclick = () => { trackSelection(id); playSfx('open'); };
     return true;
   }
 

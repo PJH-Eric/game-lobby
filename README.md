@@ -73,7 +73,19 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 關鍵字寫法：標題與說明（`scripts/build-pages.js`、`app.js`、`index.html` 三處要一致）用玩家會搜的詞——「免費」「免下載」「線上多人」「手機平板可玩」「親子／小朋友」，比只寫遊戲名稱好找。GitHub repo 的 About 也要填上網址並加 topics（例如 `browser-game`、`socket-io`、`html5-game`）。
 
-注意：GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取（只認網域根目錄），沒有 robots.txt 代表全部允許抓取，所以不需要。各遊戲是各自的 repo，要被收錄請在各遊戲專案另外做同樣設定；sitemap 只能列出所屬路徑底下的網址。
+GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根層級的 robots.txt 與總 sitemap 改由 `pjh-eric.github.io` 專案提供。根網站的 Search Console 網址前置字元資源可涵蓋大廳及所有遊戲，各遊戲資源可選擇保留。每款遊戲另有一筆 canonical 網址的 sitemap。
+
+### 新遊戲上架 SEO／GA4 檢查清單
+
+- 每款遊戲新增 `seo.config.json`，填入自己的 id、結尾有 `/` 的 siteUrl、獨有標題與 40–120 字說明、genre、players、lobbyUrl。只在有可用圖片時填 ogImage；Google 驗證碼使用對應資源提供的值。
+- 共用來源放在 `scripts/seo/`；`node scripts/sync-seo-shared.js --write` 將注入腳本、事件工具及 SEO 測試同步到同工作區的遊戲專案。未帶 `--write` 時只檢查一致性。上架前先加入 `config/games.json`。
+- 原始 HTML 放置 `<!--SEO:HEAD-->`，在遊戲程式之前載入 `js/analytics.js`。繁中語系字典的文件標題與說明須與設定相同，英文有各自文案；只更新文件 metadata，不改變畫面標題。
+- 部署 job 先 setup-node，再於 artifact 上傳前執行 `node tests/seo.js && node scripts/inject-seo.js`。注入結果與 sitemap 是部署產物，測試使用暫存副本，不覆蓋工作目錄。
+- 在實際開局、結算及成功建房／加入入口接上事件。`start`、`end` 可防止重複結算；快照入口須使用穩定對局 key，觀戰者不得算開局。只送 mode、difficulty、players、result 等遊戲參數，避免送暱稱、房號或邀請 token。
+- GA4 衡量 ID 預設 `G-PG79WZK8QY`，可用 `GA_MEASUREMENT_ID` 覆寫。`game_id` 由 config 指定。正式 hostname 才載入 GA，本機開啟注入產物也不送資料；page_location 固定為 canonical。
+- `node scripts/check-seo-all.js --local` 驗證全遊戲設定、文案不重複、注入及語系一致；部署後執行 `node scripts/check-seo-all.js` 檢查正式網址與 sitemap。遠端檢查需要同工作區各遊戲的設定作為預期值。
+- 本機瀏覽器複查：先建置大廳及根網站，並安裝水果連連看既有的 Playwright 開發依賴，再執行 `node scripts/check-seo-browser.js`。此腳本使用工作區內全部遊戲，驗證中英文 metadata、本機不送 GA、試點完整一局與重玩、大廳點擊及四種尺寸，截圖輸出到 `verification/seo-shots/`。
+- 根網站每日建置從已上線大廳同步清單；首次部署根網站後，再完成 Search Console 驗證、提交總 sitemap，並在 GA4 建立 game_id、mode 自訂維度及確認即時事件。
 
 ## 啟動既有遊戲
 

@@ -32,7 +32,7 @@ assert.equal(rainbowBubble.presenceUrl, 'https://rainbow-bubble-server.onrender.
 assert.equal(rainbowBubble.icon, 'rainbow');
 const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
-assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi');
+assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
 const amazeGo = config.games.find((game) => game.id === 'amaze-go');
 assert.ok(amazeGo, '清單要包含箭頭解密');
 assert.equal(amazeGo.launchUrl, 'https://pjh-eric.github.io/amaze-go/');
