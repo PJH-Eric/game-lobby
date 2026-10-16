@@ -1,7 +1,7 @@
 /* ===== i18n.js — 多語系核心（繁體中文 zh-Hant / English en） =====
  * 每個專案各放一份相同的核心；字典放在各專案自己的 locales 檔（I18N.register）。
  *
- * 語言決定順序：URL ?lang= → localStorage('game-island-lang') → navigator.language → zh-Hant。
+ * 語言決定順序：URL ?lang= → localStorage('game-island-lang') → zh-Hant（預設繁中）。
  * 大廳與各遊戲部署在同一個 github.io 來源時共用同一個 localStorage key，
  * 另外大廳開啟遊戲時會帶 ?lang=，跨來源也能同步。
  *
@@ -20,10 +20,13 @@
   var KEY = 'game-island-lang';
   var SUPPORTED = ['zh-Hant', 'en'];
   var DEFAULT = 'zh-Hant';
+  var messagePatterns = null;
   var dicts = { 'zh-Hant': {}, en: {} };
   var listeners = [];
   var lang = DEFAULT;
   var toggles = [];
+  var toggleFrame = 0;
+  var toggleObserver;
 
   function normalize(v) {
     if (!v) return null;
@@ -44,8 +47,7 @@
   }
 
   function detect() {
-    var nav = (root.navigator && (root.navigator.language || (root.navigator.languages || [])[0])) || '';
-    return readUrl() || readStored() || normalize(nav) || DEFAULT;
+    return readUrl() || readStored() || DEFAULT;
   }
 
   function lookup(code, key) {
@@ -67,6 +69,7 @@
   }
 
   function register(code, dict) {
+    messagePatterns = null;
     if (!dicts[code]) dicts[code] = {};
     for (var k in dict) if (Object.prototype.hasOwnProperty.call(dict, k)) dicts[code][k] = dict[k];
     return api;
@@ -95,6 +98,25 @@
     if (desc) desc.setAttribute('content', t(desc.getAttribute('data-i18n-content')));
   }
 
+  /** Anchor controls in a body-level layer so dialogs cannot cover the language switch. */
+  function positionToggles() {
+    toggleFrame = 0;
+    toggles.forEach(function (button) {
+      var anchor = button._settingsAnchor;
+      if (!anchor) return;
+      var rect = anchor.getBoundingClientRect();
+      var visible = rect.width > 0 && rect.height > 0 && root.getComputedStyle(anchor).visibility !== 'hidden';
+      var left = Math.max(8, rect.left - 56);
+      var top = Math.max(8, rect.top + (rect.height - 48) / 2);
+      var css = 'position:fixed;z-index:2147483000;right:auto;bottom:auto;margin:0;box-sizing:border-box;width:48px;min-width:48px;height:48px;min-height:48px;left:' + left + 'px;top:' + top + 'px;display:' + (visible ? 'grid' : 'none');
+      if (button.style.cssText !== css && button._positionStyle !== css) { button.style.cssText = css; button._positionStyle = css; }
+    });
+  }
+
+  function scheduleTogglePosition() {
+    if (!toggleFrame) toggleFrame = root.requestAnimationFrame(positionToggles);
+  }
+
   function syncToggles() {
     toggles.forEach(function (b) {
       b.textContent = lang === 'en' ? '中' : 'EN';
@@ -107,9 +129,16 @@
 
   function setLang(next, opts) {
     next = normalize(next) || DEFAULT;
+    var drafts = root.document ? Array.from(root.document.querySelectorAll('input[id], textarea[id]')).filter(function (el) {
+      return !el.readOnly && !el.disabled && (el.tagName === 'TEXTAREA' || /^(text|search|url|email|tel|password)$/.test(el.type));
+    }).map(function (el) { return { id: el.id, value: el.value, start: el.selectionStart, end: el.selectionEnd }; }) : [];
     var changed = next !== lang;
     lang = next;
     if (!opts || opts.persist !== false) writeStored(lang);
+    try {
+      var url = new URL(root.location.href);
+      if (url.searchParams.has("lang")) { url.searchParams.set("lang", lang); root.history.replaceState(root.history.state, "", url); }
+    } catch (e) { /* 非瀏覽器環境不處理網址 */ }
     var doc = root.document;
     if (doc) {
       doc.documentElement.setAttribute('lang', lang);
@@ -121,6 +150,14 @@
       listeners.slice().forEach(function (fn) { try { fn(lang); } catch (e) { if (root.console) root.console.error(e); } });
       if (doc && root.CustomEvent) doc.dispatchEvent(new root.CustomEvent('i18n:change', { detail: { lang: lang } }));
     }
+    drafts.forEach(function (draft) {
+      var el = root.document.getElementById(draft.id);
+      if (!el) return;
+      el.value = draft.value;
+      if (draft.start !== null && typeof el.setSelectionRange === 'function') {
+        try { el.setSelectionRange(draft.start, draft.end); } catch (e) { /* 不支援選取的欄位只保留內容 */ }
+      }
+    });
     return lang;
   }
 
@@ -132,12 +169,35 @@
     opts = opts || {};
     var b = doc.createElement('button');
     b.type = 'button';
+    b.style.zIndex = '2147483000';
     b.className = 'lang-toggle' + (opts.className ? ' ' + opts.className : '');
     b.id = opts.id || 'b-lang';
     b.addEventListener('click', function () { setLang(lang === 'en' ? 'zh-Hant' : 'en'); });
     if (opts.after && opts.after.parentNode) opts.after.parentNode.insertBefore(b, opts.after.nextSibling);
     else if (opts.parent) opts.parent.appendChild(b);
+    if (opts.after) {
+      b._settingsAnchor = opts.after;
+      var anchorId = 'language-settings-' + toggles.length;
+      opts.after.setAttribute('data-language-settings', anchorId);
+      b.setAttribute('data-language-settings-for', anchorId);
+      var positioning = root.getComputedStyle(b).position;
+      if (positioning !== 'fixed' && positioning !== 'absolute') {
+        var slot = doc.createElement('span');
+        slot.className = 'language-toggle-slot';
+        slot.setAttribute('aria-hidden', 'true');
+        slot.style.cssText = 'width:48px;min-width:48px;height:48px;flex:0 0 48px;pointer-events:none';
+        opts.after.parentNode.insertBefore(slot, opts.after);
+      }
+      doc.body.appendChild(b);
+      if (!toggleObserver) {
+        toggleObserver = new root.MutationObserver(scheduleTogglePosition);
+        toggleObserver.observe(doc.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'class', 'style'] });
+        root.addEventListener('resize', scheduleTogglePosition);
+        root.addEventListener('scroll', scheduleTogglePosition, true);
+      }
+    }
     toggles.push(b);
+    positionToggles();
     syncToggles();
     return b;
   }
@@ -154,10 +214,45 @@
   lang = detect();
   if (root.document) root.document.documentElement.setAttribute('lang', lang);
 
+
+  /** Translate protocol message keys and legacy system messages, preserving parameters. */
+  function message(value, params) {
+    if (value == null) return '';
+    if (typeof value === 'object') {
+      if (value.key) return message(value.key, value.params);
+      return value.message ? message(value.message, value.params) : '';
+    }
+    if (params) {
+      var translated = {};
+      Object.keys(params).forEach(function (key) {
+        var v = params[key];
+        translated[key] = Array.isArray(v) ? v.join(lang === 'en' ? ', ' : '、') : (v && typeof v === 'object' && v.key ? message(v) : v);
+      });
+      params = translated;
+    }
+    if (lookup(lang, value) !== undefined || lookup(DEFAULT, value) !== undefined) return t(value, params);
+    if (lang === DEFAULT || typeof value !== 'string') return String(value);
+    if (!messagePatterns) {
+      messagePatterns = Object.keys(dicts[DEFAULT]).filter(function (key) { return typeof dicts[DEFAULT][key] === 'string'; }).map(function (key) {
+        var names = [], source = dicts[DEFAULT][key];
+        var escaped = source.split(/(\{\w+\})/).map(function (part) {
+          if (/^\{\w+\}$/.test(part)) { names.push(part.slice(1, -1)); return '(.+?)'; }
+          return part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }).join('');
+        return { key: key, names: names, size: source.length, re: new RegExp('^' + escaped + '$') };
+      }).sort(function (a, b) { return b.size - a.size; });
+    }
+    for (var i = 0; i < messagePatterns.length; i++) {
+      var item = messagePatterns[i], match = item.re.exec(value);
+      if (match) { var p = {}; item.names.forEach(function (name, n) { p[name] = match[n + 1]; }); return t(item.key, p); }
+    }
+    return value;
+  }
+
   var api = {
     SUPPORTED: SUPPORTED,
     get lang() { return lang; },
-    t: t, register: register, apply: apply, setLang: setLang, onChange: onChange,
+    t: t, message: message, register: register, apply: apply, setLang: setLang, onChange: onChange,
     mountToggle: mountToggle, withLang: withLang
   };
   root.I18N = api;
