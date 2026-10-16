@@ -7,7 +7,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "test": "node tests/verify.js",
+    "test": "node tests/verify.js && node tests/i18n.js",
     "build:pages": "node scripts/build-pages.js",
     "verify": "npm test && npm run build:pages"
   },

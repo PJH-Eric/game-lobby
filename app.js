@@ -3,12 +3,20 @@
 
   const STORAGE_KEY = 'game-lobby-preferences-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
-  const state = { games: [], filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), presence: {}, lastFocus: null, openModal: null };
+  const state = { games: [], config: null, loadFailed: false, detailsId: null, filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), presence: {}, lastFocus: null, openModal: null };
   const PRESENCE_TIMEOUT_MS = 15000;
   const PRESENCE_RETRIES = 3;
   const PRESENCE_RETRY_DELAY_MS = 750;
   let presenceRefreshing = false;
-  const categoryLabels = { brain: '動動腦', turn: '回合策略', action: '反應派' };
+  const categoryLabels = { brain: 'cat.brain', turn: 'cat.turn', action: 'cat.action' };
+  const t = (key, params) => window.I18N.t(key, params);
+  const catLabel = (category) => (categoryLabels[category] ? t(categoryLabels[category]) : '');
+  /* 目前語言的遊戲文案：zh-Hant 用 games.json 原文，en 疊上 game.i18n.en（缺的欄位退回中文）。 */
+  const loc = (game) => {
+    const extra = window.I18N.lang !== 'zh-Hant' && game.i18n && game.i18n[window.I18N.lang];
+    return extra ? { ...game, ...extra } : game;
+  };
+  const gameUrl = (game) => window.I18N.withLang(game.launchUrl);
   const colors = { sky: '#b8e1f5', pink: '#ffb5c5', lilac: '#d8c9f2', mint: '#bfe8d5', peach: '#ffc5a6', lemon: '#ffe49a', lime: '#d7ec9c' };
   const iconStroke = '#352f3c';
 
@@ -56,26 +64,28 @@
     return icons[type] || icons.cards;
   }
 
-  function cardMarkup(game) {
+  function cardMarkup(rawGame) {
+    const game = loc(rawGame);
     const isFavorite = state.favorites.includes(game.id);
-    return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="開啟${escapeHtml(game.title)}" style="--card-color:${colors[game.accent] || colors.sky}">
-      <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${isFavorite ? '取消收藏' : '收藏'} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || categoryLabels[game.category] || '推薦')}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
-      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || categoryLabels[game.category] || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="presence-status" data-presence="${escapeHtml(game.id)}" aria-live="polite">${presenceMarkup(game)}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(game.launchUrl)}">立即遊玩 <span>→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">了解玩法</button></div></div>
+    return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="${escapeHtml(t('card.open', { title: game.title }))}" style="--card-color:${colors[game.accent] || colors.sky}">
+      <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${escapeHtml(t(isFavorite ? 'fav.remove' : 'fav.add'))} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || catLabel(game.category) || t('card.badgeDefault'))}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
+      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || catLabel(game.category) || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="presence-status" data-presence="${escapeHtml(game.id)}" aria-live="polite">${presenceMarkup(game)}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(gameUrl(game))}"><span class="play-text">${escapeHtml(t('card.play'))}</span> <span aria-hidden="true">→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">${escapeHtml(t('card.details'))}</button></div></div>
     </article>`;
   }
 
   function presenceMarkup(game) {
-    if (!game.presenceUrl) return '<span class="presence-muted">線上人數尚未設定</span>';
+    if (!game.presenceUrl) return `<span class="presence-muted">${escapeHtml(t('presence.unset'))}</span>`;
     const presence = state.presence[game.id];
-    if (!presence || presence.status === 'checking') return '<span class="presence-dot is-checking" aria-hidden="true"></span>查詢在線人數…';
-    if (presence.status === 'waking') return '<span class="presence-dot is-checking" aria-hidden="true"></span>伺服器啟動中…';
-    if (presence.status !== 'ok') return '<span class="presence-dot is-offline" aria-hidden="true"></span>暫時無法取得在線人數';
-    return `<span class="presence-dot" aria-hidden="true"></span>在線 ${presence.online} 人 ・ 玩家 ${presence.players} ・ 觀戰 ${presence.spectators} ・ 房間 ${presence.rooms}`;
+    if (!presence || presence.status === 'checking') return `<span class="presence-dot is-checking" aria-hidden="true"></span>${escapeHtml(t('presence.checking'))}`;
+    if (presence.status === 'waking') return `<span class="presence-dot is-checking" aria-hidden="true"></span>${escapeHtml(t('presence.waking'))}`;
+    if (presence.status !== 'ok') return `<span class="presence-dot is-offline" aria-hidden="true"></span>${escapeHtml(t('presence.error'))}`;
+    return `<span class="presence-dot" aria-hidden="true"></span>${escapeHtml(t('presence.ok', presence))}`;
   }
 
   function visibleGames() {
     const query = state.query.trim().toLowerCase();
-    return state.games.filter((game) => {
+    return state.games.filter((rawGame) => {
+      const game = loc(rawGame);
       const matchesFilter = state.filter === 'all' || game.category === state.filter;
       const haystack = [game.title, game.description, game.eyebrow, ...(game.tags || [])].join(' ').toLowerCase();
       return matchesFilter && (!query || haystack.includes(query));
@@ -90,7 +100,7 @@
     gamesGrid.innerHTML = games.length ? games.map(cardMarkup).join('') : '';
     emptyState.hidden = games.length > 0;
     $('#all-count').textContent = state.games.length;
-    $('#games-helper').textContent = state.filter === 'all' && !state.query ? '每一張卡片都能直接帶你前往遊戲。' : `找到 ${games.length} 個適合你的遊戲。`;
+    $('#games-helper').textContent = state.filter === 'all' && !state.query ? t('games.helper') : t('games.found', { n: games.length });
     bindCardEvents();
   }
 
@@ -108,33 +118,39 @@
   function openGame(game) {
     if (!game?.launchUrl) return;
     playSfx('open');
-    window.location.assign(game.launchUrl);
+    window.location.assign(gameUrl(game));
   }
 
   function toggleFavorite(id) {
     state.favorites = state.favorites.includes(id) ? state.favorites.filter((item) => item !== id) : [id, ...state.favorites];
     saveList(FAVORITES_KEY, state.favorites);
     renderGames();
-    showToast(state.favorites.includes(id) ? '已收藏這個遊戲 ♥' : '已取消收藏');
+    showToast(t(state.favorites.includes(id) ? 'toast.favAdded' : 'toast.favRemoved'));
     playSfx('click');
   }
 
   function openDetails(id) {
-    const game = state.games.find((item) => item.id === id);
-    if (!game) return;
-    const modal = $('#details-modal');
-    $('#details-eyebrow').textContent = game.eyebrow || categoryLabels[game.category] || '遊戲介紹';
+    if (!fillDetails(id)) return;
+    openModal($('#details-modal'));
+  }
+
+  function fillDetails(id) {
+    const rawGame = state.games.find((item) => item.id === id);
+    if (!rawGame) return false;
+    const game = loc(rawGame);
+    state.detailsId = id;
+    $('#details-eyebrow').textContent = game.eyebrow || catLabel(game.category) || t('details.eyebrow');
     $('#details-title').textContent = game.title;
     $('#details-description').textContent = game.description;
     $('#details-tags').innerHTML = (game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('');
     $('#details-modes').textContent = (game.modes || []).join(' ・ ');
-    $('#details-controls').textContent = game.controls || '依遊戲畫面提示操作';
+    $('#details-controls').textContent = game.controls || t('details.controlsDefault');
     $('#details-visual').style.setProperty('--card-color', colors[game.accent] || colors.sky);
     $('#details-visual').innerHTML = iconSvg(game.icon);
     const launch = $('#details-launch');
-    launch.href = game.launchUrl;
+    launch.href = gameUrl(game);
     launch.onclick = () => playSfx('open');
-    openModal(modal);
+    return true;
   }
 
   function openModal(modal) {
@@ -155,6 +171,7 @@
     if (state.lastFocus && typeof state.lastFocus.focus === 'function') state.lastFocus.focus();
     state.lastFocus = null;
     state.openModal = null;
+    if (modal.id === 'details-modal') state.detailsId = null;
   }
 
   function setFilter(filter) {
@@ -197,6 +214,8 @@
   }
 
   function setupEvents() {
+    window.I18N.mountToggle({ after: $('#settings-open') });
+    window.I18N.onChange(onLanguageChange);
     $$('.filter-chip').forEach((button) => button.addEventListener('click', () => { playSfx('click'); setFilter(button.dataset.filter); }));
     $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; state.filter = 'all'; $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all')); renderGames(); });
     $('#clear-filter').addEventListener('click', () => { state.query = ''; $('#game-search').value = ''; setFilter('all'); });
@@ -204,7 +223,7 @@
     $$('[data-close-modal]').forEach((button) => button.addEventListener('click', () => closeModal(button.closest('.modal-backdrop'))));
     $$('.modal-backdrop').forEach((modal) => modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(modal); }));
     ['music', 'sfx', 'motion'].forEach((key) => { $(`#setting-${key}`).addEventListener('change', (event) => { state.preferences[key] = event.target.checked; savePreferences(); applyPreferences(); if (key === 'sfx') playSfx('click'); }); });
-    $('#settings-reset').addEventListener('click', () => { state.preferences = { music: false, sfx: true, motion: false }; savePreferences(); applyPreferences(); playSfx('click'); showToast('已恢復大廳預設設定'); });
+    $('#settings-reset').addEventListener('click', () => { state.preferences = { music: false, sfx: true, motion: false }; savePreferences(); applyPreferences(); playSfx('click'); showToast(t('toast.reset')); });
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && state.openModal) closeModal(); if (event.key === 'Tab' && state.openModal) trapFocus(event, state.openModal); });
   }
 
@@ -268,27 +287,45 @@
   }
 
   /**
-   * 大廳的名字一律跟著設定檔的 title 走（index.html 裡那幾份只是設定檔還沒讀到前的備援）。
-   *
-   * 以前是四個地方各寫死一份「遊戲小小島」，改名要改四處；而且 <title> 上那句
-   * 「六個可愛小遊戲」在上架第七款（小朋友下樓梯）之後就數錯了 —— 數量改成數出來的。
-   * 說明文字同理：把遊戲名字一個個列在 HTML 裡，每次上架都會漏掉新的，直接從清單接。
+   * 大廳的名字一律跟著設定檔的 title 走（index.html 與 locales.js 裡那幾份只是設定檔還沒讀到前的備援）。
+   * 英文名稱取 config.i18n.en.title、遊戲名取 game.i18n.en.title；重新註冊進字典後
+   * 由 I18N.apply 套到 <title>（meta.title）、meta description、頁首與頁尾。
+   * 數量與遊戲名都是從清單數出來／接出來的，上架新遊戲不用回頭改這裡。
    */
   function applyLobbyTitle(config) {
-    const title = String(config.title || '').trim();
-    if (!title) return;                          /* 設定檔沒寫就留 HTML 裡那一份 */
-    const names = config.games.map((game) => game.title).filter(Boolean);
-    document.title = `${title}｜免費線上多人小遊戲・免下載・手機平板可玩`;
-    const brand = $('#brand-title');
-    if (brand) brand.textContent = title;
-    const brandLink = $('#brand-link');
-    if (brandLink) brandLink.setAttribute('aria-label', `${title}首頁`);
-    const footer = $('#footer-brand');
-    if (footer) footer.textContent = title;
-    const description = $('#page-description');
-    if (description && names.length) {
-      description.setAttribute('content', `${title}：免費線上多人小遊戲大廳，免下載、打開網頁就能玩，手機、平板、電腦都可以，親子與小朋友同樂也適合。收錄${names.join('、')}，支援單機、電腦對戰與線上房間。`);
-    }
+    const zhTitle = String(config.title || '').trim();
+    if (!zhTitle) return;                        /* 設定檔沒寫就留字典裡那一份 */
+    const enTitle = String((config.i18n && config.i18n.en && config.i18n.en.title) || '').trim() || zhTitle;
+    const zhNames = config.games.map((game) => game.title).filter(Boolean);
+    const enNames = config.games.map((game) => (game.i18n && game.i18n.en && game.i18n.en.title) || game.title).filter(Boolean);
+    const zh = {
+      'brand.title': zhTitle,
+      'brand.aria': `${zhTitle}首頁`,
+      'meta.title': `${zhTitle}｜免費線上多人小遊戲・免下載・手機平板可玩`,
+    };
+    const en = {
+      'brand.title': enTitle,
+      'brand.aria': `${enTitle} home`,
+      'meta.title': `${enTitle} | Free Online Multiplayer Mini Games, No Download, Phone & Tablet Friendly`,
+    };
+    if (zhNames.length) zh['meta.description'] = `${zhTitle}：免費線上多人小遊戲大廳，免下載、打開網頁就能玩，手機、平板、電腦都可以，親子與小朋友同樂也適合。收錄${zhNames.join('、')}，支援單機、電腦對戰與線上房間。`;
+    if (enNames.length) en['meta.description'] = `${enTitle}: a free online lobby of multiplayer mini games. No download needed, just open the page and play on phone, tablet, or computer. Great for kids and families. Includes ${enNames.join(', ')}, with solo play, computer opponents, and online rooms.`;
+    window.I18N.register('zh-Hant', zh);
+    window.I18N.register('en', en);
+    window.I18N.apply();
+  }
+
+  function renderLoadError() {
+    $('#games-grid').innerHTML = `<div class="empty-state"><div class="empty-art">!</div><h3>${escapeHtml(t('error.title'))}</h3><p>${escapeHtml(t('error.body'))}</p><button class="button button-soft" type="button" id="retry-games">${escapeHtml(t('error.retry'))}</button></div>`;
+    $('#retry-games').addEventListener('click', loadGames);
+  }
+
+  /* 切換語言：卡片、篩選說明、彈窗內容與 CSS 版面都跟著新語言重畫（靜態文字由 I18N.apply 處理）。 */
+  function onLanguageChange() {
+    if (state.config) applyLobbyTitle(state.config);
+    if (state.loadFailed) renderLoadError();
+    else if (state.games.length) renderGames();
+    if (state.detailsId) fillDetails(state.detailsId);
   }
 
   async function loadGames() {
@@ -298,13 +335,15 @@
       const config = await response.json();
       if (!config || !Array.isArray(config.games)) throw new Error('設定檔格式不正確');
       state.games = config.games;
+      state.config = config;
+      state.loadFailed = false;
       applyLobbyTitle(config);
       renderGames();
       refreshPresence();
       setInterval(refreshPresence, 30000);
     } catch (error) {
-      $('#games-grid').innerHTML = `<div class="empty-state"><div class="empty-art">!</div><h3>遊戲清單讀取失敗</h3><p>請確認伺服器正在執行，再重新整理頁面。</p><button class="button button-soft" type="button" id="retry-games">重新載入</button></div>`;
-      $('#retry-games').addEventListener('click', loadGames);
+      state.loadFailed = true;
+      renderLoadError();
       console.error(error);
     }
   }

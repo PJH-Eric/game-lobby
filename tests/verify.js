@@ -66,7 +66,7 @@ assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新�
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
 assert.ok(/PRESENCE_TIMEOUT_MS\s*=\s*15000/.test(appSource), '在線人數請求要給冷啟動足夠時間');
 assert.ok(/PRESENCE_RETRIES\s*=\s*3/.test(appSource), '在線人數失敗要自動重試');
-assert.ok(appSource.includes('伺服器啟動中'), '在線人數冷啟動要顯示可理解狀態');
+assert.ok(fs.readFileSync(path.join(root, 'locales.js'), 'utf8').includes('伺服器啟動中'), '在線人數冷啟動要顯示可理解狀態');
 assert.ok(/presenceRefreshing/.test(appSource), '在線人數輪詢不可重疊');
 
 /* 大廳的名字要跟著設定檔走。以前四個地方各寫死一份「遊戲小小島」，
@@ -74,7 +74,7 @@ assert.ok(/presenceRefreshing/.test(appSource), '在線人數輪詢不可重疊'
  * 在上架第七款（小朋友下樓梯）之後也數錯了。 */
 assert.ok(config.title, 'config 要有 title');
 assert.ok(appSource.includes('applyLobbyTitle(config)'), '讀完設定檔要套用標題');
-assert.ok(appSource.includes('document.title'), 'applyLobbyTitle 要改分頁標題');
+assert.ok(appSource.includes('meta.title') && indexHtml.includes('data-i18n-title="meta.title"'), 'applyLobbyTitle 要透過字典改分頁標題（document.title 由 I18N.apply 套用）');
 for (const id of ['brand-title', 'brand-link', 'footer-brand', 'page-description']) {
   assert.ok(indexHtml.includes(`id="${id}"`), `index.html 缺少可套用標題的節點：${id}`);
 }

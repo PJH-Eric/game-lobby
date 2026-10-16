@@ -29,7 +29,27 @@
       "presenceUrl": "https://flip-match-sg.onrender.com/api/presence",
       "localPort": 3001,
       "projectFolder": "flip-match",
-      "badge": "經典"
+      "badge": "經典",
+      "i18n": {
+        "en": {
+          "title": "Flip Match",
+          "eyebrow": "Memory Game",
+          "description": "Flip two cards to find a matching pair. Remember where they are to keep scoring.",
+          "tags": [
+            "Memory",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo Challenge",
+            "vs Computer",
+            "Online Room"
+          ],
+          "controls": "Tap a card to flip it and find matching pictures",
+          "badge": "Classic"
+        }
+      }
     },
     {
       "id": "sudoku",
@@ -54,7 +74,26 @@
       "presenceUrl": "https://sudoku-sg.onrender.com/api/presence",
       "localPort": 3010,
       "projectFolder": "sudoku",
-      "badge": "耐玩"
+      "badge": "耐玩",
+      "i18n": {
+        "en": {
+          "title": "Sudoku School",
+          "eyebrow": "Calm Brain Teaser",
+          "description": "Fill the 9×9 grid so every row, column, and box has each number exactly once.",
+          "tags": [
+            "Logic",
+            "Solo",
+            "Spectate"
+          ],
+          "modes": [
+            "Solo Puzzles",
+            "Online Spectating",
+            "Cell Notes"
+          ],
+          "controls": "Select a cell, then fill it in with the number pad",
+          "badge": "Evergreen"
+        }
+      }
     },
     {
       "id": "whack-a-mole",
@@ -80,7 +119,27 @@
       "presenceUrl": "https://whack-a-mole-sg.onrender.com/api/presence",
       "localPort": 3030,
       "projectFolder": "whack-a-mole",
-      "badge": "快手"
+      "badge": "快手",
+      "i18n": {
+        "en": {
+          "title": "Whack-a-Mole Mayhem",
+          "eyebrow": "Reaction Challenge",
+          "description": "Look first, then strike! Whack the moles, spare your friends, and build your best combo.",
+          "tags": [
+            "Reflex",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo Practice",
+            "Multiplayer Score Race",
+            "Spectate"
+          ],
+          "controls": "Tap the moles as they pop up",
+          "badge": "Quick Hands"
+        }
+      }
     },
     {
       "id": "fruit-link",
@@ -107,7 +166,28 @@
       "presenceUrl": "https://fruit-link-sg.onrender.com/api/presence",
       "localPort": 3040,
       "projectFolder": "fruit-link",
-      "badge": "消除王"
+      "badge": "消除王",
+      "i18n": {
+        "en": {
+          "title": "Fruit Link",
+          "eyebrow": "Matching Race",
+          "description": "Find two matching fruits and connect them with a path that turns at most twice.",
+          "tags": [
+            "Matching",
+            "Little Kids",
+            "Solo",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Little Kids Mode",
+            "Solo Levels",
+            "Online Match Race",
+            "Spectate"
+          ],
+          "controls": "Tap two matching fruits in turn; if they connect, they disappear",
+          "badge": "Match King"
+        }
+      }
     },
     {
       "id": "stair-kids",
@@ -136,7 +216,30 @@
       "presenceUrl": "https://stair-kids-sg.onrender.com/api/presence",
       "localPort": 3060,
       "projectFolder": "stair-kids",
-      "badge": "闖關"
+      "badge": "闖關",
+      "i18n": {
+        "en": {
+          "title": "Stair Kids",
+          "eyebrow": "Dodge & React",
+          "description": "Keep stepping down onto new stairs. Do not get squished by the ceiling or fall off the screen.",
+          "tags": [
+            "Levels",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online 2-Player"
+          ],
+          "modes": [
+            "Little Kids Mode",
+            "Solo Challenge",
+            "vs Computer",
+            "Online Room",
+            "Spectate"
+          ],
+          "controls": "Only two directions (← → or A D). No jumping",
+          "badge": "Levels"
+        }
+      }
     },
     {
       "id": "draw-guess",
@@ -163,7 +266,28 @@
       "presenceUrl": "https://draw-guess-sg.onrender.com/api/presence",
       "localPort": 3030,
       "projectFolder": "draw-guess",
-      "badge": "派對"
+      "badge": "派對",
+      "i18n": {
+        "en": {
+          "title": "Draw & Guess",
+          "eyebrow": "Draw and Guess",
+          "description": "Take turns drawing and guessing to score. Play the computer solo, or open a room and invite friends.",
+          "tags": [
+            "Drawing",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo Practice",
+            "Three AI Levels",
+            "Online Room",
+            "Spectate"
+          ],
+          "controls": "The artist draws on the canvas; guessers type their answers",
+          "badge": "Party"
+        }
+      }
     },
     {
       "id": "heart-attack",
@@ -190,7 +314,28 @@
       "presenceUrl": "https://heart-attack-sg.onrender.com/api/presence",
       "localPort": 3080,
       "projectFolder": "heart-attack",
-      "badge": "拚手速"
+      "badge": "拚手速",
+      "i18n": {
+        "en": {
+          "title": "Heart Attack Island",
+          "eyebrow": "Reaction Challenge",
+          "description": "Flip cards and call out numbers in turn. When the card matches the call, slap the pile fast. Test your eyes and your hands.",
+          "tags": [
+            "Cards",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo Practice",
+            "Four AI Levels",
+            "Online Room",
+            "Spectate"
+          ],
+          "controls": "When the card matches the current call, hit the red slap button, the pile, or the space bar.",
+          "badge": "Speed Race"
+        }
+      }
     },
     {
       "id": "richman",
@@ -218,7 +363,29 @@
       "presenceUrl": "https://richman-sg.onrender.com/api/presence",
       "localPort": 3100,
       "projectFolder": "richman",
-      "badge": "3D"
+      "badge": "3D",
+      "i18n": {
+        "en": {
+          "title": "Treasure Island Tycoon",
+          "eyebrow": "Strategy Builder",
+          "description": "A 3D Taiwan-scenery board: buy land, build houses, use items to collect rent, and be the last player standing.",
+          "tags": [
+            "Strategy",
+            "3D",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo Practice",
+            "Four AI Levels",
+            "Online Room",
+            "Spectate"
+          ],
+          "controls": "Tap buttons to roll and buy; tap a board tile for info; space bar for quick actions",
+          "badge": "3D"
+        }
+      }
     },
     {
       "id": "bomb-squad",
@@ -246,7 +413,29 @@
       "presenceUrl": "https://bomb-squad-sg.onrender.com/api/presence",
       "localPort": 3120,
       "projectFolder": "bomb-squad",
-      "badge": "火爆"
+      "badge": "火爆",
+      "i18n": {
+        "en": {
+          "title": "Bomb Squad",
+          "eyebrow": "Blast Battle",
+          "description": "Drop bombs, blast bricks, grab power-ups, and be the last one standing in the chain explosions!",
+          "tags": [
+            "Action",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo Battle",
+            "Four AI Levels",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Arrow keys / WASD to move, space bar to drop a bomb; on phones use the joystick and bomb button",
+          "badge": "Explosive"
+        }
+      }
     },
     {
       "id": "rainbow-bubble",
@@ -276,7 +465,31 @@
       "presenceUrl": "https://rainbow-bubble-server.onrender.com/api/presence",
       "localPort": 3140,
       "projectFolder": "rainbow-bubble",
-      "badge": "療癒"
+      "badge": "療癒",
+      "i18n": {
+        "en": {
+          "title": "Rainbow Bubble Blaster",
+          "eyebrow": "Bubble Shooter",
+          "description": "Aim the rainbow cannon at same-colored bubbles and pop lots at once! Fun for ages 3 to 5, too.",
+          "tags": [
+            "Shooting",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Little Kids Mode",
+            "Solo Practice",
+            "Four AI Levels",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Bubbles fly wherever you tap; swap bubbles with the small bubble at the bottom right",
+          "badge": "Cozy"
+        }
+      }
     },
     {
       "id": "pool-duel",
@@ -306,7 +519,31 @@
       "presenceUrl": "https://pool-duel.onrender.com/api/presence",
       "localPort": 3160,
       "projectFolder": "pool-duel",
-      "badge": "新遊戲"
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "Pool Duel",
+          "eyebrow": "Turn-Based Sports",
+          "description": "Realistic 2-player pool: simplified nine-ball, eight-ball, and 14-1 continuous. Play the computer or open a room for a friend, and spectate too.",
+          "tags": [
+            "Sports",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online 2-Player"
+          ],
+          "modes": [
+            "Little Kids Mode",
+            "Solo Practice",
+            "Four AI Levels",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Drag on the table to aim and pull the power bar, then press Shoot; open the cue-ball panel to add spin",
+          "badge": "New"
+        }
+      }
     },
     {
       "id": "reversi",
@@ -336,7 +573,31 @@
       "presenceUrl": "https://reversi-agj3.onrender.com/api/presence",
       "localPort": 3180,
       "projectFolder": "reversi",
-      "badge": "新遊戲"
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "Reversi",
+          "eyebrow": "Board Game",
+          "description": "Wooden board, marble pieces: sandwich your opponent's pieces to flip them to your color. Take on a five-level computer, or open a room to play or spectate with friends.",
+          "tags": [
+            "Board Game",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online 2-Player"
+          ],
+          "modes": [
+            "Little Kids Mode",
+            "Solo Practice",
+            "Five AI Levels",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Tap a hint dot to place a piece (on touch, the first tap previews and the second confirms); arrow keys plus Enter work too",
+          "badge": "New"
+        }
+      }
     },
     {
       "id": "amaze-go",
@@ -365,7 +626,30 @@
       "presenceUrl": "https://amaze-go-server.onrender.com/api/presence",
       "localPort": 3080,
       "projectFolder": "amaze-go",
-      "badge": "益智"
+      "badge": "益智",
+      "i18n": {
+        "en": {
+          "title": "Arrow Escape",
+          "eyebrow": "Puzzle",
+          "description": "Tap an arrow to send it flying off the board in the direction it points; if it is blocked, it bounces back. Four difficulty levels, or race the computer or friends to clear the board.",
+          "tags": [
+            "Logic",
+            "Levels",
+            "vs Computer",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Level Mode",
+            "vs Computer",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Tap an arrow to fly it off the board, and watch out for arrows in the way",
+          "badge": "Puzzle"
+        }
+      }
     },
     {
       "id": "pinball-hoops",
@@ -394,7 +678,30 @@
       "presenceUrl": "https://pinball-hoops.onrender.com/api/presence",
       "localPort": 3200,
       "projectFolder": "pinball-hoops",
-      "badge": "投籃"
+      "badge": "投籃",
+      "i18n": {
+        "en": {
+          "title": "Pinball Hoops",
+          "eyebrow": "Pinball Basketball",
+          "description": "With just one paddle, tap the screen to swing it and knock the ball into the moving hoop. Beat the clock for points, with four difficulty levels, plus online score battles and spectating.",
+          "tags": [
+            "Sports",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo, 4 Difficulties",
+            "vs Computer",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Tap anywhere (or press the space bar) to swing the paddle and sink the ball",
+          "badge": "Hoops"
+        }
+      }
     },
     {
       "id": "shoot-balloon",
@@ -422,7 +729,34 @@
       "presenceUrl": "https://shoot-balloon.onrender.com/api/presence",
       "localPort": 3220,
       "projectFolder": "shoot-balloon",
-      "badge": "射氣球"
+      "badge": "射氣球",
+      "i18n": {
+        "en": {
+          "title": "Balloon Shooter",
+          "eyebrow": "Carnival Shooting",
+          "description": "Balloons float up from behind the stall. Tap to pop them for points, but do not shoot the doves, sky lanterns, or bomb balloons. Four difficulty levels, plus online score battles and spectating.",
+          "tags": [
+            "Shooting",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "Solo, 4 Difficulties",
+            "vs Computer",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Tap a balloon to shoot (keyboard: arrow keys to move the crosshair, space bar to fire)",
+          "badge": "Balloon Pop"
+        }
+      }
     }
-  ]
+  ],
+  "i18n": {
+    "en": {
+      "title": "Playful Island"
+    }
+  }
 }

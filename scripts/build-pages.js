@@ -6,6 +6,8 @@ const output = path.join(root, 'dist');
 const files = [
   'index.html',
   'styles.css',
+  'i18n.js',
+  'locales.js',
   'app.js',
   'favicon.svg',
   path.join('config', 'games.json'),
