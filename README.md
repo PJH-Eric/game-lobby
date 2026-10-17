@@ -13,7 +13,7 @@
 - 炸彈小隊
 - 彩虹泡泡砲
 
-大廳本身不重寫既有遊戲，也不假裝提供跨遊戲的多人伺服器；每張卡片會在目前分頁帶到對應遊戲的獨立入口，並從各遊戲的統一 presence API 顯示在線狀態。
+大廳本身不重寫既有遊戲，也不假裝提供跨遊戲的多人伺服器；每張卡片會在目前分頁帶到對應遊戲的獨立入口。
 
 ## 啟動大廳
 
@@ -89,7 +89,7 @@ GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根
 
 ## 啟動既有遊戲
 
-大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十個遊戲各自的 GitHub Pages。`presenceUrl` 指向對應後端的 `/api/presence`，`localPort` 只供本機開發時使用，不會影響正式連結：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |
@@ -108,25 +108,7 @@ GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 
-如果你的遊戲使用不同網址，只要同步修改 `launchUrl` 與 `presenceUrl`；卡片標題、分類、色彩、圖示、標籤、玩法與操作說明也都由同一份 JSON 驅動。
-
-## 統一在線人數 API
-
-大廳中各遊戲伺服器都提供 `GET /api/presence`，回應格式固定如下：
-
-```json
-{
-  "gameId": "flip-match",
-  "online": 3,
-  "players": 2,
-  "spectators": 1,
-  "lobby": 0,
-  "rooms": 1,
-  "updatedAt": "2026-09-02T00:00:00.000Z"
-}
-```
-
-`online` 是目前連到該遊戲後端的瀏覽器連線數；`players` 是房間內真人玩家，`spectators` 是觀戰者，`lobby` 是停在遊戲大廳的連線，`rooms` 是目前有連線成員的房間。AI 不會算進真人玩家。沒有登入系統時，同一個人開兩個分頁會算兩條連線。大廳每 30 秒重新查詢一次，後端的 WebSocket、Socket.IO 或 SSE 心跳／斷線清理會讓數字自動回落。
+卡片標題、分類、色彩、圖示、標籤、玩法與操作說明都由同一份 JSON 驅動。
 
 ## 擴充遊戲
 
@@ -172,7 +154,7 @@ GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根
 ## 設計與範圍
 
 - 手機、平板直向／橫向與桌機皆採內容驅動的響應式版面。
-- 遊戲卡片可搜尋、依分類篩選、收藏、查看玩法詳情，並顯示各遊戲目前在線人數。
+- 遊戲卡片可搜尋、依分類篩選、收藏與查看玩法詳情。
 - 右上角設定為 Modal，支援背景音樂、按鈕音效、減少動態、恢復預設、Escape、點擊遮罩與焦點循環；偏好保存於瀏覽器 localStorage。
 - 圖示使用本地 inline SVG/CSS，沒有外部圖片依賴。Google Fonts 只作為可選字型，離線時會回退到系統字型。
 - 既有遊戲仍由各自專案的設定、音訊、線上房間與伺服器負責。

@@ -3,11 +3,7 @@
 
   const STORAGE_KEY = 'game-lobby-preferences-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
-  const state = { games: [], config: null, loadFailed: false, detailsId: null, filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), presence: {}, lastFocus: null, openModal: null };
-  const PRESENCE_TIMEOUT_MS = 15000;
-  const PRESENCE_RETRIES = 3;
-  const PRESENCE_RETRY_DELAY_MS = 750;
-  let presenceRefreshing = false;
+  const state = { games: [], config: null, loadFailed: false, detailsId: null, filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), lastFocus: null, openModal: null };
   const categoryLabels = { brain: 'cat.brain', turn: 'cat.turn', action: 'cat.action' };
   const t = (key, params) => window.I18N.t(key, params);
   const catLabel = (category) => (categoryLabels[category] ? t(categoryLabels[category]) : '');
@@ -69,17 +65,8 @@
     const isFavorite = state.favorites.includes(game.id);
     return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="${escapeHtml(t('card.open', { title: game.title }))}" style="--card-color:${colors[game.accent] || colors.sky}">
       <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${escapeHtml(t(isFavorite ? 'fav.remove' : 'fav.add'))} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || catLabel(game.category) || t('card.badgeDefault'))}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
-      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || catLabel(game.category) || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="presence-status" data-presence="${escapeHtml(game.id)}" aria-live="polite">${presenceMarkup(game)}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(gameUrl(game))}"><span class="play-text">${escapeHtml(t('card.play'))}</span> <span aria-hidden="true">→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">${escapeHtml(t('card.details'))}</button></div></div>
+      <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || catLabel(game.category) || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(gameUrl(game))}"><span class="play-text">${escapeHtml(t('card.play'))}</span> <span aria-hidden="true">→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">${escapeHtml(t('card.details'))}</button></div></div>
     </article>`;
-  }
-
-  function presenceMarkup(game) {
-    if (!game.presenceUrl) return `<span class="presence-muted">${escapeHtml(t('presence.unset'))}</span>`;
-    const presence = state.presence[game.id];
-    if (!presence || presence.status === 'checking') return `<span class="presence-dot is-checking" aria-hidden="true"></span>${escapeHtml(t('presence.checking'))}`;
-    if (presence.status === 'waking') return `<span class="presence-dot is-checking" aria-hidden="true"></span>${escapeHtml(t('presence.waking'))}`;
-    if (presence.status !== 'ok') return `<span class="presence-dot is-offline" aria-hidden="true"></span>${escapeHtml(t('presence.error'))}`;
-    return `<span class="presence-dot" aria-hidden="true"></span>${escapeHtml(t('presence.ok', presence))}`;
   }
 
   function visibleGames() {
@@ -246,58 +233,6 @@
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 
-  function validCount(value) {
-    return Number.isInteger(value) && value >= 0;
-  }
-
-  function normalizePresence(payload) {
-    const counts = ['online', 'players', 'spectators', 'lobby', 'rooms'];
-    if (!payload || counts.some((key) => !validCount(payload[key]))) throw new Error('在線人數格式不正確');
-    return { status: 'ok', ...Object.fromEntries(counts.map((key) => [key, payload[key]])) };
-  }
-
-  async function fetchPresence(game) {
-    if (!game.presenceUrl) {
-      state.presence[game.id] = { status: 'unset' };
-      return;
-    }
-    for (let attempt = 0; attempt < PRESENCE_RETRIES; attempt += 1) {
-      state.presence[game.id] = { status: attempt ? 'waking' : 'checking' };
-      renderGames();
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), PRESENCE_TIMEOUT_MS);
-      try {
-        const response = await fetch(game.presenceUrl, { cache: 'no-store', signal: controller.signal });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        state.presence[game.id] = normalizePresence(await response.json());
-        renderGames();
-        return;
-      } catch (error) {
-        if (attempt === PRESENCE_RETRIES - 1) {
-          state.presence[game.id] = { status: 'error' };
-          console.warn(`[presence] ${game.id} 無法取得在線人數`, error);
-        }
-      } finally {
-        clearTimeout(timer);
-      }
-      if (attempt < PRESENCE_RETRIES - 1) await new Promise((resolve) => setTimeout(resolve, PRESENCE_RETRY_DELAY_MS));
-    }
-    renderGames();
-  }
-
-  async function refreshPresence() {
-    if (!state.games.length || presenceRefreshing) return;
-    presenceRefreshing = true;
-    state.games.forEach((game) => { state.presence[game.id] = game.presenceUrl ? { status: 'checking' } : { status: 'unset' }; });
-    renderGames();
-    try {
-      await Promise.all(state.games.map(fetchPresence));
-    } finally {
-      presenceRefreshing = false;
-      renderGames();
-    }
-  }
-
   /**
    * 大廳的名字一律跟著設定檔的 title 走（index.html 與 locales.js 裡那幾份只是設定檔還沒讀到前的備援）。
    * 英文名稱取 config.i18n.en.title、遊戲名取 game.i18n.en.title；重新註冊進字典後
@@ -351,8 +286,6 @@
       state.loadFailed = false;
       applyLobbyTitle(config);
       renderGames();
-      refreshPresence();
-      setInterval(refreshPresence, 30000);
     } catch (error) {
       state.loadFailed = true;
       renderLoadError();

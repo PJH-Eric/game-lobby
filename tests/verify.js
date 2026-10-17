@@ -18,17 +18,14 @@ assert.ok(!config.games.some((game) => game.id === 'chinese-checkers'), '大廳�
 const drawGuess = config.games.find((game) => game.id === 'draw-guess');
 assert.ok(drawGuess, '清單要包含你畫我猜');
 assert.equal(drawGuess.launchUrl, 'https://pjh-eric.github.io/draw-guess/');
-assert.equal(drawGuess.presenceUrl, 'https://draw-guess-sg.onrender.com/api/presence');
 assert.equal(drawGuess.icon, 'drawguess');
 const bombSquad = config.games.find((game) => game.id === 'bomb-squad');
 assert.ok(bombSquad, '清單要包含炸彈小隊');
 assert.equal(bombSquad.launchUrl, 'https://pjh-eric.github.io/bomb-squad/');
-assert.equal(bombSquad.presenceUrl, 'https://bomb-squad-sg.onrender.com/api/presence');
 assert.equal(bombSquad.icon, 'bomb');
 const rainbowBubble = config.games.find((game) => game.id === 'rainbow-bubble');
 assert.ok(rainbowBubble, '清單要包含彩虹泡泡砲');
 assert.equal(rainbowBubble.launchUrl, 'https://pjh-eric.github.io/rainbow-bubble/');
-assert.equal(rainbowBubble.presenceUrl, 'https://rainbow-bubble-server.onrender.com/api/presence');
 assert.equal(rainbowBubble.icon, 'rainbow');
 const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
@@ -36,14 +33,12 @@ assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
 const amazeGo = config.games.find((game) => game.id === 'amaze-go');
 assert.ok(amazeGo, '清單要包含箭頭解密');
 assert.equal(amazeGo.launchUrl, 'https://pjh-eric.github.io/amaze-go/');
-assert.equal(amazeGo.presenceUrl, 'https://amaze-go-server.onrender.com/api/presence');
 assert.ok(!config.games.some((game) => game.id === 'little-supermarket'));
 assert.ok(!config.games.some((game) => game.id === 'bubble-battle'));
 assert.ok(!config.games.some((game) => game.id === 'cat-dog-war'));
 for (const game of config.games) {
   assert.ok(game.title && game.description && game.icon && game.launchUrl);
   assert.match(game.launchUrl, /^https?:\/\//);
-  assert.match(game.presenceUrl, /^https?:\/\/[^/]+\/api\/presence$/);
   assert.ok(Array.isArray(game.tags) && game.tags.length > 0);
 }
 for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
@@ -60,14 +55,9 @@ assert.ok(appSource.includes('balloon: `<svg'), '射氣球要有專屬圖示');
 const shootBalloon = config.games.find((game) => game.id === 'shoot-balloon');
 assert.ok(shootBalloon, '清單要包含射氣球');
 assert.equal(shootBalloon.launchUrl, 'https://pjh-eric.github.io/shoot-balloon/');
-assert.equal(shootBalloon.presenceUrl, 'https://shoot-balloon.onrender.com/api/presence');
 assert.equal(shootBalloon.icon, 'balloon');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
-assert.ok(/PRESENCE_TIMEOUT_MS\s*=\s*15000/.test(appSource), '在線人數請求要給冷啟動足夠時間');
-assert.ok(/PRESENCE_RETRIES\s*=\s*3/.test(appSource), '在線人數失敗要自動重試');
-assert.ok(fs.readFileSync(path.join(root, 'locales.js'), 'utf8').includes('伺服器啟動中'), '在線人數冷啟動要顯示可理解狀態');
-assert.ok(/presenceRefreshing/.test(appSource), '在線人數輪詢不可重疊');
 
 /* 大廳的名字要跟著設定檔走。以前四個地方各寫死一份「遊戲小小島」，
  * 改 config 的 title 不會有任何反應；<title> 上那句「六個可愛小遊戲」
