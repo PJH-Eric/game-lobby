@@ -105,6 +105,7 @@ GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根
 | 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
 | 彈珠籃球 | `github.io/pinball-hoops` | 3200 |
 | 射氣球 | `github.io/shoot-balloon` | 3220 |
+| 迷宮滾球 | `github.io/maze-roll` | 3090 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 

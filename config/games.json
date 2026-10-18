@@ -508,7 +508,7 @@
       "launchUrl": "https://pjh-eric.github.io/pool-duel/",
       "localPort": 3160,
       "projectFolder": "pool-duel",
-      "badge": "新遊戲",
+      "badge": "滾球",
       "i18n": {
         "en": {
           "title": "Pool Duel",
@@ -530,7 +530,7 @@
             "Invite Link"
           ],
           "controls": "Drag on the table to aim and pull the power bar, then press Shoot; open the cue-ball panel to add spin",
-          "badge": "New"
+          "badge": "Roll"
         }
       }
     },
@@ -561,7 +561,7 @@
       "launchUrl": "https://pjh-eric.github.io/reversi/",
       "localPort": 3180,
       "projectFolder": "reversi",
-      "badge": "新遊戲",
+      "badge": "滾球",
       "i18n": {
         "en": {
           "title": "Reversi",
@@ -583,7 +583,7 @@
             "Invite Link"
           ],
           "controls": "Tap a hint dot to place a piece (on touch, the first tap previews and the second confirms); arrow keys plus Enter work too",
-          "badge": "New"
+          "badge": "Roll"
         }
       }
     },
@@ -735,6 +735,57 @@
           ],
           "controls": "Tap a balloon to shoot (keyboard: arrow keys to move the crosshair, space bar to fire)",
           "badge": "Balloon Pop"
+        }
+      }
+    },
+    {
+      "id": "maze-roll",
+      "title": "迷宮滾球",
+      "eyebrow": "木質玩具迷宮",
+      "description": "推著小球穿過 3D 木質迷宮：同圖競速、搶星星、地板崩塌三種玩法。闖關五種難度各 100 關，也能對電腦、線上對戰或觀戰。",
+      "icon": "maze",
+      "accent": "peach",
+      "category": "action",
+      "tags": [
+        "闖關",
+        "單機",
+        "電腦對戰",
+        "線上多人"
+      ],
+      "modes": [
+        "闖關五難度各100關",
+        "自由練習",
+        "電腦對戰",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "虛擬搖桿（鍵盤：方向鍵或 WASD 滾動小球）",
+      "launchUrl": "https://pjh-eric.github.io/maze-roll/",
+      "localPort": 3090,
+      "projectFolder": "maze-roll",
+      "badge": "滾球",
+      "i18n": {
+        "en": {
+          "title": "Maze Roll",
+          "eyebrow": "Wooden Toy Maze",
+          "description": "Tilt-free 3D wooden maze: race to the flag, grab the stars, or outlast the crumbling floor. Five difficulties with 100 levels each, plus vs computer, online battles and spectating.",
+          "tags": [
+            "Maze",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer"
+          ],
+          "modes": [
+            "5 Difficulties x 100 Levels",
+            "Free Practice",
+            "vs Computer",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Virtual joystick (keyboard: arrow keys or WASD to roll the ball)",
+          "badge": "Roll"
         }
       }
     }
