@@ -760,7 +760,7 @@
         "觀戰",
         "邀請連結"
       ],
-      "controls": "虛擬搖桿（鍵盤：方向鍵或 WASD 滾動小球）",
+      "controls": "桌機用方向鍵或 WASD；手機、平板用觸控搖桿",
       "launchUrl": "https://pjh-eric.github.io/maze-roll/",
       "localPort": 3090,
       "projectFolder": "maze-roll",
@@ -784,7 +784,7 @@
             "Spectate",
             "Invite Link"
           ],
-          "controls": "Virtual joystick (keyboard: arrow keys or WASD to roll the ball)",
+          "controls": "Arrow keys or WASD on computers; touch joystick on phones and tablets",
           "badge": "Roll"
         }
       }
