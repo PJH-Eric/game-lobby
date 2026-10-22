@@ -19,6 +19,11 @@ const drawGuess = config.games.find((game) => game.id === 'draw-guess');
 assert.ok(drawGuess, '清單要包含你畫我猜');
 assert.equal(drawGuess.launchUrl, 'https://pjh-eric.github.io/draw-guess/');
 assert.equal(drawGuess.icon, 'drawguess');
+assert.ok(!drawGuess.modes.some((mode) => /AI|電腦/.test(mode)), '你畫我猜已停用電腦對手，詳情不可宣稱 AI 模式');
+assert.ok(!/電腦/.test(drawGuess.description), '你畫我猜的說明不可宣稱與電腦遊玩');
+const stairKids = config.games.find((game) => game.id === 'stair-kids');
+assert.ok(stairKids.tags.includes('閃避') && !stairKids.tags.includes('闖關'), '小朋友下樓梯是生存閃避玩法');
+assert.equal(stairKids.badge, '生存');
 const bombSquad = config.games.find((game) => game.id === 'bomb-squad');
 assert.ok(bombSquad, '清單要包含炸彈小隊');
 assert.equal(bombSquad.launchUrl, 'https://pjh-eric.github.io/bomb-squad/');
@@ -100,16 +105,34 @@ for (const key of chipCategories) {
 for (const game of config.games) {
   assert.ok(chipCategories.includes(game.category), `${game.id} 的分類 ${game.category} 沒有對應篩選鈕`);
 }
-const allowedTags = new Set(['記憶', '邏輯', '消除', '畫畫', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '動作', '射擊', '運動',
+const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '派對', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '閃避', '動作', '射擊', '運動',
   '幼幼班', '單機', '電腦對戰', '線上多人', '線上雙人', '觀戰']);
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
-const twoPlayerOnly = new Set(['stair-kids', 'pool-duel', 'reversi']);
+const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi']);
+const kidsGames = new Set(['fruit-link', 'stair-kids', 'heart-attack', 'richman', 'bomb-squad',
+  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll']);
+const featureTags = ['幼幼班', '單機', '電腦對戰', '線上雙人', '線上多人', '觀戰'];
+const tagTranslations = {
+  記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
+  策略: 'Strategy', '3D': '3D', 棋類: 'Board Game', 卡牌: 'Cards', 反應: 'Reflex', 闖關: 'Levels',
+  閃避: 'Dodging', 動作: 'Action', 射擊: 'Shooting', 運動: 'Sports', 幼幼班: 'Little Kids', 單機: 'Solo',
+  電腦對戰: 'vs Computer', 線上多人: 'Online Multiplayer', 線上雙人: 'Online 2-Player', 觀戰: 'Spectate',
+};
 for (const game of config.games) {
   assert.equal(game.tags.includes('線上雙人'), twoPlayerOnly.has(game.id), `${game.id} 的人數標籤要寫${twoPlayerOnly.has(game.id) ? '線上雙人' : '線上多人'}`);
   assert.ok(!(game.tags.includes('線上雙人') && game.tags.includes('線上多人')), `${game.id} 不可同時是雙人與多人`);
+  assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
+  assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
+  assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess'].includes(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match', `${game.id} 的觀戰標籤要符合實際功能`);
+  const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
+  assert.equal(gameplayTags.length, 2, `${game.id} 要有兩個玩法特色標籤`);
+  assert.deepEqual(game.tags, [...gameplayTags, ...featureTags.filter((tag) => game.tags.includes(tag))], `${game.id} 的標籤順序要一致`);
+  assert.deepEqual(game.i18n.en.tags, game.tags.map((tag) => tagTranslations[tag]), `${game.id} 的英文標籤要逐一對應中文`);
 }
 for (const game of config.games) {
-  assert.ok(game.tags.length <= 5, `${game.id} 的標籤不要超過 5 個`);
+  assert.ok(game.tags.length <= 7, `${game.id} 的標籤不要超過 7 個`);
   assert.equal(new Set(game.tags).size, game.tags.length, `${game.id} 的標籤有重複`);
   for (const tag of game.tags) {
     assert.ok(allowedTags.has(tag), `${game.id} 的標籤「${tag}」不在統一詞彙裡（新增標籤請同步更新 tests/verify.js 與 README）`);

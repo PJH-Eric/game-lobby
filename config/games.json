@@ -15,9 +15,10 @@
       "category": "brain",
       "tags": [
         "記憶",
+        "卡牌",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上雙人"
       ],
       "modes": [
         "單機挑戰",
@@ -36,9 +37,10 @@
           "description": "Flip two cards to find a matching pair. Remember where they are to keep scoring.",
           "tags": [
             "Memory",
+            "Cards",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online 2-Player"
           ],
           "modes": [
             "Solo Challenge",
@@ -60,6 +62,7 @@
       "category": "brain",
       "tags": [
         "邏輯",
+        "數字",
         "單機",
         "觀戰"
       ],
@@ -80,6 +83,7 @@
           "description": "Fill the 9×9 grid so every row, column, and box has each number exactly once.",
           "tags": [
             "Logic",
+            "Numbers",
             "Solo",
             "Spectate"
           ],
@@ -103,9 +107,11 @@
       "category": "action",
       "tags": [
         "反應",
+        "動作",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "單機練習",
@@ -124,9 +130,11 @@
           "description": "Look first, then strike! Whack the moles, spare your friends, and build your best combo.",
           "tags": [
             "Reflex",
+            "Action",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Solo Practice",
@@ -148,9 +156,11 @@
       "category": "brain",
       "tags": [
         "消除",
+        "邏輯",
         "幼幼班",
         "單機",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "幼幼班",
@@ -170,9 +180,11 @@
           "description": "Find two matching fruits and connect them with a path that turns at most twice.",
           "tags": [
             "Matching",
+            "Logic",
             "Little Kids",
             "Solo",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Little Kids Mode",
@@ -194,11 +206,13 @@
       "accent": "mint",
       "category": "action",
       "tags": [
-        "闖關",
+        "反應",
+        "閃避",
         "幼幼班",
         "單機",
         "電腦對戰",
-        "線上雙人"
+        "線上雙人",
+        "觀戰"
       ],
       "modes": [
         "幼幼班",
@@ -211,18 +225,20 @@
       "launchUrl": "https://pjh-eric.github.io/stair-kids/",
       "localPort": 3060,
       "projectFolder": "stair-kids",
-      "badge": "闖關",
+      "badge": "生存",
       "i18n": {
         "en": {
           "title": "Stair Kids",
           "eyebrow": "Dodge & React",
           "description": "Keep stepping down onto new stairs. Do not get squished by the ceiling or fall off the screen.",
           "tags": [
-            "Levels",
+            "Reflex",
+            "Dodging",
             "Little Kids",
             "Solo",
             "vs Computer",
-            "Online 2-Player"
+            "Online 2-Player",
+            "Spectate"
           ],
           "modes": [
             "Little Kids Mode",
@@ -232,7 +248,7 @@
             "Spectate"
           ],
           "controls": "Only two directions (← → or A D). No jumping",
-          "badge": "Levels"
+          "badge": "Survival"
         }
       }
     },
@@ -240,19 +256,19 @@
       "id": "draw-guess",
       "title": "你畫我猜",
       "eyebrow": "畫圖猜謎",
-      "description": "輪流畫畫、猜題搶分；單機可和電腦玩，也能開房間邀朋友一起挑戰。",
+      "description": "單機自由畫畫、不限時也不計分；線上輪流當畫家，和朋友猜題搶分。",
       "icon": "drawguess",
       "accent": "lilac",
       "category": "brain",
       "tags": [
         "畫畫",
+        "派對",
         "單機",
-        "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
-        "單機練習",
-        "三段 AI",
+        "單機自由畫畫",
         "線上房間",
         "觀戰"
       ],
@@ -265,16 +281,16 @@
         "en": {
           "title": "Draw & Guess",
           "eyebrow": "Draw and Guess",
-          "description": "Take turns drawing and guessing to score. Play the computer solo, or open a room and invite friends.",
+          "description": "Draw freely solo with no timer or scoring, or take turns drawing and guessing with friends online.",
           "tags": [
             "Drawing",
+            "Party",
             "Solo",
-            "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
-            "Solo Practice",
-            "Three AI Levels",
+            "Solo Free Drawing",
             "Online Room",
             "Spectate"
           ],
@@ -293,9 +309,12 @@
       "category": "action",
       "tags": [
         "卡牌",
+        "反應",
+        "幼幼班",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "單機練習",
@@ -315,9 +334,12 @@
           "description": "Flip cards and call out numbers in turn. When the card matches the call, slap the pile fast. Test your eyes and your hands.",
           "tags": [
             "Cards",
+            "Reflex",
+            "Little Kids",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Solo Practice",
@@ -341,9 +363,11 @@
       "tags": [
         "策略",
         "3D",
+        "幼幼班",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "單機練習",
@@ -364,9 +388,11 @@
           "tags": [
             "Strategy",
             "3D",
+            "Little Kids",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Solo Practice",
@@ -389,9 +415,12 @@
       "category": "action",
       "tags": [
         "動作",
+        "策略",
+        "幼幼班",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "單機對戰",
@@ -412,9 +441,12 @@
           "description": "Drop bombs, blast bricks, grab power-ups, and be the last one standing in the chain explosions!",
           "tags": [
             "Action",
+            "Strategy",
+            "Little Kids",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Solo Battle",
@@ -438,10 +470,12 @@
       "category": "action",
       "tags": [
         "射擊",
+        "消除",
         "幼幼班",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "幼幼班",
@@ -463,10 +497,12 @@
           "description": "Aim the rainbow cannon at same-colored bubbles and pop lots at once! Fun for ages 3 to 5, too.",
           "tags": [
             "Shooting",
+            "Matching",
             "Little Kids",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Little Kids Mode",
@@ -491,10 +527,12 @@
       "category": "turn",
       "tags": [
         "運動",
+        "策略",
         "幼幼班",
         "單機",
         "電腦對戰",
-        "線上雙人"
+        "線上雙人",
+        "觀戰"
       ],
       "modes": [
         "幼幼班",
@@ -516,10 +554,12 @@
           "description": "Realistic 2-player pool: simplified nine-ball, eight-ball, and 14-1 continuous. Play the computer or open a room for a friend, and spectate too.",
           "tags": [
             "Sports",
+            "Strategy",
             "Little Kids",
             "Solo",
             "vs Computer",
-            "Online 2-Player"
+            "Online 2-Player",
+            "Spectate"
           ],
           "modes": [
             "Little Kids Mode",
@@ -544,10 +584,12 @@
       "category": "turn",
       "tags": [
         "棋類",
+        "策略",
         "幼幼班",
         "單機",
         "電腦對戰",
-        "線上雙人"
+        "線上雙人",
+        "觀戰"
       ],
       "modes": [
         "幼幼班",
@@ -569,10 +611,12 @@
           "description": "Wooden board, marble pieces: sandwich your opponent's pieces to flip them to your color. Take on a five-level computer, or open a room to play or spectate with friends.",
           "tags": [
             "Board Game",
+            "Strategy",
             "Little Kids",
             "Solo",
             "vs Computer",
-            "Online 2-Player"
+            "Online 2-Player",
+            "Spectate"
           ],
           "modes": [
             "Little Kids Mode",
@@ -598,6 +642,8 @@
       "tags": [
         "邏輯",
         "闖關",
+        "幼幼班",
+        "單機",
         "電腦對戰",
         "線上多人",
         "觀戰"
@@ -622,6 +668,8 @@
           "tags": [
             "Logic",
             "Levels",
+            "Little Kids",
+            "Solo",
             "vs Computer",
             "Online Multiplayer",
             "Spectate"
@@ -648,10 +696,12 @@
       "category": "action",
       "tags": [
         "運動",
+        "反應",
         "幼幼班",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "單機四段難度",
@@ -672,10 +722,12 @@
           "description": "With just one paddle, tap the screen to swing it and knock the ball into the moving hoop. Beat the clock for points, with four difficulty levels, plus online score battles and spectating.",
           "tags": [
             "Sports",
+            "Reflex",
             "Little Kids",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Solo, 4 Difficulties",
@@ -699,9 +751,11 @@
       "category": "action",
       "tags": [
         "射擊",
+        "反應",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "單機四段難度",
@@ -722,9 +776,11 @@
           "description": "Balloons float up from behind the stall. Tap to pop them for points, but do not shoot the doves, sky lanterns, or bomb balloons. Four difficulty levels, plus online score battles and spectating.",
           "tags": [
             "Shooting",
+            "Reflex",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "Solo, 4 Difficulties",
@@ -748,9 +804,12 @@
       "category": "action",
       "tags": [
         "闖關",
+        "3D",
+        "幼幼班",
         "單機",
         "電腦對戰",
-        "線上多人"
+        "線上多人",
+        "觀戰"
       ],
       "modes": [
         "闖關五難度各100關",
@@ -771,10 +830,13 @@
           "eyebrow": "Wooden Toy Maze",
           "description": "Tilt-free 3D wooden maze: race to the flag, grab the stars, or outlast the crumbling floor. Five difficulties with 100 levels each, plus vs computer, online battles and spectating.",
           "tags": [
-            "Maze",
+            "Levels",
+            "3D",
+            "Little Kids",
             "Solo",
             "vs Computer",
-            "Online Multiplayer"
+            "Online Multiplayer",
+            "Spectate"
           ],
           "modes": [
             "5 Difficulties x 100 Levels",
