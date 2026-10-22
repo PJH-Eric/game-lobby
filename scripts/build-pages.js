@@ -9,6 +9,7 @@ const files = [
   'i18n.js',
   'locales.js',
   'app.js',
+  'analytics.js',
   'favicon.svg',
   path.join('config', 'games.json'),
   path.join('assets', 'og-image.png'),

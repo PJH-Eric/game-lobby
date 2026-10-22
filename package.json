@@ -7,10 +7,13 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "test": "node tests/localization.js && node tests/verify.js && node tests/i18n.js",
+    "test": "node tests/analytics.js && node tests/localization.js && node tests/verify.js && node tests/i18n.js",
     "build:pages": "node scripts/build-pages.js",
     "verify": "npm test && npm run build:pages",
-    "test:localization": "node tests/localization.js"
+    "test:localization": "node tests/localization.js",
+    "test:analytics": "node tests/analytics.js",
+    "test:analytics:all": "node scripts/check-analytics-all.js",
+    "test:analytics:browser": "node scripts/check-analytics-browser.js"
   },
   "engines": {
     "node": ">=18"

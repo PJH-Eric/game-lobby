@@ -101,22 +101,21 @@
     $$('[data-details]').forEach((button) => button.addEventListener('click', () => openDetails(button.dataset.details)));
     $$('[data-favorite]').forEach((button) => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
     $$('.play-link').forEach((link) => link.addEventListener('click', () => {
-      trackSelection(link.closest('.game-card').dataset.gameId);
+      trackSelection(link.closest('.game-card').dataset.gameId, 'card_link');
       playSfx('open');
     }));
   }
 
-  function trackSelection(id) {
-    try {
-      if (typeof window.gtag === 'function') window.gtag('event', 'select_content', {
-        content_type: 'game', item_id: id, game_id: id, transport_type: 'beacon'
-      });
-    } catch (error) { /* 統計服務失敗不影響開啟遊戲。 */ }
+  function trackSelection(id, source) {
+    window.GameAnalytics.track('select_content', {
+      content_type: 'game', content_id: id, item_id: id, game_id: id, target_game_id: id,
+      source_game_id: 'lobby', entry_point: source
+    });
   }
 
   function openGame(game) {
     if (!game?.launchUrl) return;
-    trackSelection(game.id);
+    trackSelection(game.id, 'card');
     playSfx('open');
     window.location.assign(gameUrl(game));
   }
@@ -124,6 +123,9 @@
   function toggleFavorite(id) {
     state.favorites = state.favorites.includes(id) ? state.favorites.filter((item) => item !== id) : [id, ...state.favorites];
     saveList(FAVORITES_KEY, state.favorites);
+    window.GameAnalytics.track('favorite_game', {
+      target_game_id: id, action: state.favorites.includes(id) ? 'add' : 'remove'
+    });
     renderGames();
     showToast(t(state.favorites.includes(id) ? 'toast.favAdded' : 'toast.favRemoved'));
     playSfx('click');
@@ -131,6 +133,7 @@
 
   function openDetails(id) {
     if (!fillDetails(id)) return;
+    window.GameAnalytics.track('view_game_details', { target_game_id: id });
     openModal($('#details-modal'));
   }
 
@@ -149,7 +152,7 @@
     $('#details-visual').innerHTML = iconSvg(game.icon);
     const launch = $('#details-launch');
     launch.href = gameUrl(game);
-    launch.onclick = () => { trackSelection(id); playSfx('open'); };
+    launch.onclick = () => { trackSelection(id, 'details'); playSfx('open'); };
     return true;
   }
 
@@ -216,7 +219,11 @@
   function setupEvents() {
     window.I18N.mountToggle({ after: $('#settings-open') });
     window.I18N.onChange(onLanguageChange);
-    $$('.filter-chip').forEach((button) => button.addEventListener('click', () => { playSfx('click'); setFilter(button.dataset.filter); }));
+    $$('.filter-chip').forEach((button) => button.addEventListener('click', () => {
+      playSfx('click');
+      setFilter(button.dataset.filter);
+      window.GameAnalytics.track('filter_games', { category: button.dataset.filter });
+    }));
     $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; state.filter = 'all'; $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all')); renderGames(); });
     $('#clear-filter').addEventListener('click', () => { state.query = ''; $('#game-search').value = ''; setFilter('all'); });
     $('#settings-open').addEventListener('click', () => { playSfx('click'); openModal($('#settings-modal')); });

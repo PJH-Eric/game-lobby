@@ -13,6 +13,12 @@ async function main() {
   for (const game of config.games) {
     try {
       const repo = path.resolve(root, '..', game.projectFolder);
+      if (game.id === 'maze-roll') {
+        const result = spawnSync(process.execPath, ['tests/analytics.js'], { cwd: repo, encoding: 'utf8' });
+        if (result.status !== 0) throw new Error(result.stdout + result.stderr);
+        console.log('✓ maze-roll GA4（沿用獨立建置；不檢查未提供的 SEO 注入／sitemap）');
+        continue;
+      }
       const cfg = JSON.parse(fs.readFileSync(path.join(repo, 'seo.config.json'), 'utf8'));
       if (cfg.siteUrl !== game.launchUrl) throw new Error('大廳與 canonical 網址不一致');
       if (titles.has(cfg.title) || descriptions.has(cfg.description)) throw new Error('SEO 文案重複');
@@ -24,7 +30,7 @@ async function main() {
         const response = await fetch(game.launchUrl, { signal: AbortSignal.timeout(20000) });
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const html = await response.text();
-        if (!html.includes('googletagmanager.com/gtag/js?id=G-')) throw new Error('缺少 GA4');
+        if (!html.includes('GAME_ANALYTICS_CONFIG') || !html.includes('js/analytics.js')) throw new Error('缺少 GA4 設定或共用追蹤程式');
         if (!html.includes('<link rel="canonical" href="' + cfg.siteUrl + '">')) throw new Error('canonical 不一致');
         if (!html.includes('<title>' + esc(cfg.title) + '</title>')) throw new Error('title 不一致');
         if (!html.includes('content="' + esc(cfg.description) + '"')) throw new Error('description 不一致');

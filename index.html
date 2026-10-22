@@ -1,20 +1,6 @@
 <!doctype html>
 <html lang="zh-Hant" data-i18n-title="meta.title">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script>
-    (function () {
-      if (location.hostname !== 'pjh-eric.github.io') return;
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { window.dataLayer.push(arguments); };
-      gtag('js', new Date());
-      gtag('config', 'G-PG79WZK8QY', { game_id: 'lobby', page_location: 'https://pjh-eric.github.io/game-lobby/' });
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-PG79WZK8QY';
-      document.head.appendChild(script);
-    })();
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fff8ed">
@@ -132,6 +118,8 @@
       })
       .catch(function () {});
   </script>
+  <script>window.GAME_ANALYTICS_CONFIG = { measurement_id: 'G-PG79WZK8QY', game_id: 'lobby', page_location: 'https://pjh-eric.github.io/game-lobby/' };</script>
+  <script src="analytics.js"></script>
   <script src="i18n.js"></script>
   <script src="locales.js"></script>
   <script src="app.js"></script>

@@ -75,6 +75,18 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根層級的 robots.txt 與總 sitemap 改由 `pjh-eric.github.io` 專案提供。根網站的 Search Console 網址前置字元資源可涵蓋大廳及所有遊戲，各遊戲資源可選擇保留。每款遊戲另有一筆 canonical 網址的 sitemap。
 
+### GA4 共用事件與驗證
+
+大廳與全部 16 款遊戲共用 `scripts/seo/analytics.js`。修改後執行 `node scripts/sync-seo-shared.js --write`，再以 `npm run test:analytics:all` 檢查全部專案；各專案的 `npm test` 也包含追蹤契約測試。`npm run test:analytics:browser` 使用水果連連看既有的 Playwright，驗證正式 hostname 與本機隔離，並攔截 Google script，測試不會送入正式 GA。
+
+既有 `game_start`、`game_end`、`room_create`、`room_join`、`lobby_click` 與 `select_content` 名稱保留。模式統一為 `solo`／`ai`／`online`，原本的自由練習與隨機玩法保留在 `variant`。大廳另外提供 `view_game_details`、`filter_games`、`favorite_game`；選擇遊戲會保留 `item_id`，並提供標準 `content_id`、目標 `target_game_id`、來源 `source_game_id` 與 `entry_point`。
+
+`game_id` 為所在遊戲；為保留既有報表，`select_content` 的 `game_id` 仍是所選遊戲，所在大廳由 `source_game_id=lobby` 表示。`duration_sec` 是開局到結算的經過秒數，包含暫停時間，不等同 GA 自動收集的實際參與時間。
+
+GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mode`、`variant`、`difficulty`、`result`、`app_language`、`target_game_id`、`source_game_id`、`entry_point`、`via`、`category`、`action`；`duration_sec` 可設為秒數的自訂指標。這些是後台設定需求，本機測試不會替你建立。迷宮滾球繼續由自己的 `GA4_MEASUREMENT_ID` 變數指定資源，其他遊戲沿用既有 Measurement ID 與建置覆寫方式。
+
+畫面瀏覽維持各專案原有方式：大廳與 15 款遊戲由單次 `config` 自動送出，迷宮滾球保留手動虛擬畫面瀏覽並關閉初始化的自動 page view。若 GA4 資料串流另開啟依瀏覽器 history 變化的增強型瀏覽追蹤，須在後台核對是否與手動畫面重複；本次沒有連線修改該設定。詳細變更、驗證範圍與限制見 [GA4 優化驗證](verification/GA4優化驗證.md)。
+
 ### 新遊戲上架 SEO／GA4 檢查清單
 
 - 每款遊戲新增 `seo.config.json`，填入自己的 id、結尾有 `/` 的 siteUrl、獨有標題與 40–120 字說明、genre、players、lobbyUrl。只在有可用圖片時填 ogImage；Google 驗證碼使用對應資源提供的值。
