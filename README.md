@@ -89,6 +89,8 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 
 ### 新遊戲上架 SEO／GA4 檢查清單
 
+各遊戲須在自己的 `public/` 保存 `favicon.svg`、`favicon-96.png`、`favicon.ico`、`apple-touch-icon.png`、`icons/icon-192.png`、`icons/icon-512.png` 與 `og-image.png`。首頁靜態宣告圖示；`seo.config.json` 的 `iconUrl`、`ogImage` 及大廳設定的 `iconUrl`、`imageUrl` 指向該遊戲自己的 HTTPS 網址。圖示與分享圖的生成、檢查及 Google 同 hostname 限制見 [圖示與爬蟲驗證](verification/遊戲圖示與爬蟲驗證.md)。在大廳與根網站建置後執行 `npm run check:icons`，此工作區檢查不重跑遊戲測試。
+
 - 每款遊戲新增 `seo.config.json`，填入自己的 id、結尾有 `/` 的 siteUrl、獨有標題與 40–120 字說明、genre、players、lobbyUrl。只在有可用圖片時填 ogImage；Google 驗證碼使用對應資源提供的值。
 - 共用來源放在 `scripts/seo/`；`node scripts/sync-seo-shared.js --write` 將注入腳本、事件工具及 SEO 測試同步到同工作區的遊戲專案。未帶 `--write` 時只檢查一致性。上架前先加入 `config/games.json`。
 - 原始 HTML 放置 `<!--SEO:HEAD-->`，在遊戲程式之前載入 `js/analytics.js`。繁中語系字典的文件標題與說明須與設定相同，英文有各自文案；只更新文件 metadata，不改變畫面標題。

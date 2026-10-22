@@ -13,7 +13,8 @@
     "test:localization": "node tests/localization.js",
     "test:analytics": "node tests/analytics.js",
     "test:analytics:all": "node scripts/check-analytics-all.js",
-    "test:analytics:browser": "node scripts/check-analytics-browser.js"
+    "test:analytics:browser": "node scripts/check-analytics-browser.js",
+    "check:icons": "node scripts/check-site-icons.js"
   },
   "engines": {
     "node": ">=18"

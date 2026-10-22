@@ -11,6 +11,11 @@ const files = [
   'app.js',
   'analytics.js',
   'favicon.svg',
+  'favicon-96.png',
+  'favicon.ico',
+  'apple-touch-icon.png',
+  path.join('icons', 'icon-192.png'),
+  path.join('icons', 'icon-512.png'),
   path.join('config', 'games.json'),
   path.join('assets', 'og-image.png'),
 ];
@@ -45,6 +50,7 @@ const jsonLd = {
       url: siteUrl,
       name: config.title,
       description,
+      image: ogImage,
       inLanguage: 'zh-Hant',
     },
     {
@@ -57,6 +63,7 @@ const jsonLd = {
         position: index + 1,
         url: game.launchUrl,
         name: game.title,
+        image: game.imageUrl,
       })),
     },
   ],
@@ -102,6 +109,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 fs.rmSync(output, { recursive: true, force: true });
 fs.mkdirSync(path.join(output, 'config'), { recursive: true });
 fs.mkdirSync(path.join(output, 'assets'), { recursive: true });
+fs.mkdirSync(path.join(output, 'icons'), { recursive: true });
 
 for (const relativeFile of files) {
   fs.copyFileSync(path.join(root, relativeFile), path.join(output, relativeFile));

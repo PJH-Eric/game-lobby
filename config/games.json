@@ -50,7 +50,9 @@
           "controls": "Tap a card to flip it and find matching pictures",
           "badge": "Classic"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/flip-match/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/flip-match/og-image.png"
     },
     {
       "id": "sudoku",
@@ -95,7 +97,9 @@
           "controls": "Select a cell, then fill it in with the number pad",
           "badge": "Evergreen"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/sudoku/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/sudoku/og-image.png"
     },
     {
       "id": "whack-a-mole",
@@ -144,7 +148,9 @@
           "controls": "Tap the moles as they pop up",
           "badge": "Quick Hands"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/whack-a-mole/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/whack-a-mole/og-image.png"
     },
     {
       "id": "fruit-link",
@@ -195,7 +201,9 @@
           "controls": "Tap two matching fruits in turn; if they connect, they disappear",
           "badge": "Match King"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/fruit-link/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/fruit-link/og-image.png"
     },
     {
       "id": "stair-kids",
@@ -250,7 +258,9 @@
           "controls": "Only two directions (← → or A D). No jumping",
           "badge": "Survival"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/stair-kids/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/stair-kids/og-image.png"
     },
     {
       "id": "draw-guess",
@@ -297,7 +307,9 @@
           "controls": "The artist draws on the canvas; guessers type their answers",
           "badge": "Party"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/draw-guess/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/draw-guess/og-image.png"
     },
     {
       "id": "heart-attack",
@@ -350,7 +362,9 @@
           "controls": "When the card matches the current call, hit the red slap button, the pile, or the space bar.",
           "badge": "Speed Race"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/heart-attack/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/heart-attack/og-image.png"
     },
     {
       "id": "richman",
@@ -403,7 +417,9 @@
           "controls": "Tap buttons to roll and buy; tap a board tile for info; space bar for quick actions",
           "badge": "3D"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/richman/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/richman/og-image.png"
     },
     {
       "id": "bomb-squad",
@@ -458,7 +474,9 @@
           "controls": "Arrow keys / WASD to move, space bar to drop a bomb; on phones use the joystick and bomb button",
           "badge": "Explosive"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/bomb-squad/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/bomb-squad/og-image.png"
     },
     {
       "id": "rainbow-bubble",
@@ -515,7 +533,9 @@
           "controls": "Bubbles fly wherever you tap; swap bubbles with the small bubble at the bottom right",
           "badge": "Cozy"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/rainbow-bubble/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/rainbow-bubble/og-image.png"
     },
     {
       "id": "pool-duel",
@@ -572,7 +592,9 @@
           "controls": "Drag on the table to aim and pull the power bar, then press Shoot; open the cue-ball panel to add spin",
           "badge": "Roll"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/pool-duel/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/pool-duel/og-image.png"
     },
     {
       "id": "reversi",
@@ -629,7 +651,9 @@
           "controls": "Tap a hint dot to place a piece (on touch, the first tap previews and the second confirms); arrow keys plus Enter work too",
           "badge": "Roll"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/reversi/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/reversi/og-image.png"
     },
     {
       "id": "amaze-go",
@@ -684,7 +708,9 @@
           "controls": "Tap an arrow to fly it off the board, and watch out for arrows in the way",
           "badge": "Puzzle"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/amaze-go/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/amaze-go/og-image.png"
     },
     {
       "id": "pinball-hoops",
@@ -739,7 +765,9 @@
           "controls": "Tap anywhere (or press the space bar) to swing the paddle and sink the ball",
           "badge": "Hoops"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/pinball-hoops/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/pinball-hoops/og-image.png"
     },
     {
       "id": "shoot-balloon",
@@ -792,7 +820,9 @@
           "controls": "Tap a balloon to shoot (keyboard: arrow keys to move the crosshair, space bar to fire)",
           "badge": "Balloon Pop"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/shoot-balloon/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/shoot-balloon/og-image.png"
     },
     {
       "id": "maze-roll",
@@ -849,7 +879,9 @@
           "controls": "Arrow keys or WASD on computers; touch joystick on phones and tablets",
           "badge": "Roll"
         }
-      }
+      },
+      "iconUrl": "https://pjh-eric.github.io/maze-roll/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/maze-roll/og-image.png"
     }
   ],
   "i18n": {
