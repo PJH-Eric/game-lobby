@@ -3,7 +3,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
-const { spawn } = require('node:child_process');
+const { spawn, spawnSync } = require('node:child_process');
 const { createReportRequest, getTotalUsers } = require('../scripts/update-ga-visitor-count');
 
 const root = path.resolve(__dirname, '..');
@@ -89,6 +89,27 @@ assert.ok(indexHtml.includes('<!--SEO:HEAD-->'), 'index.html 缺少 SEO:HEAD 標
 assert.ok(indexHtml.includes('<!--SEO:GAMES-->'), 'index.html 缺少 SEO:GAMES 標記');
 assert.ok(fs.existsSync(path.join(root, 'assets', 'og-image.png')), '要有社群分享圖 assets/og-image.png');
 assert.ok(fs.existsSync(path.join(root, 'favicon.svg')), '要有 favicon.svg');
+
+/* 確認輸出的無 JS 後備頁包含三語玩法與 robots sitemap，且只存在 noscript 中。 */
+const pagesBuild = spawnSync(process.execPath, [path.join(root, 'scripts', 'build-pages.js')], { cwd: root, encoding: 'utf8' });
+assert.equal(pagesBuild.status, 0, pagesBuild.stderr || pagesBuild.stdout);
+const builtIndex = fs.readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+assert.match(builtIndex, /<noscript><div class="seo-games">[\s\S]*<\/div><\/noscript>/);
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]
+));
+for (const locale of ['zh-Hant', 'zh-Hans', 'en']) {
+  for (const game of config.games) {
+    const text = locale === 'zh-Hant' ? game : game.i18n[locale];
+    assert.ok(builtIndex.includes(`<section lang="${locale}">`));
+    for (const value of [text.title, text.description, ...text.modes, text.controls]) {
+      assert.ok(builtIndex.includes(escapeHtml(value)), `${game.id} 缺少 ${locale} 玩法文字：${value}`);
+    }
+  }
+}
+const builtRobots = fs.readFileSync(path.join(root, 'dist', 'robots.txt'), 'utf8');
+assert.ok(builtRobots.includes(`Sitemap: ${config.siteUrl}sitemap.xml`));
+assert.equal(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'), builtRobots, '來源 robots.txt 必須與部署檔一致');
 
 /* 分類與標籤規則：
  * 1. 每款遊戲的 category 都要有對應的篩選鈕與中文名稱，而且每個篩選鈕底下至少有一款遊戲（不留空分類）。

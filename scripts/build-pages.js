@@ -90,10 +90,30 @@ const headTags = [
   `<script type="application/ld+json">\n${safeJson(jsonLd)}\n</script>`,
 ].filter(Boolean).join('\n  ');
 
-/* 沒執行 JS 的爬蟲也看得到每款遊戲的名稱、說明與連結 */
-const gamesFallback = `<noscript><ul class="seo-games">\n${games.map((game) => (
-  `            <li><a href="${escapeHtml(game.launchUrl)}">${escapeHtml(game.title)}</a>：${escapeHtml(game.description)}</li>`
-)).join('\n')}\n          </ul></noscript>`;
+/* 無 JS 時提供完整且依語系標記的玩法文字；一般大廳畫面不會顯示此備援內容。 */
+const fallbackLocales = [
+  { key: 'zh-Hant', title: '遊戲玩法', modes: '玩法模式', controls: '操作方式' },
+  { key: 'zh-Hans', title: '游戏玩法', modes: '玩法模式', controls: '操作方式' },
+  { key: 'en', title: 'How to Play', modes: 'Game modes', controls: 'Controls' },
+];
+const localizedGame = (game, locale) => locale.key === 'zh-Hant' ? {
+  title: game.title,
+  description: game.description,
+  modes: game.modes,
+  controls: game.controls,
+} : game.i18n[locale.key];
+const renderGameFallback = (game, locale) => {
+  const text = localizedGame(game, locale);
+  if (!text || !text.title || !text.description || !Array.isArray(text.modes) || !text.controls) {
+    throw new Error(`${game.id} 缺少 ${locale.key} 的玩法文案`);
+  }
+  const modes = text.modes.map(escapeHtml).join(locale.key === 'en' ? ', ' : '、');
+  const punctuation = locale.key === 'en' ? ': ' : '：';
+  return `<li><a href="${escapeHtml(game.launchUrl)}">${escapeHtml(text.title)}</a><p>${escapeHtml(text.description)}</p><p><strong>${locale.modes}${punctuation}</strong>${modes}</p><p><strong>${locale.controls}${punctuation}</strong>${escapeHtml(text.controls)}</p></li>`;
+};
+const gamesFallback = `<noscript><div class="seo-games">\n${fallbackLocales.map((locale) => (
+  `            <section lang="${locale.key}"><h2>${locale.title}</h2><ul>${games.map((game) => renderGameFallback(game, locale)).join('')}</ul></section>`
+)).join('\n')}\n          </div></noscript>`;
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -105,6 +125,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   </url>
 </urlset>
 `;
+const robots = `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`;
 
 fs.rmSync(output, { recursive: true, force: true });
 fs.mkdirSync(path.join(output, 'config'), { recursive: true });
@@ -126,5 +147,7 @@ html = html
 fs.writeFileSync(indexPath, html, 'utf8');
 
 fs.writeFileSync(path.join(output, 'sitemap.xml'), sitemap, 'utf8');
+fs.writeFileSync(path.join(root, 'robots.txt'), robots, 'utf8');
+fs.writeFileSync(path.join(output, 'robots.txt'), robots, 'utf8');
 fs.writeFileSync(path.join(output, '.nojekyll'), '', 'utf8');
 console.log(`GitHub Pages 建置完成：${path.relative(root, output)}（含 SEO 標籤、sitemap.xml）`);
