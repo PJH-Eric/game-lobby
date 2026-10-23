@@ -13,6 +13,7 @@
     'brand.aria': '遊戲小小島首頁',
     'nav.aria': '主要導覽',
     'nav.all': '所有遊戲',
+    'nav.home': '回到首頁',
     'settings.open': '開啟大廳設定',
     'lang.switchTo': '切換為英文（English）',
 
@@ -85,6 +86,7 @@
     'brand.aria': 'Playful Island home',
     'nav.aria': 'Main navigation',
     'nav.all': 'All games',
+    'nav.home': 'Back to home',
     'settings.open': 'Open lobby settings',
     'lang.switchTo': 'Switch language to Traditional Chinese',
 
