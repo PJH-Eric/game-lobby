@@ -49,6 +49,25 @@
           ],
           "controls": "Tap a card to flip it and find matching pictures",
           "badge": "Classic"
+        },
+        "zh-Hans": {
+          "title": "翻牌配对碰",
+          "eyebrow": "记忆游戏",
+          "description": "翻开两张牌找出一样的图案，记住位置就能连续拿分。",
+          "tags": [
+            "记忆",
+            "卡牌",
+            "单机",
+            "电脑对战",
+            "线上双人"
+          ],
+          "modes": [
+            "单机挑战",
+            "电脑对战",
+            "线上房间"
+          ],
+          "controls": "点击卡牌翻面，找出相同图案",
+          "badge": "经典"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/flip-match/favicon-96.png",
@@ -96,6 +115,24 @@
           ],
           "controls": "Select a cell, then fill it in with the number pad",
           "badge": "Evergreen"
+        },
+        "zh-Hans": {
+          "title": "数独小学堂",
+          "eyebrow": "安静动脑",
+          "description": "填满 9×9 格子，让每一列、每一行和每一宫都刚好不重复。",
+          "tags": [
+            "逻辑",
+            "数字",
+            "单机",
+            "观战"
+          ],
+          "modes": [
+            "单机解题",
+            "线上观战",
+            "格子留言"
+          ],
+          "controls": "选择格子，再用数字键盘填入",
+          "badge": "耐玩"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/sudoku/favicon-96.png",
@@ -147,6 +184,26 @@
           ],
           "controls": "Tap the moles as they pop up",
           "badge": "Quick Hands"
+        },
+        "zh-Hans": {
+          "title": "打地鼠大乱斗",
+          "eyebrow": "反应挑战",
+          "description": "看清楚再出手，敲坏地鼠、放过好朋友，累积你的最高连击。",
+          "tags": [
+            "反应",
+            "动作",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机练习",
+            "多人抢分",
+            "观战"
+          ],
+          "controls": "直接点击冒出的地鼠",
+          "badge": "快手"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/whack-a-mole/favicon-96.png",
@@ -200,6 +257,27 @@
           ],
           "controls": "Tap two matching fruits in turn; if they connect, they disappear",
           "badge": "Match King"
+        },
+        "zh-Hans": {
+          "title": "水果连连看",
+          "eyebrow": "消除竞速",
+          "description": "找出两颗一样的水果，用转弯不超过两次的路线把它们连起来消掉。",
+          "tags": [
+            "消除",
+            "逻辑",
+            "幼幼班",
+            "单机",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "幼幼班",
+            "单机闯关",
+            "线上抢消",
+            "观战"
+          ],
+          "controls": "依序点两颗一样的水果，连得起来就消掉",
+          "badge": "消除王"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/fruit-link/favicon-96.png",
@@ -257,6 +335,29 @@
           ],
           "controls": "Only two directions (← → or A D). No jumping",
           "badge": "Survival"
+        },
+        "zh-Hans": {
+          "title": "小朋友下楼梯",
+          "eyebrow": "反应闪避",
+          "description": "一直往下踩到新的阶梯，别被追上来的天花板顶到，也别掉出画面外。",
+          "tags": [
+            "反应",
+            "闪避",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上双人",
+            "观战"
+          ],
+          "modes": [
+            "幼幼班",
+            "单机挑战",
+            "电脑对战",
+            "线上房间",
+            "观战"
+          ],
+          "controls": "只有左右两个方向（← → 或 A D），没有跳",
+          "badge": "生存"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/stair-kids/favicon-96.png",
@@ -306,6 +407,25 @@
           ],
           "controls": "The artist draws on the canvas; guessers type their answers",
           "badge": "Party"
+        },
+        "zh-Hans": {
+          "title": "你画我猜",
+          "eyebrow": "画图猜谜",
+          "description": "单机自由画画、不限时也不计分；线上轮流当画家，和朋友猜题抢分。",
+          "tags": [
+            "画画",
+            "派对",
+            "单机",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机自由画画",
+            "线上房间",
+            "观战"
+          ],
+          "controls": "画家用画笔在画布作画，猜题者输入答案",
+          "badge": "派对"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/draw-guess/favicon-96.png",
@@ -361,6 +481,28 @@
           ],
           "controls": "When the card matches the current call, hit the red slap button, the pile, or the space bar.",
           "badge": "Speed Race"
+        },
+        "zh-Hans": {
+          "title": "海岛心脏病",
+          "eyebrow": "反应挑战",
+          "description": "轮流翻牌并喊数，牌点和喊数相同时赶快拍下牌堆，考验你的眼力与手速。",
+          "tags": [
+            "卡牌",
+            "反应",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机练习",
+            "四段 AI",
+            "线上房间",
+            "观战"
+          ],
+          "controls": "牌点和当前喊数相同时，拍红色拍牌钮、牌堆或按空白键。",
+          "badge": "拼手速"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/heart-attack/favicon-96.png",
@@ -415,6 +557,28 @@
             "Spectate"
           ],
           "controls": "Tap buttons to roll and buy; tap a board tile for info; space bar for quick actions",
+          "badge": "3D"
+        },
+        "zh-Hans": {
+          "title": "宝岛大富翁",
+          "eyebrow": "策略经营",
+          "description": "3D 台湾风景棋盘，买地盖房、用道具收过路费，最后存活的人获胜。",
+          "tags": [
+            "策略",
+            "3D",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机练习",
+            "四段 AI",
+            "线上房间",
+            "观战"
+          ],
+          "controls": "点击按钮掷骰、买地；点棋盘格子看说明；空白键快速操作",
           "badge": "3D"
         }
       },
@@ -473,6 +637,29 @@
           ],
           "controls": "Arrow keys / WASD to move, space bar to drop a bomb; on phones use the joystick and bomb button",
           "badge": "Explosive"
+        },
+        "zh-Hans": {
+          "title": "炸弹小队",
+          "eyebrow": "爆破对战",
+          "description": "放炸弹、炸砖块、捡道具，在连锁爆炸里活到最后当小队长！",
+          "tags": [
+            "动作",
+            "策略",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机对战",
+            "四段 AI",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "方向键／WASD 移动，空白键放炸弹；手机用左下摇杆与炸弹钮",
+          "badge": "火爆"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/bomb-squad/favicon-96.png",
@@ -532,6 +719,30 @@
           ],
           "controls": "Bubbles fly wherever you tap; swap bubbles with the small bubble at the bottom right",
           "badge": "Cozy"
+        },
+        "zh-Hans": {
+          "title": "彩虹泡泡砲",
+          "eyebrow": "泡泡射击",
+          "description": "用彩虹砲对准同颜色的泡泡，咻！一次消掉好多好多；3～5 岁也能玩。",
+          "tags": [
+            "射击",
+            "消除",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "幼幼班",
+            "单机练习",
+            "四段 AI",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "点哪里泡泡就飞向哪里；右下角小泡泡可以换泡泡",
+          "badge": "疗愈"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/rainbow-bubble/favicon-96.png",
@@ -591,6 +802,30 @@
           ],
           "controls": "Drag on the table to aim and pull the power bar, then press Shoot; open the cue-ball panel to add spin",
           "badge": "Roll"
+        },
+        "zh-Hans": {
+          "title": "撞球对决",
+          "eyebrow": "回合运动",
+          "description": "写实质感的 2 人撞球：简化九球、八号球、14-1 连续进球。可对电脑或开房间邀朋友，也能观战。",
+          "tags": [
+            "运动",
+            "策略",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上双人",
+            "观战"
+          ],
+          "modes": [
+            "幼幼班",
+            "单机练习",
+            "四段 AI",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "在桌面拖曳瞄准、拉力度条，按「击球」出杆；击球点可展开调旋转",
+          "badge": "滚球"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/pool-duel/favicon-96.png",
@@ -650,6 +885,30 @@
           ],
           "controls": "Tap a hint dot to place a piece (on touch, the first tap previews and the second confirms); arrow keys plus Enter work too",
           "badge": "Roll"
+        },
+        "zh-Hans": {
+          "title": "黑白棋",
+          "eyebrow": "棋类对弈",
+          "description": "木质棋盘与大理石棋子，夹住对手的棋子翻成自己的颜色。可挑战五段电脑，或开房间邀朋友对战、观战。",
+          "tags": [
+            "棋类",
+            "策略",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上双人",
+            "观战"
+          ],
+          "modes": [
+            "幼幼班",
+            "单机练习",
+            "五段 AI",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "点棋盘上的提示点落子（触控第一次预览、再点一次确认），方向键加 Enter 也可以",
+          "badge": "滚球"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/reversi/favicon-96.png",
@@ -707,6 +966,29 @@
           ],
           "controls": "Tap an arrow to fly it off the board, and watch out for arrows in the way",
           "badge": "Puzzle"
+        },
+        "zh-Hans": {
+          "title": "箭头解密",
+          "eyebrow": "益智解谜",
+          "description": "点箭头让它沿尖端飞出棋盘，被挡住就会撞回。四段难度闯关，也能和电脑或朋友抢着清空棋盘。",
+          "tags": [
+            "逻辑",
+            "闯关",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "闯关模式",
+            "电脑对战",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "点击箭头让它飞出棋盘，注意别被其他箭头挡住",
+          "badge": "益智"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/amaze-go/favicon-96.png",
@@ -764,6 +1046,29 @@
           ],
           "controls": "Tap anywhere (or press the space bar) to swing the paddle and sink the ball",
           "badge": "Hoops"
+        },
+        "zh-Hans": {
+          "title": "弹珠篮球",
+          "eyebrow": "弹珠投篮",
+          "description": "只有一片弹板，点画面挥板把球打进会上下移动的篮框。限时冲分，四段难度，也能线上同台竞分或观战。",
+          "tags": [
+            "运动",
+            "反应",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机四段难度",
+            "电脑对战",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "点画面任何地方（或按空白键）挥板，把球打进篮框",
+          "badge": "投篮"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/pinball-hoops/favicon-96.png",
@@ -819,6 +1124,28 @@
           ],
           "controls": "Tap a balloon to shoot (keyboard: arrow keys to move the crosshair, space bar to fire)",
           "badge": "Balloon Pop"
+        },
+        "zh-Hans": {
+          "title": "射气球",
+          "eyebrow": "夜市射击",
+          "description": "气球从摊位后面往上飘，点一下射破加分，白鸽、天灯和炸弹气球可别射。四段难度，也能线上抢分或观战。",
+          "tags": [
+            "射击",
+            "反应",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单机四段难度",
+            "电脑对战",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "点气球射击（键盘：方向键移动准星、空白键发射）",
+          "badge": "射气球"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/shoot-balloon/favicon-96.png",
@@ -878,6 +1205,30 @@
           ],
           "controls": "Arrow keys or WASD on computers; touch joystick on phones and tablets",
           "badge": "Roll"
+        },
+        "zh-Hans": {
+          "title": "迷宫滚球",
+          "eyebrow": "木质玩具迷宫",
+          "description": "推着小球穿过 3D 木质迷宫：同图竞速、抢星星、地板崩塌三种玩法。闯关五种难度各 100 关，也能对电脑、线上对战或观战。",
+          "tags": [
+            "闯关",
+            "3D",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "闯关五难度各100关",
+            "自由练习",
+            "电脑对战",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "桌机用方向键或 WASD；手机、平板用触控摇杆",
+          "badge": "滚球"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/maze-roll/favicon-96.png",
@@ -887,6 +1238,9 @@
   "i18n": {
     "en": {
       "title": "Playful Island"
+    },
+    "zh-Hans": {
+      "title": "游戏小小岛"
     }
   }
 }

@@ -7,7 +7,7 @@
   const categoryLabels = { brain: 'cat.brain', turn: 'cat.turn', action: 'cat.action' };
   const t = (key, params) => window.I18N.t(key, params);
   const catLabel = (category) => (categoryLabels[category] ? t(categoryLabels[category]) : '');
-  /* 目前語言的遊戲文案：zh-Hant 用 games.json 原文，en 疊上 game.i18n.en（缺的欄位退回中文）。 */
+  /* 目前語言的遊戲文案：繁中用原文，簡中與英文分別疊上對應欄位。 */
   const loc = (game) => {
     const extra = window.I18N.lang !== 'zh-Hant' && game.i18n && game.i18n[window.I18N.lang];
     return extra ? { ...game, ...extra } : game;
@@ -250,8 +250,10 @@
   function applyLobbyTitle(config) {
     const zhTitle = String(config.title || '').trim();
     if (!zhTitle) return;                        /* 設定檔沒寫就留字典裡那一份 */
+    const hansTitle = String((config.i18n && config.i18n['zh-Hans'] && config.i18n['zh-Hans'].title) || '').trim() || zhTitle;
     const enTitle = String((config.i18n && config.i18n.en && config.i18n.en.title) || '').trim() || zhTitle;
     const zhNames = config.games.map((game) => game.title).filter(Boolean);
+    const hansNames = config.games.map((game) => (game.i18n && game.i18n['zh-Hans'] && game.i18n['zh-Hans'].title) || game.title).filter(Boolean);
     const enNames = config.games.map((game) => (game.i18n && game.i18n.en && game.i18n.en.title) || game.title).filter(Boolean);
     const zh = {
       'brand.title': zhTitle,
@@ -263,9 +265,16 @@
       'brand.aria': `${enTitle} home`,
       'meta.title': `${enTitle} | Free Online Multiplayer Mini Games, No Download, Phone & Tablet Friendly`,
     };
+    const hans = {
+      'brand.title': hansTitle,
+      'brand.aria': `${hansTitle}首页`,
+      'meta.title': `${hansTitle}｜免费线上多人小游戏・免下载・手机平板可玩`,
+    };
     if (zhNames.length) zh['meta.description'] = `${zhTitle}：免費線上多人小遊戲大廳，免下載、打開網頁就能玩，手機、平板、電腦都可以，親子與小朋友同樂也適合。收錄${zhNames.join('、')}，支援單機、電腦對戰與線上房間。`;
+    if (hansNames.length) hans['meta.description'] = `${hansTitle}：免费线上多人小游戏大厅，免下载，打开网页就能玩，手机、平板、电脑都可以，亲子与小朋友同乐也适合。收录${hansNames.join('、')}，支持单机、电脑对战与线上房间。`;
     if (enNames.length) en['meta.description'] = `${enTitle}: a free online lobby of multiplayer mini games. No download needed, just open the page and play on phone, tablet, or computer. Great for kids and families. Includes ${enNames.join(', ')}, with solo play, computer opponents, and online rooms.`;
     window.I18N.register('zh-Hant', zh);
+    window.I18N.register('zh-Hans', hans);
     window.I18N.register('en', en);
     window.I18N.apply();
   }
