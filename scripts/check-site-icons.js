@@ -103,11 +103,6 @@ try {
     }
     check(game.id, html, folder, game.launchUrl, 'assets/images/cover.webp');
   }
-  const snakeFolder = path.join(workspace, 'snake-3d', 'public');
-  const snakeHtml = fs.readFileSync(path.join(snakeFolder, 'index.html'), 'utf8');
-  const snakeSeo = JSON.parse(fs.readFileSync(path.join(workspace, 'snake-3d', 'seo.config.json'), 'utf8'));
-  assert.equal(snakeSeo.ogImage, 'https://pjh-eric.github.io/snake-3d/assets/images/cover.webp');
-  checkCover('snake-3d', snakeHtml, snakeFolder, snakeSeo.siteUrl, 'assets/images/cover.webp');
   const unityTemplate = path.join(workspace, 'snake-3d-unity', 'Assets', 'WebGLTemplates', 'SnakeTemplate');
   const unityHtml = fs.readFileSync(path.join(unityTemplate, 'index.html'), 'utf8');
   const unityCover = 'assets/images/cover.webp';

@@ -287,7 +287,7 @@
       "id": "stair-kids",
       "title": "小朋友下樓梯",
       "eyebrow": "反應閃避",
-      "description": "一直往下踩到新的階梯，別被追上來的天花板頂到，也別掉出畫面外。",
+      "description": "往下踩住階梯，避開天花板與深淵；雙人可互推，也能站在對手頭上。",
       "icon": "stairs",
       "accent": "mint",
       "category": "action",
@@ -316,7 +316,7 @@
         "en": {
           "title": "Stair Kids",
           "eyebrow": "Dodge & React",
-          "description": "Keep stepping down onto new stairs. Do not get squished by the ceiling or fall off the screen.",
+          "description": "Step down, dodge the ceiling and abyss; bump a rival or stand on their head in versus mode.",
           "tags": [
             "Reflex",
             "Dodging",
@@ -339,7 +339,7 @@
         "zh-Hans": {
           "title": "小朋友下楼梯",
           "eyebrow": "反应闪避",
-          "description": "一直往下踩到新的阶梯，别被追上来的天花板顶到，也别掉出画面外。",
+          "description": "往下踩住阶梯，避开天花板与深渊；双人可互推，也能站在对手头上。",
           "tags": [
             "反应",
             "闪避",

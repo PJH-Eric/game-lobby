@@ -96,7 +96,6 @@ async function generate(game, folder, includeShare) {
 async function main() {
   for (const game of config.games) await generate(game, path.join(workspace, game.projectFolder, 'public'), true);
   for (const folder of [
-    path.join(workspace, 'snake-3d', 'public'),
     path.join(workspace, 'snake-3d-unity', 'Assets', 'WebGLTemplates', 'SnakeTemplate', 'static')
   ]) {
     const source = path.join(folder, 'og-image.png');
