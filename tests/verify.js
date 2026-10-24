@@ -44,6 +44,7 @@ assert.ok(!config.games.some((game) => game.id === 'cat-dog-war'));
 for (const game of config.games) {
   assert.ok(game.title && game.description && game.icon && game.launchUrl);
   assert.match(game.launchUrl, /^https?:\/\//);
+  assert.equal(game.imageUrl, game.launchUrl + 'assets/images/cover.webp', `${game.id} must use its dedicated WebP cover`);
   assert.ok(Array.isArray(game.tags) && game.tags.length > 0);
 }
 for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
@@ -52,6 +53,8 @@ for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
 
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+assert.ok(appSource.includes('class="card-cover"'), '遊戲卡片要顯示專屬封面');
+assert.ok(appSource.includes('image.remove()') && appSource.includes('icon.hidden = false'), '封面載入失敗時使用遊戲專屬 SVG 備援');
 assert.ok(appSource.includes('drawguess: `<svg'), '你畫我猜要有專屬圖示');
 assert.ok(appSource.includes('bomb: `<svg'), '炸彈小隊要有專屬圖示');
 assert.ok(appSource.includes('rainbow: `<svg'), '彩虹泡泡砲要有專屬圖示');
@@ -95,6 +98,9 @@ const pagesBuild = spawnSync(process.execPath, [path.join(root, 'scripts', 'buil
 assert.equal(pagesBuild.status, 0, pagesBuild.stderr || pagesBuild.stdout);
 const builtIndex = fs.readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
 assert.match(builtIndex, /<noscript><div class="seo-games">[\s\S]*<\/div><\/noscript>/);
+for (const game of config.games) {
+  assert.ok(builtIndex.includes(`src="${game.imageUrl}"`), `${game.id} 的無 JS 備援要包含遊戲封面`);
+}
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]
 ));

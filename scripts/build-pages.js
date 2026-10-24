@@ -80,6 +80,7 @@ const headTags = [
   `<meta property="og:description" content="${escapeHtml(description)}">`,
   `<meta property="og:url" content="${escapeHtml(siteUrl)}">`,
   `<meta property="og:image" content="${escapeHtml(ogImage)}">`,
+  '<meta property="og:image:type" content="image/png">',
   '<meta property="og:image:width" content="1200">',
   '<meta property="og:image:height" content="630">',
   `<meta property="og:image:alt" content="${escapeHtml(config.title)}">`,
@@ -109,7 +110,7 @@ const renderGameFallback = (game, locale) => {
   }
   const modes = text.modes.map(escapeHtml).join(locale.key === 'en' ? ', ' : '、');
   const punctuation = locale.key === 'en' ? ': ' : '：';
-  return `<li><a href="${escapeHtml(game.launchUrl)}">${escapeHtml(text.title)}</a><p>${escapeHtml(text.description)}</p><p><strong>${locale.modes}${punctuation}</strong>${modes}</p><p><strong>${locale.controls}${punctuation}</strong>${escapeHtml(text.controls)}</p></li>`;
+  return `<li><a href="${escapeHtml(game.launchUrl)}"><img class="seo-game-cover" src="${escapeHtml(game.imageUrl)}" width="1200" height="675" loading="lazy" decoding="async" alt="${escapeHtml(text.title)} 遊戲封面">${escapeHtml(text.title)}</a><p>${escapeHtml(text.description)}</p><p><strong>${locale.modes}${punctuation}</strong>${modes}</p><p><strong>${locale.controls}${punctuation}</strong>${escapeHtml(text.controls)}</p></li>`;
 };
 const gamesFallback = `<noscript><div class="seo-games">\n${fallbackLocales.map((locale) => (
   `            <section lang="${locale.key}"><h2>${locale.title}</h2><ul>${games.map((game) => renderGameFallback(game, locale)).join('')}</ul></section>`

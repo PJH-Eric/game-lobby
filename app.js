@@ -65,7 +65,7 @@
     const game = loc(rawGame);
     const isFavorite = state.favorites.includes(game.id);
     return `<article class="game-card" data-game-id="${escapeHtml(game.id)}" tabindex="0" aria-label="${escapeHtml(t('card.open', { title: game.title }))}" style="--card-color:${colors[game.accent] || colors.sky}">
-      <div class="card-top"><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${escapeHtml(t(isFavorite ? 'fav.remove' : 'fav.add'))} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || catLabel(game.category) || t('card.badgeDefault'))}</span><div class="card-icon">${iconSvg(game.icon)}</div></div>
+      <div class="card-top"><img class="card-cover" src="${escapeHtml(game.imageUrl || game.launchUrl + 'assets/images/cover.webp')}" alt="${escapeHtml(game.title)} 遊戲封面" width="1200" height="675" loading="lazy" decoding="async"><div class="card-icon" aria-hidden="true" hidden>${iconSvg(game.icon)}</div><button class="favorite-button${isFavorite ? ' is-favorite' : ''}" type="button" data-favorite="${escapeHtml(game.id)}" aria-label="${escapeHtml(t(isFavorite ? 'fav.remove' : 'fav.add'))} ${escapeHtml(game.title)}" aria-pressed="${isFavorite}">${isFavorite ? '♥' : '♡'}</button><span class="card-badge">${escapeHtml(game.badge || catLabel(game.category) || t('card.badgeDefault'))}</span></div>
       <div class="card-body"><span class="card-eyebrow">${escapeHtml(game.eyebrow || catLabel(game.category) || 'PLAY')}</span><div class="card-title-row"><h3 class="card-title">${escapeHtml(game.title)}</h3></div><p class="card-description">${escapeHtml(game.description)}</p><div class="card-tags">${(game.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div><div class="card-actions"><a class="play-link" href="${escapeHtml(gameUrl(game))}"><span class="play-text">${escapeHtml(t('card.play'))}</span> <span aria-hidden="true">→</span></a><button class="details-link" type="button" data-details="${escapeHtml(game.id)}">${escapeHtml(t('card.details'))}</button></div></div>
     </article>`;
   }
@@ -93,6 +93,11 @@
   }
 
   function bindCardEvents() {
+    $$('.card-cover').forEach((image) => image.addEventListener('error', () => {
+      const icon = image.parentElement.querySelector('.card-icon');
+      image.remove();
+      if (icon) icon.hidden = false;
+    }));
     $$('.game-card').forEach((card) => {
       const launchGame = () => openGame(state.games.find((game) => game.id === card.dataset.gameId));
       card.addEventListener('click', (event) => { if (!event.target.closest('button, a')) launchGame(); });

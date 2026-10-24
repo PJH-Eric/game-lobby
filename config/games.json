@@ -71,7 +71,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/flip-match/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/flip-match/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/flip-match/assets/images/cover.webp"
     },
     {
       "id": "sudoku",
@@ -136,7 +136,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/sudoku/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/sudoku/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/sudoku/assets/images/cover.webp"
     },
     {
       "id": "whack-a-mole",
@@ -207,7 +207,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/whack-a-mole/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/whack-a-mole/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/whack-a-mole/assets/images/cover.webp"
     },
     {
       "id": "fruit-link",
@@ -281,7 +281,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/fruit-link/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/fruit-link/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/fruit-link/assets/images/cover.webp"
     },
     {
       "id": "stair-kids",
@@ -361,7 +361,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/stair-kids/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/stair-kids/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/stair-kids/assets/images/cover.webp"
     },
     {
       "id": "draw-guess",
@@ -429,7 +429,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/draw-guess/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/draw-guess/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/draw-guess/assets/images/cover.webp"
     },
     {
       "id": "heart-attack",
@@ -506,7 +506,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/heart-attack/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/heart-attack/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/heart-attack/assets/images/cover.webp"
     },
     {
       "id": "richman",
@@ -583,7 +583,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/richman/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/richman/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/richman/assets/images/cover.webp"
     },
     {
       "id": "bomb-squad",
@@ -663,7 +663,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/bomb-squad/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/bomb-squad/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/bomb-squad/assets/images/cover.webp"
     },
     {
       "id": "rainbow-bubble",
@@ -746,7 +746,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/rainbow-bubble/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/rainbow-bubble/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/rainbow-bubble/assets/images/cover.webp"
     },
     {
       "id": "pool-duel",
@@ -829,7 +829,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/pool-duel/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/pool-duel/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/pool-duel/assets/images/cover.webp"
     },
     {
       "id": "reversi",
@@ -912,7 +912,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/reversi/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/reversi/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/reversi/assets/images/cover.webp"
     },
     {
       "id": "amaze-go",
@@ -992,7 +992,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/amaze-go/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/amaze-go/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/amaze-go/assets/images/cover.webp"
     },
     {
       "id": "pinball-hoops",
@@ -1072,7 +1072,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/pinball-hoops/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/pinball-hoops/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/pinball-hoops/assets/images/cover.webp"
     },
     {
       "id": "shoot-balloon",
@@ -1149,7 +1149,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/shoot-balloon/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/shoot-balloon/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/shoot-balloon/assets/images/cover.webp"
     },
     {
       "id": "maze-roll",
@@ -1232,7 +1232,7 @@
         }
       },
       "iconUrl": "https://pjh-eric.github.io/maze-roll/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/maze-roll/og-image.png"
+      "imageUrl": "https://pjh-eric.github.io/maze-roll/assets/images/cover.webp"
     }
   ],
   "i18n": {

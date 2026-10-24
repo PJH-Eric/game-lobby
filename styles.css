@@ -78,6 +78,7 @@ h1 { margin: 22px 0 13px; font-size: clamp(42px, 5.1vw, 68px); line-height: 1.15
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 
 .seo-games { margin: 0; padding: 0 0 0 1.2em; line-height: 1.8; }
+.seo-game-cover { display: block; width: min(100%, 360px); height: auto; margin: 10px 0; border-radius: 12px; }
 
 /* ===== 多語系（EN / 中）===== */
 .header-tools { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
@@ -127,3 +128,48 @@ html[data-lang="en"] .brand small { letter-spacing: .14em; }
   .footer-visitors { white-space: normal; }
 }
 html[data-lang="en"] .brand small { display: none; }
+
+.card-top {
+  isolation: isolate;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  padding: 0;
+}
+
+.card-top::after {
+  z-index: 1;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: linear-gradient(0deg, rgba(28, 25, 36, .2), transparent 55%);
+}
+
+.card-top::before {
+  z-index: 2;
+  bottom: 12px;
+}
+
+.card-cover {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-icon {
+  position: absolute;
+  z-index: 2;
+  bottom: 12px;
+  left: 14px;
+  width: 44px;
+  height: 44px;
+  border-width: 2px;
+  border-radius: 14px;
+}
+
+.card-icon[hidden] { display: none; }
+.card-icon svg { width: 34px; height: 34px; }

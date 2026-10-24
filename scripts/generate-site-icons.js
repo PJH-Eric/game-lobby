@@ -15,6 +15,28 @@ const iconSvg = vm.runInNewContext('(function(){const iconStroke="#352f3c";' + i
 const palette = { sky: '#b8e1f5', pink: '#ffb5c5', lilac: '#d8c9f2', mint: '#bfe8d5', peach: '#ffc5a6', lemon: '#ffe49a', lime: '#d7ec9c' };
 const esc = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[char]));
 
+async function writeCover(image, target) {
+  const { data, info } = await sharp(image).raw().toBuffer({ resolveWithObject: true });
+  const stride = info.width * info.channels;
+  const top = 22;
+  const height = 675;
+  const output = Buffer.alloc(stride * height);
+  data.copy(output, 0, 0, stride);
+  for (let row = 1; row < top; row++) data.copy(output, row * stride, 0, stride);
+  for (let row = 0; row < info.height; row++) {
+    data.copy(output, (top + row) * stride, row * stride, (row + 1) * stride);
+  }
+  const lastRow = (info.height - 1) * stride;
+  for (let row = top + info.height; row < height; row++) {
+    data.copy(output, row * stride, lastRow, lastRow + stride);
+  }
+  const coverFolder = path.dirname(target);
+  fs.mkdirSync(coverFolder, { recursive: true });
+  await sharp(output, { raw: { width: info.width, height, channels: info.channels } })
+    .webp({ lossless: true, method: 6 })
+    .toFile(target);
+}
+
 function sourceSvg(game, folder) {
   const existing = path.join(folder, 'favicon.svg');
   if (fs.existsSync(existing)) return fs.readFileSync(existing, 'utf8');
@@ -64,13 +86,22 @@ async function generate(game, folder, includeShare) {
       '<text x="570" y="320" font-family="Microsoft JhengHei, sans-serif" font-size="' + (game.title.length > 7 ? '48' : '58') + '" font-weight="700" fill="#352f3c">' + esc(game.title) + '</text>' +
       '<text x="570" y="390" font-family="Microsoft JhengHei, sans-serif" font-size="28" fill="#736b77">' + esc(game.eyebrow || '免費線上小遊戲') + '</text>' +
       '<text x="570" y="475" font-family="Microsoft JhengHei, sans-serif" font-size="24" fill="#736b77">免下載 · 手機、平板、電腦都能玩</text></svg>';
-    await sharp(Buffer.from(background)).composite([{ input: art, left: 100, top: 130 }]).png().toFile(path.join(folder, 'og-image.png'));
+    const shareImage = await sharp(Buffer.from(background)).composite([{ input: art, left: 100, top: 130 }]).png().toBuffer();
+    await sharp(shareImage).png().toFile(path.join(folder, 'og-image.png'));
+    await writeCover(shareImage, path.join(folder, 'assets', 'images', 'cover.webp'));
   }
   console.log('✓ icons ' + game.id);
 }
 
 async function main() {
   for (const game of config.games) await generate(game, path.join(workspace, game.projectFolder, 'public'), true);
+  for (const folder of [
+    path.join(workspace, 'snake-3d', 'public'),
+    path.join(workspace, 'snake-3d-unity', 'Assets', 'WebGLTemplates', 'SnakeTemplate', 'static')
+  ]) {
+    const source = path.join(folder, 'og-image.png');
+    if (fs.existsSync(source)) await writeCover(source, path.join(folder, 'assets', 'images', 'cover.webp'));
+  }
   await generate({ id: 'game-lobby', title: config.title }, root, false);
   const hostRoot = path.join(workspace, 'pjh-eric.github.io');
   for (const file of ['favicon.svg', 'favicon-96.png', 'favicon.ico', 'apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png']) {
