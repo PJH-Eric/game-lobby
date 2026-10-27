@@ -1,6 +1,6 @@
 # 遊戲小小島
 
-一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十七個遊戲：
+一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十六個遊戲：
 
 - 翻牌配對碰
 - 數獨小學堂
@@ -9,7 +9,6 @@
 - 小朋友下樓梯
 - 你畫我猜
 - 海島心臟病
-- 寶島大富翁
 - 炸彈小隊
 - 彩虹泡泡砲
 
@@ -48,7 +47,7 @@ https://pjh-eric.github.io/game-lobby/
 3. 開啟 **Settings → Actions → General**，確認 Workflow permissions 允許 workflow 使用必要的 repository 權限；若目前是唯讀，改成 **Read and write permissions** 後儲存。
 4. 到 **Actions** 頁確認「建置並部署遊戲小小島」執行成功；之後每次 push `main` 都會自動重新部署。
 
-GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十七個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
+GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十六個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
 ### 頁尾的 GA4 累計不重複訪客數
 
@@ -103,7 +102,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 
 ## 啟動既有遊戲
 
-大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十七個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十六個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |
@@ -114,7 +113,6 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 | 小朋友下樓梯 | `github.io/stair-kids` | 3060 |
 | 你畫我猜 | `github.io/draw-guess` | 3030 |
 | 海島心臟病 | `github.io/heart-attack` | 3080 |
-| 寶島大富翁 | `github.io/richman` | 3100 |
 | 炸彈小隊 | `github.io/bomb-squad` | 3120 |
 | 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
 | 彈珠籃球 | `github.io/pinball-hoops` | 3200 |
