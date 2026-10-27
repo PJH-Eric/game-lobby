@@ -37,6 +37,12 @@ assert.equal(rainbowBubble.icon, 'rainbow');
 const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
 assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
+const poolDuel = config.games.find((game) => game.id === 'pool-duel');
+assert.equal(poolDuel.category, 'turn', '撞球對決保留回合策略分類');
+assert.ok(poolDuel.additionalCategories.includes('sports'), '撞球對決同時歸類為運動競技');
+const pinballHoops = config.games.find((game) => game.id === 'pinball-hoops');
+assert.equal(pinballHoops.category, 'action', '彈珠籃球保留反應派分類');
+assert.ok(pinballHoops.additionalCategories.includes('sports'), '彈珠籃球同時歸類為運動競技');
 const amazeGo = config.games.find((game) => game.id === 'amaze-go');
 assert.ok(amazeGo, '清單要包含箭頭解密');
 assert.equal(amazeGo.launchUrl, 'https://pjh-eric.github.io/amaze-go/');
@@ -129,10 +135,14 @@ assert.ok(labelMatch, 'app.js 要有 categoryLabels');
 const labelKeys = [...labelMatch[1].matchAll(/(\w+):/g)].map((match) => match[1]);
 assert.deepEqual([...chipCategories].sort(), [...labelKeys].sort(), '篩選鈕與 categoryLabels 的分類要一致');
 for (const key of chipCategories) {
-  assert.ok(config.games.some((game) => game.category === key), `分類 ${key} 底下沒有任何遊戲`);
+  assert.ok(config.games.some((game) => [game.category, ...(game.additionalCategories || [])].includes(key)), `分類 ${key} 底下沒有任何遊戲`);
 }
 for (const game of config.games) {
-  assert.ok(chipCategories.includes(game.category), `${game.id} 的分類 ${game.category} 沒有對應篩選鈕`);
+  const categories = [game.category, ...(game.additionalCategories || [])];
+  assert.equal(new Set(categories).size, categories.length, `${game.id} 的分類不可重複`);
+  for (const category of categories) {
+    assert.ok(chipCategories.includes(category), `${game.id} 的分類 ${category} 沒有對應篩選鈕`);
+  }
 }
 const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '派對', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '閃避', '動作', '射擊', '運動',
   '幼幼班', '單機', '電腦對戰', '線上多人', '線上雙人', '觀戰']);

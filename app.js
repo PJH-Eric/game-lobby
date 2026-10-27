@@ -4,7 +4,7 @@
   const STORAGE_KEY = 'game-lobby-preferences-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
   const state = { games: [], config: null, loadFailed: false, detailsId: null, filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), lastFocus: null, openModal: null };
-  const categoryLabels = { brain: 'cat.brain', turn: 'cat.turn', action: 'cat.action' };
+  const categoryLabels = { brain: 'cat.brain', turn: 'cat.turn', sports: 'cat.sports', action: 'cat.action' };
   const t = (key, params) => window.I18N.t(key, params);
   const catLabel = (category) => (categoryLabels[category] ? t(categoryLabels[category]) : '');
   /* 目前語言的遊戲文案：繁中用原文，簡中與英文分別疊上對應欄位。 */
@@ -75,7 +75,9 @@
     const query = state.query.trim().toLowerCase();
     return state.games.filter((rawGame) => {
       const game = loc(rawGame);
-      const matchesFilter = state.filter === 'all' || game.category === state.filter;
+      const matchesFilter = state.filter === 'all'
+        || game.category === state.filter
+        || (game.additionalCategories || []).includes(state.filter);
       const haystack = [game.title, game.description, game.eyebrow, ...(game.tags || [])].join(' ').toLowerCase();
       return matchesFilter && (!query || haystack.includes(query));
     });

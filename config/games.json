@@ -679,6 +679,7 @@
       "icon": "pool",
       "accent": "mint",
       "category": "turn",
+      "additionalCategories": ["sports"],
       "tags": [
         "運動",
         "策略",
@@ -925,6 +926,7 @@
       "icon": "pinball",
       "accent": "peach",
       "category": "action",
+      "additionalCategories": ["sports"],
       "tags": [
         "運動",
         "反應",
