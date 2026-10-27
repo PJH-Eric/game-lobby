@@ -370,7 +370,7 @@
       "description": "單機自由畫畫、不限時也不計分；線上輪流當畫家，和朋友猜題搶分。",
       "icon": "drawguess",
       "accent": "lilac",
-      "category": "brain",
+      "category": "turn",
       "tags": [
         "畫畫",
         "派對",

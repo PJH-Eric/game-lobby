@@ -18,6 +18,7 @@ assert.ok(!config.games.some((game) => game.id === 'chinese-checkers'), '大廳�
 assert.ok(!config.games.some((game) => game.id === 'richman'), '大廳暫不列出寶島大富翁');
 const drawGuess = config.games.find((game) => game.id === 'draw-guess');
 assert.ok(drawGuess, '清單要包含你畫我猜');
+assert.equal(drawGuess.category, 'turn', '你畫我猜需歸類為回合策略');
 assert.equal(drawGuess.launchUrl, 'https://pjh-eric.github.io/draw-guess/');
 assert.equal(drawGuess.icon, 'drawguess');
 assert.ok(!drawGuess.modes.some((mode) => /AI|電腦/.test(mode)), '你畫我猜已停用電腦對手，詳情不可宣稱 AI 模式');
