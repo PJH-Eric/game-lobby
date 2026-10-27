@@ -10,6 +10,8 @@ let failed = false;
 for (const game of games) {
   const repo = path.resolve(root, '..', game.projectFolder);
   for (const [source, dest] of files) {
+    // 疊疊高樓的 inject-seo 支援輸出到 dist/（GitHub Pages 建置需要），比共用範本新；維持自己的版本，不被覆寫。
+    if (game.id === 'house-stack') continue;
     // 迷宮滾球沿用原有的 config.js 與畫面瀏覽設定，不建立另一套 SEO 注入流程。
     if (game.id === 'maze-roll' && (source === 'inject-seo.js' || source === 'seo-test.js')) continue;
     const expected = fs.readFileSync(path.join(__dirname, 'seo', source), 'utf8');

@@ -1,6 +1,6 @@
 # 遊戲小小島
 
-一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十個遊戲：
+一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十七個遊戲：
 
 - 翻牌配對碰
 - 數獨小學堂
@@ -48,7 +48,7 @@ https://pjh-eric.github.io/game-lobby/
 3. 開啟 **Settings → Actions → General**，確認 Workflow permissions 允許 workflow 使用必要的 repository 權限；若目前是唯讀，改成 **Read and write permissions** 後儲存。
 4. 到 **Actions** 頁確認「建置並部署遊戲小小島」執行成功；之後每次 push `main` 都會自動重新部署。
 
-GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
+GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十七個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
 ### 頁尾的 GA4 累計不重複訪客數
 
@@ -77,7 +77,7 @@ GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根
 
 ### GA4 共用事件與驗證
 
-大廳與全部 16 款遊戲共用 `scripts/seo/analytics.js`。修改後執行 `node scripts/sync-seo-shared.js --write`，再以 `npm run test:analytics:all` 檢查全部專案；各專案的 `npm test` 也包含追蹤契約測試。`npm run test:analytics:browser` 使用水果連連看既有的 Playwright，驗證正式 hostname 與本機隔離，並攔截 Google script，測試不會送入正式 GA。
+大廳與全部 17 款遊戲共用 `scripts/seo/analytics.js`。修改後執行 `node scripts/sync-seo-shared.js --write`，再以 `npm run test:analytics:all` 檢查全部專案；各專案的 `npm test` 也包含追蹤契約測試。`npm run test:analytics:browser` 使用水果連連看既有的 Playwright，驗證正式 hostname 與本機隔離，並攔截 Google script，測試不會送入正式 GA。
 
 既有 `game_start`、`game_end`、`room_create`、`room_join`、`lobby_click` 與 `select_content` 名稱保留。模式統一為 `solo`／`ai`／`online`，原本的自由練習與隨機玩法保留在 `variant`。大廳另外提供 `view_game_details`、`filter_games`、`favorite_game`；選擇遊戲會保留 `item_id`，並提供標準 `content_id`、目標 `target_game_id`、來源 `source_game_id` 與 `entry_point`。
 
@@ -103,7 +103,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 
 ## 啟動既有遊戲
 
-大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十七個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |
@@ -120,6 +120,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 | 彈珠籃球 | `github.io/pinball-hoops` | 3200 |
 | 射氣球 | `github.io/shoot-balloon` | 3220 |
 | 迷宮滾球 | `github.io/maze-roll` | 3090 |
+| 疊疊高樓 | `github.io/house-stack` | 3090 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 

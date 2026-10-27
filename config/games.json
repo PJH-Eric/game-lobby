@@ -1233,6 +1233,86 @@
       },
       "iconUrl": "https://pjh-eric.github.io/maze-roll/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/maze-roll/assets/images/cover.webp"
+    },
+    {
+      "id": "house-stack",
+      "title": "疊疊高樓",
+      "eyebrow": "吊車疊樓小城市",
+      "description": "操作吊車把樓層一層層疊高，重心不穩就會倒塌；越高風越大，到太空還有無重力。單人挑戰、對電腦輪流，也能線上對戰或觀戰。",
+      "icon": "house",
+      "accent": "sky",
+      "category": "action",
+      "tags": [
+        "3D",
+        "反應",
+        "幼幼班",
+        "單機",
+        "電腦對戰",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "單人挑戰",
+        "對電腦輪流",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "點擊、按空白鍵或觸控螢幕放下樓層，對準下方樓層就能疊高",
+      "launchUrl": "https://pjh-eric.github.io/house-stack/",
+      "localPort": 3090,
+      "projectFolder": "house-stack",
+      "badge": "疊高",
+      "i18n": {
+        "en": {
+          "title": "House Stack",
+          "eyebrow": "Crane Tower Builder",
+          "description": "Drop floors from a swinging crane and stack them as high as you can. Balance matters, the wind grows with height, and space adds zero gravity. Play solo, take turns against the computer, or battle and spectate online.",
+          "tags": [
+            "3D",
+            "Reflex",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Solo Challenge",
+            "Turns vs Computer",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Click, press Space or tap the screen to drop a floor and line it up with the one below",
+          "badge": "Stack"
+        },
+        "zh-Hans": {
+          "title": "叠叠高楼",
+          "eyebrow": "吊车叠楼小城市",
+          "description": "操作吊车把楼层一层层叠高，重心不稳就会倒塌；越高风越大，到太空还有无重力。单人挑战、对电脑轮流，也能线上对战或观战。",
+          "tags": [
+            "3D",
+            "反应",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单人挑战",
+            "对电脑轮流",
+            "线上房间",
+            "观战",
+            "邀请连结"
+          ],
+          "controls": "点击、按空格键或触控屏幕放下楼层，对准下方楼层就能叠高",
+          "badge": "叠高"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/house-stack/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/house-stack/assets/images/cover.webp"
     }
   ],
   "i18n": {

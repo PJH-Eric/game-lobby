@@ -11,7 +11,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 16);
+assert.equal(config.games.length, 17);
 assert.equal(new Set(config.games.map((game) => game.id)).size, config.games.length);
 assert.ok(config.games.some((game) => game.id === config.featuredGameId));
 assert.ok(!config.games.some((game) => game.id === 'chinese-checkers'), '大廳不列出跳棋小島');
@@ -137,7 +137,7 @@ const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
 const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'heart-attack', 'richman', 'bomb-squad',
-  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll']);
+  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll', 'house-stack']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -230,7 +230,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 16);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 17);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');
