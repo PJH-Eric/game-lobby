@@ -43,7 +43,8 @@ for (const key of used) assert.ok(zhKeys.includes(key), `用到的字典 key 不
 assert.ok(zhKeys.includes('lang.switchTo'), '要有切換鈕的 aria-label 字典');
 
 /* 載入順序：i18n.js → locales.js → app.js；<html> 預設 zh-Hant */
-const order = ['src="i18n.js"', 'src="locales.js"', 'src="app.js"'].map((s) => html.indexOf(s));
+const order = [/src="i18n\.js(?:\?[^"]*)?"/, /src="locales\.js(?:\?[^"]*)?"/, /src="app\.js(?:\?[^"]*)?"/]
+  .map((pattern) => html.search(pattern));
 assert.ok(order.every((n) => n > 0) && order[0] < order[1] && order[1] < order[2], '腳本載入順序要是 i18n.js、locales.js、app.js');
 assert.match(html, /<html lang="zh-Hant"[^>]*data-i18n-title="meta\.title"/);
 assert.match(html, /name="description"[^>]*data-i18n-content="meta\.description"/);
