@@ -41,8 +41,11 @@ const poolDuel = config.games.find((game) => game.id === 'pool-duel');
 assert.equal(poolDuel.category, 'turn', '撞球對決保留回合策略分類');
 assert.ok(poolDuel.additionalCategories.includes('sports'), '撞球對決同時歸類為運動競技');
 const pinballHoops = config.games.find((game) => game.id === 'pinball-hoops');
-assert.equal(pinballHoops.category, 'action', '彈珠籃球保留反應派分類');
-assert.ok(pinballHoops.additionalCategories.includes('sports'), '彈珠籃球同時歸類為運動競技');
+assert.equal(pinballHoops.category, 'sports', '彈珠籃球歸入運動競技');
+for (const id of ['stair-kids', 'bomb-squad', 'maze-roll', 'house-stack']) {
+  const game = config.games.find((item) => item.id === id);
+  assert.equal(game.category, 'challenge', `${game.title} 要歸入動作挑戰`);
+}
 const amazeGo = config.games.find((game) => game.id === 'amaze-go');
 assert.ok(amazeGo, '清單要包含箭頭解密');
 assert.equal(amazeGo.launchUrl, 'https://pjh-eric.github.io/amaze-go/');

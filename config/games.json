@@ -290,7 +290,7 @@
       "description": "往下踩住階梯，避開天花板與深淵；雙人可互推，也能站在對手頭上。",
       "icon": "stairs",
       "accent": "mint",
-      "category": "action",
+      "category": "challenge",
       "tags": [
         "反應",
         "閃避",
@@ -515,7 +515,7 @@
       "description": "放炸彈、炸磚塊、撿道具，在連鎖爆炸裡活到最後當小隊長！",
       "icon": "bomb",
       "accent": "peach",
-      "category": "action",
+      "category": "challenge",
       "tags": [
         "動作",
         "策略",
@@ -925,8 +925,7 @@
       "description": "只有一片彈板，點畫面揮板把球打進會上下移動的籃框。限時衝分，四段難度，也能線上同台競分或觀戰。",
       "icon": "pinball",
       "accent": "peach",
-      "category": "action",
-      "additionalCategories": ["sports"],
+      "category": "sports",
       "tags": [
         "運動",
         "反應",
@@ -1083,7 +1082,7 @@
       "description": "推著小球穿過 3D 木質迷宮：同圖競速、搶星星、地板崩塌三種玩法。闖關五種難度各 100 關，也能對電腦、線上對戰或觀戰。",
       "icon": "maze",
       "accent": "peach",
-      "category": "action",
+      "category": "challenge",
       "tags": [
         "闖關",
         "3D",
@@ -1166,7 +1165,7 @@
       "description": "操作吊車把樓層一層層疊高，重心不穩就會倒塌；越高風越大，到太空還有無重力。單人挑戰、對電腦輪流，也能線上對戰或觀戰。",
       "icon": "house",
       "accent": "sky",
-      "category": "action",
+      "category": "challenge",
       "tags": [
         "3D",
         "反應",
