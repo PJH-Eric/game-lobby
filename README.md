@@ -1,6 +1,6 @@
 # 遊戲小小島
 
-一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十六個遊戲：
+一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十七個遊戲：
 
 - 翻牌配對碰
 - 數獨小學堂
@@ -47,7 +47,7 @@ https://pjh-eric.github.io/game-lobby/
 3. 開啟 **Settings → Actions → General**，確認 Workflow permissions 允許 workflow 使用必要的 repository 權限；若目前是唯讀，改成 **Read and write permissions** 後儲存。
 4. 到 **Actions** 頁確認「建置並部署遊戲小小島」執行成功；之後每次 push `main` 都會自動重新部署。
 
-GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十六個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
+GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十七個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
 ### 頁尾的 GA4 累計不重複訪客數
 
@@ -84,13 +84,14 @@ GitHub Pages 專案頁的 `/game-lobby/robots.txt` 不會被 Google 讀取，根
 
 GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mode`、`variant`、`difficulty`、`result`、`app_language`、`target_game_id`、`source_game_id`、`entry_point`、`via`、`category`、`action`；`duration_sec` 可設為秒數的自訂指標。這些是後台設定需求，本機測試不會替你建立。迷宮滾球繼續由自己的 `GA4_MEASUREMENT_ID` 變數指定資源，其他遊戲沿用既有 Measurement ID 與建置覆寫方式。
 
-畫面瀏覽維持各專案原有方式：大廳與 15 款遊戲由單次 `config` 自動送出，迷宮滾球保留手動虛擬畫面瀏覽並關閉初始化的自動 page view。若 GA4 資料串流另開啟依瀏覽器 history 變化的增強型瀏覽追蹤，須在後台核對是否與手動畫面重複；本次沒有連線修改該設定。詳細變更、驗證範圍與限制見 [GA4 優化驗證](verification/GA4優化驗證.md)。
+畫面瀏覽維持各專案原有方式：大廳與 16 款遊戲由單次 `config` 自動送出，迷宮滾球保留手動虛擬畫面瀏覽並關閉初始化的自動 page view。若 GA4 資料串流另開啟依瀏覽器 history 變化的增強型瀏覽追蹤，須在後台核對是否與手動畫面重複；本次沒有連線修改該設定。詳細變更、驗證範圍與限制見 [GA4 優化驗證](verification/GA4優化驗證.md)。
 
 ### 新遊戲上架 SEO／GA4 檢查清單
 
 各遊戲須在自己的 `public/` 保存 `favicon.svg`、`favicon-96.png`、`favicon.ico`、`apple-touch-icon.png`、`icons/icon-192.png`、`icons/icon-512.png` 與 `og-image.png`。首頁靜態宣告圖示；`seo.config.json` 的 `iconUrl`、`ogImage` 及大廳設定的 `iconUrl`、`imageUrl` 指向該遊戲自己的 HTTPS 網址。圖示與分享圖的生成、檢查及 Google 同 hostname 限制見 [圖示與爬蟲驗證](verification/遊戲圖示與爬蟲驗證.md)。在大廳與根網站建置後執行 `npm run check:icons`，此工作區檢查不重跑遊戲測試。
 
 - 每款遊戲新增 `seo.config.json`，填入自己的 id、結尾有 `/` 的 siteUrl、獨有標題與 40–120 字說明、genre、players、lobbyUrl。只在有可用圖片時填 ogImage；Google 驗證碼使用對應資源提供的值。
+- 例外：3D貪吃蛇（`snake-3d`）是 Vite 建置，沒有 `seo.config.json` 與 `public/` 注入流程；它的 GA4 事件與正式網域隔離由自己的 `client/tests/analytics.test.js` 驗證，`check-seo-all.js`／`check-analytics-all.js` 會執行這支測試，SEO 為 `client/index.html` 的靜態 meta。
 - 共用來源放在 `scripts/seo/`；`node scripts/sync-seo-shared.js --write` 將注入腳本、事件工具及 SEO 測試同步到同工作區的遊戲專案。未帶 `--write` 時只檢查一致性。上架前先加入 `config/games.json`。
 - 原始 HTML 放置 `<!--SEO:HEAD-->`，在遊戲程式之前載入 `js/analytics.js`。繁中語系字典的文件標題與說明須與設定相同，英文有各自文案；只更新文件 metadata，不改變畫面標題。
 - 部署 job 先 setup-node，再於 artifact 上傳前執行 `node tests/seo.js && node scripts/inject-seo.js`。注入結果與 sitemap 是部署產物，測試使用暫存副本，不覆蓋工作目錄。
@@ -102,7 +103,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 
 ## 啟動既有遊戲
 
-大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十六個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十七個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |

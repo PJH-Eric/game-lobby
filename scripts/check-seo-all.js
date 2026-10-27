@@ -7,12 +7,25 @@ const root = path.join(__dirname, '..');
 const config = JSON.parse(fs.readFileSync(path.join(root, 'config/games.json'), 'utf8'));
 const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+/* 3D貪吃蛇是 Vite 建置（client/index.html、沒有 seo.config.json），GA4 由自己的 client 單元測試驗證 */
+function runSnakeAnalytics(repo) {
+  const client = path.join(repo, 'client');
+  return spawnSync(process.execPath, [path.join(client, 'node_modules', 'vitest', 'vitest.mjs'), 'run', 'tests/analytics.test.js'], { cwd: client, encoding: 'utf8' });
+}
+
 async function main() {
   const titles = new Set(), descriptions = new Set();
   let errors = 0;
   for (const game of config.games) {
     try {
       const repo = path.resolve(root, '..', game.projectFolder);
+      if (game.id === 'snake-3d') {
+        const result = runSnakeAnalytics(repo);
+        if (result.status !== 0) throw new Error(result.stdout + result.stderr);
+        if (!fs.readFileSync(path.join(repo, 'client', 'index.html'), 'utf8').includes('GAME_ANALYTICS_CONFIG')) throw new Error('缺少 GA4 設定');
+        console.log('✓ snake-3d GA4（Vite 建置；由 client/tests/analytics.test.js 驗證，不檢查 SEO 注入／sitemap）');
+        continue;
+      }
       if (game.id === 'maze-roll') {
         const result = spawnSync(process.execPath, ['tests/analytics.js'], { cwd: repo, encoding: 'utf8' });
         if (result.status !== 0) throw new Error(result.stdout + result.stderr);

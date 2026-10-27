@@ -14,7 +14,7 @@ const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
 const publicId = 'G-PG79WZK8QY';
 
 async function main() {
-  for (const game of games.filter(game => game.id !== 'maze-roll')) {
+  for (const game of games.filter(game => game.id !== 'maze-roll' && game.id !== 'snake-3d')) {
     const folder = path.join(temp, game.id);
     fs.mkdirSync(path.join(folder, 'public'), { recursive: true });
     fs.copyFileSync(path.join(root, game.id, 'seo.config.json'), path.join(folder, 'seo.config.json'));

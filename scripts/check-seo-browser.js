@@ -7,7 +7,8 @@ const assert = require('assert');
 const { chromium } = require(require.resolve('playwright', { paths: [path.resolve(__dirname, '../../fruit-link')] }));
 const { inject } = require('./seo/inject-seo');
 const root = path.resolve(__dirname, '../..');
-const games = require('../config/games.json').games;
+/* 3D貪吃蛇是 Vite 建置、沒有 seo.config.json，GA4 由自己的單元測試驗證，這裡不含 */
+const games = require('../config/games.json').games.filter((game) => game.id !== 'snake-3d');
 const shots = path.join(root, 'game-lobby/verification/seo-shots');
 fs.mkdirSync(shots, { recursive: true });
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'seo-browser-'));

@@ -679,7 +679,9 @@
       "icon": "pool",
       "accent": "mint",
       "category": "turn",
-      "additionalCategories": ["sports"],
+      "additionalCategories": [
+        "sports"
+      ],
       "tags": [
         "運動",
         "策略",
@@ -1237,6 +1239,83 @@
       },
       "iconUrl": "https://pjh-eric.github.io/house-stack/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/house-stack/assets/images/cover.webp"
+    },
+    {
+      "id": "snake-3d",
+      "title": "3D貪吃蛇",
+      "eyebrow": "動物園大賽",
+      "description": "手指或鍵盤自由控制方向，吃果實變長變粗，別撞到石頭和別條蛇；單人衝高分、對戰電腦或最多 8 人線上對戰。",
+      "icon": "caterpillar",
+      "accent": "lime",
+      "category": "action",
+      "tags": [
+        "動作",
+        "3D",
+        "幼幼班",
+        "單機",
+        "電腦對戰",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "單人挑戰",
+        "對戰電腦",
+        "線上多人",
+        "觀戰"
+      ],
+      "controls": "手指拖曳或方向鍵／WASD 控制，按住加速鈕衝刺",
+      "launchUrl": "https://pjh-eric.github.io/snake-3d/",
+      "localPort": 3130,
+      "projectFolder": "snake-3d",
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "3D Snake",
+          "eyebrow": "Zoo Showdown",
+          "description": "Steer freely with your finger or keyboard, eat fruit to grow longer and thicker, and avoid rocks and other snakes. Chase a high score, battle computers or play online with up to 8 players.",
+          "tags": [
+            "Action",
+            "3D",
+            "Little Kids",
+            "Solo",
+            "vs Computer",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Solo Challenge",
+            "vs Computer",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "controls": "Drag a finger or use arrows / WASD, hold the boost button to sprint",
+          "badge": "New"
+        },
+        "zh-Hans": {
+          "title": "3D贪吃蛇",
+          "eyebrow": "动物园大赛",
+          "description": "手指或键盘自由控制方向，吃果实变长变粗，别撞到石头和别条蛇；单人冲高分、对战电脑或最多 8 人线上对战。",
+          "tags": [
+            "动作",
+            "3D",
+            "幼幼班",
+            "单机",
+            "电脑对战",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单人挑战",
+            "对战电脑",
+            "线上多人",
+            "观战"
+          ],
+          "controls": "手指拖曳或方向键／WASD 控制，按住加速钮冲刺",
+          "badge": "新游戏"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/snake-3d/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/snake-3d/assets/images/cover.webp"
     }
   ],
   "i18n": {
