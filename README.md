@@ -16,7 +16,7 @@
 
 ## 啟動大廳
 
-需要 Node.js 18 以上：
+需要 Node.js 26.12.1 或更新的 26.x 修補版本：
 
 ```powershell
 npm start

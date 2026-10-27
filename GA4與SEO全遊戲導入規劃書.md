@@ -403,7 +403,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "26.12.1"
       - uses: actions/configure-pages@v5
       - name: 產生入口頁、sitemap、robots
         run: node scripts/build.js
