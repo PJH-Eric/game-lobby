@@ -11,7 +11,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 17);
+assert.equal(config.games.length, 18);
 assert.equal(new Set(config.games.map((game) => game.id)).size, config.games.length);
 assert.ok(config.games.some((game) => game.id === config.featuredGameId));
 assert.ok(!config.games.some((game) => game.id === 'chinese-checkers'), '大廳不列出跳棋小島');
@@ -38,6 +38,12 @@ const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
 assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
 const poolDuel = config.games.find((game) => game.id === 'pool-duel');
+const iceDuel = config.games.find((game) => game.id === 'ice-duel');
+assert.ok(iceDuel, '清單要包含冰壺對決');
+assert.equal(iceDuel.launchUrl, 'https://pjh-eric.github.io/curling-duel/');
+assert.equal(iceDuel.icon, 'curling');
+assert.equal(iceDuel.category, 'turn');
+assert.ok(iceDuel.additionalCategories.includes('sports'));
 assert.equal(poolDuel.category, 'turn', '撞球對決保留回合策略分類');
 assert.ok(poolDuel.additionalCategories.includes('sports'), '撞球對決同時歸類為運動競技');
 const pinballHoops = config.games.find((game) => game.id === 'pinball-hoops');
@@ -147,18 +153,18 @@ for (const game of config.games) {
     assert.ok(chipCategories.includes(category), `${game.id} 的分類 ${category} 沒有對應篩選鈕`);
   }
 }
-const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '派對', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '閃避', '動作', '射擊', '運動',
+const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '派對', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '閃避', '動作', '射擊', '運動', '三段 AI',
   '幼幼班', '單機', '電腦對戰', '線上多人', '線上雙人', '觀戰']);
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
-const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi']);
+const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'ice-duel']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'heart-attack', 'bomb-squad',
   'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll', 'house-stack', 'snake-3d']);
-const featureTags = ['幼幼班', '單機', '電腦對戰', '線上雙人', '線上多人', '觀戰'];
+const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
   策略: 'Strategy', '3D': '3D', 棋類: 'Board Game', 卡牌: 'Cards', 反應: 'Reflex', 闖關: 'Levels',
   閃避: 'Dodging', 動作: 'Action', 射擊: 'Shooting', 運動: 'Sports', 幼幼班: 'Little Kids', 單機: 'Solo',
-  電腦對戰: 'vs Computer', 線上多人: 'Online Multiplayer', 線上雙人: 'Online 2-Player', 觀戰: 'Spectate',
+  電腦對戰: 'vs Computer', '三段 AI': 'Three AI Levels', 線上多人: 'Online Multiplayer', 線上雙人: 'Online 2-Player', 觀戰: 'Spectate',
 };
 for (const game of config.games) {
   assert.equal(game.tags.includes('線上雙人'), twoPlayerOnly.has(game.id), `${game.id} 的人數標籤要寫${twoPlayerOnly.has(game.id) ? '線上雙人' : '線上多人'}`);
@@ -166,7 +172,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess'].includes(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'ice-duel'].includes(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match', `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, 2, `${game.id} 要有兩個玩法特色標籤`);
@@ -245,7 +251,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 17);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 18);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');

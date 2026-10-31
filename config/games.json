@@ -758,6 +758,92 @@
       "imageUrl": "https://pjh-eric.github.io/pool-duel/assets/images/cover.webp"
     },
     {
+      "id": "ice-duel",
+      "title": "冰壺對決",
+      "eyebrow": "回合運動",
+      "description": "免費 3D 回合制冰壺：瞄準、調力道、刷冰改變冰壺軌跡。單機三段 AI，也可線上邀請對戰與觀戰。",
+      "icon": "curling",
+      "accent": "sky",
+      "category": "turn",
+      "additionalCategories": [
+        "sports"
+      ],
+      "tags": [
+        "運動",
+        "策略",
+        "單機",
+        "三段 AI",
+        "線上雙人",
+        "觀戰"
+      ],
+      "modes": [
+        "標準冰壺",
+        "九宮連線",
+        "冰洞挑戰",
+        "單機練習",
+        "線上房間",
+        "觀戰",
+        "邀請連結"
+      ],
+      "controls": "拖曳瞄準並設定投擲力道，投壺後按住刷冰改變軌跡",
+      "launchUrl": "https://pjh-eric.github.io/curling-duel/",
+      "localPort": 5173,
+      "projectFolder": "ice-duel",
+      "badge": "冰壺",
+      "i18n": {
+        "en": {
+          "title": "Ice Duel",
+          "eyebrow": "Turn-Based Sports",
+          "description": "Free 3D turn-based curling. Aim, set power, and sweep to guide each stone. Play three AI levels solo or invite friends online and spectate.",
+          "tags": [
+            "Sports",
+            "Strategy",
+            "Solo",
+            "Three AI Levels",
+            "Online 2-Player",
+            "Spectate"
+          ],
+          "modes": [
+            "Classic Curling",
+            "Tic-Tac-Ice",
+            "Ice Holes",
+            "Solo Practice",
+            "Online Room",
+            "Spectate",
+            "Invite Link"
+          ],
+          "controls": "Drag to aim and set throwing power. Sweep after release to shape the stone's path.",
+          "badge": "Curling"
+        },
+        "zh-Hans": {
+          "title": "冰壶对决",
+          "eyebrow": "回合运动",
+          "description": "免费 3D 回合制冰壶：瞄准、调节力度、刷冰改变冰壶轨迹。单机三段 AI，也可在线邀请对战与观战。",
+          "tags": [
+            "运动",
+            "策略",
+            "单机",
+            "三段 AI",
+            "线上双人",
+            "观战"
+          ],
+          "modes": [
+            "标准冰壶",
+            "九宫连线",
+            "冰洞挑战",
+            "单机练习",
+            "在线房间",
+            "观战",
+            "邀请链接"
+          ],
+          "controls": "拖曳瞄准并设置投掷力度，投壶后按住刷冰改变轨迹",
+          "badge": "冰壶"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/curling-duel/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/curling-duel/assets/images/cover.webp"
+    },
+    {
       "id": "reversi",
       "title": "黑白棋",
       "eyebrow": "棋類對弈",
