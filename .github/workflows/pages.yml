@@ -33,7 +33,7 @@ jobs:
         run: npm run verify
         env:
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
-      - name: 更新 GA4 累計不重複訪客數
+      - name: 更新 GA4 累計不重複訪客數與遊玩次數
         run: node scripts/update-ga-visitor-count.js
         continue-on-error: true
         env:

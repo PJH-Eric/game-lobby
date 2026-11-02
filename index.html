@@ -87,7 +87,7 @@
       </section>
     </main>
 
-    <footer class="site-footer"><a class="footer-brand" id="footer-brand" href="#top" data-i18n="brand.title">遊戲小小島</a><span data-i18n="footer.tagline">把每一次點擊，都變成一點點開心。</span><span class="footer-visitors"><span data-i18n="footer.visitors">累計不重複訪客：</span><span id="visitor-count">–</span></span><span class="footer-version">Lobby v1.0</span></footer>
+    <footer class="site-footer"><a class="footer-brand" id="footer-brand" href="#top" data-i18n="brand.title">遊戲小小島</a><span data-i18n="footer.tagline">把每一次點擊，都變成一點點開心。</span><span class="footer-stats"><span class="footer-visitors"><span data-i18n="footer.visitors">累計不重複訪客：</span><span id="visitor-count">–</span></span><span class="footer-plays"><span data-i18n="footer.plays">累計遊玩次數：</span><span id="play-count">–</span></span></span><span class="footer-version">Lobby v1.0</span></footer>
   </div>
 
   <div class="modal-backdrop" id="details-modal" role="dialog" aria-modal="true" aria-labelledby="details-title" aria-hidden="true" hidden>
@@ -115,23 +115,26 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script data-goatcounter="https://pjh-games.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <script>
-    /* GA4 報表由 Pages workflow 產生靜態快照；未設定授權時保留「–」。 */
+    /* GA4 報表（訪客數、game_start 遊玩次數）由 Pages workflow 產生靜態快照；未設定授權時保留「–」。 */
     fetch('visitor-count.json', { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('GA4 visitor count is unavailable');
         return r.json();
       })
       .then(function (d) {
+        if (d.source !== 'google-analytics') return;
+        var format = new Intl.NumberFormat('zh-TW').format;
         var count = Number(d.count);
-        if (d.source !== 'google-analytics' || d.metric !== 'totalUsers' || !Number.isSafeInteger(count)) return;
-        document.getElementById('visitor-count').textContent = new Intl.NumberFormat('zh-TW').format(count);
+        if (d.metric === 'totalUsers' && Number.isSafeInteger(count)) document.getElementById('visitor-count').textContent = format(count);
+        var plays = d.plays && Number(d.plays.count);
+        if (d.plays && d.plays.eventName === 'game_start' && Number.isSafeInteger(plays)) document.getElementById('play-count').textContent = format(plays);
       })
       .catch(function () {});
   </script>
   <script>window.GAME_ANALYTICS_CONFIG = { measurement_id: 'G-PG79WZK8QY', game_id: 'lobby', page_location: 'https://pjh-eric.github.io/game-lobby/' };</script>
   <script src="analytics.js"></script>
   <script src="i18n.js"></script>
-  <script src="locales.js?v=30260ab"></script>
+  <script src="locales.js?v=3769f2c"></script>
   <script src="app.js"></script>
 </body>
 </html>

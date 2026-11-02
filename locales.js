@@ -59,6 +59,7 @@
     'howto.3.body': '單機、AI 或線上房間，隨時換一款。',
     'footer.tagline': '把每一次點擊，都變成一點點開心。',
     'footer.visitors': '累計不重複訪客：',
+    'footer.plays': '累計遊玩次數：',
 
     'details.close': '關閉遊戲介紹',
     'details.eyebrow': '遊戲介紹',
@@ -134,6 +135,7 @@
     'howto.3.body': 'Solo, vs computer, or online rooms. Switch games anytime.',
     'footer.tagline': 'Turning every click into a little bit of joy.',
     'footer.visitors': 'Unique visitors so far: ',
+    'footer.plays': 'Total plays so far: ',
 
     'details.close': 'Close game details',
     'details.eyebrow': 'About this game',
@@ -210,6 +212,7 @@
     "howto.3.body": "单机、AI 或线上房间，随时换一款。",
     "footer.tagline": "把每一次点击，都变成一点点开心。",
     "footer.visitors": "累计不重复访客：",
+    "footer.plays": "累计游玩次数：",
     "details.close": "关闭游戏介绍",
     "details.eyebrow": "游戏介绍",
     "details.modes": "游玩方式",

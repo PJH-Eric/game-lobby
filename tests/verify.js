@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 const { spawn, spawnSync } = require('node:child_process');
-const { createReportRequest, getTotalUsers } = require('../scripts/update-ga-visitor-count');
+const { createReportRequest, createPlaysReportRequest, getAnalyticsCounts } = require('../scripts/update-ga-visitor-count');
 
 const root = path.resolve(__dirname, '..');
 const configPath = path.join(root, 'config', 'games.json');
@@ -212,14 +212,20 @@ async function verifyGaVisitorCountApi() {
 
     assert.equal(url, 'https://analyticsdata.googleapis.com/v1beta/properties/123456789:runReport');
     assert.equal(options.headers.authorization, 'Bearer mock-access-token');
-    assert.deepEqual(JSON.parse(options.body), createReportRequest());
+    const body = JSON.parse(options.body);
+    if (body.dimensionFilter) {
+      assert.deepEqual(body, createPlaysReportRequest());
+      assert.equal(body.dimensionFilter.filter.stringFilter.value, 'game_start');
+      return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '1234' }] }] }) };
+    }
+    assert.deepEqual(body, createReportRequest());
     return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '42' }] }] }) };
   };
 
-  const count = await getTotalUsers({ propertyId: '123456789', serviceAccount, fetchImpl });
-  assert.equal(count, 42);
-  assert.equal(calls.length, 2);
-  await assert.rejects(getTotalUsers({ propertyId: 'G-PG79WZK8Y', serviceAccount, fetchImpl }), /numeric GA4 property ID/);
+  const counts = await getAnalyticsCounts({ propertyId: '123456789', serviceAccount, fetchImpl });
+  assert.deepEqual(counts, { users: 42, plays: 1234 });
+  assert.equal(calls.length, 3);
+  await assert.rejects(getAnalyticsCounts({ propertyId: 'G-PG79WZK8Y', serviceAccount, fetchImpl }), /numeric GA4 property ID/);
 }
 
 const port = 3187;

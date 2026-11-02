@@ -49,9 +49,9 @@ https://pjh-eric.github.io/game-lobby/
 
 GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十七個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
-### 頁尾的 GA4 累計不重複訪客數
+### 頁尾的 GA4 累計不重複訪客數與遊玩次數
 
-頁尾讀取 GA4 Data API 的 `totalUsers` 指標，查詢範圍從 `2020-01-01` 到今天；實際數字只會包含 GA 標籤開始收集後的資料，不會匯入舊的 GoatCounter 計數。Pages workflow 在每次部署及每日排程時更新靜態計數檔，GA 報表資料可能有處理延遲。
+頁尾讀取 GA4 Data API 的 `totalUsers` 指標（不重複訪客），以及 `game_start` 事件的 `eventCount`（累計遊玩次數：全部遊戲共用同一個 GA4 資源，每開一局算一次，觀戰不算），查詢範圍從 `2020-01-01` 到今天；實際數字只會包含 GA 標籤開始收集後的資料，不會匯入舊的 GoatCounter 計數。Pages workflow 在每次部署及每日排程時更新靜態計數檔，GA 報表資料可能有處理延遲。
 
 設定方式：
 

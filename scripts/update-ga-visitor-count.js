@@ -35,6 +35,25 @@ function createReportRequest() {
   };
 }
 
+// 全部遊戲共用同一個 GA4 資源；每開一局送一次 game_start（觀戰不送）。
+function createPlaysReportRequest() {
+  return {
+    dateRanges: [dateRange],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: {
+      filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: 'game_start' } },
+    },
+  };
+}
+
+function readCount(report, metric) {
+  const count = Number(report.rows?.[0]?.metricValues?.[0]?.value || 0);
+  if (!Number.isSafeInteger(count) || count < 0) {
+    throw new Error(`Google Analytics returned an invalid ${metric} value`);
+  }
+  return count;
+}
+
 async function readJsonResponse(response, label) {
   if (!response.ok) {
     const details = await response.text();
@@ -44,7 +63,7 @@ async function readJsonResponse(response, label) {
   return response.json();
 }
 
-async function getTotalUsers({ propertyId, serviceAccount, fetchImpl = fetch, nowSeconds }) {
+async function getAnalyticsCounts({ propertyId, serviceAccount, fetchImpl = fetch, nowSeconds }) {
   const id = String(propertyId || '');
   if (!/^\d+$/.test(id)) throw new Error('GA_PROPERTY_ID must be the numeric GA4 property ID');
   if (!serviceAccount.client_email || !serviceAccount.private_key) {
@@ -63,21 +82,18 @@ async function getTotalUsers({ propertyId, serviceAccount, fetchImpl = fetch, no
   const tokenData = await readJsonResponse(tokenResponse, 'Google OAuth token request');
   if (!tokenData.access_token) throw new Error('Google OAuth response did not include an access token');
 
-  const response = await fetchImpl(`${reportUrl}/${id}:runReport`, {
+  const runReport = async (body) => readJsonResponse(await fetchImpl(`${reportUrl}/${id}:runReport`, {
     method: 'POST',
     headers: {
       authorization: `Bearer ${tokenData.access_token}`,
       'content-type': 'application/json',
     },
-    body: JSON.stringify(createReportRequest()),
-  });
-  const report = await readJsonResponse(response, 'Google Analytics Data API request');
-  const count = Number(report.rows?.[0]?.metricValues?.[0]?.value || 0);
-  if (!Number.isSafeInteger(count) || count < 0) {
-    throw new Error('Google Analytics returned an invalid totalUsers value');
-  }
+    body: JSON.stringify(body),
+  }), 'Google Analytics Data API request');
 
-  return count;
+  const users = readCount(await runReport(createReportRequest()), 'totalUsers');
+  const plays = readCount(await runReport(createPlaysReportRequest()), 'game_start eventCount');
+  return { users, plays };
 }
 
 async function main() {
@@ -89,18 +105,19 @@ async function main() {
   }
 
   const serviceAccount = JSON.parse(serviceAccountJson);
-  const count = await getTotalUsers({ propertyId, serviceAccount });
+  const { users: count, plays } = await getAnalyticsCounts({ propertyId, serviceAccount });
   const output = {
     source: 'google-analytics',
     metric: 'totalUsers',
     count,
+    plays: { metric: 'eventCount', eventName: 'game_start', count: plays },
     dateRange,
     updatedAt: new Date().toISOString(),
   };
   const outputPath = path.join(root, 'dist', 'visitor-count.json');
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
-  console.log(`GA4 cumulative unique visitors updated: ${count}`);
+  console.log(`GA4 cumulative unique visitors updated: ${count}; total plays: ${plays}`);
 }
 
 if (require.main === module) {
@@ -110,4 +127,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { createAssertion, createReportRequest, getTotalUsers };
+module.exports = { createAssertion, createReportRequest, createPlaysReportRequest, getAnalyticsCounts };
