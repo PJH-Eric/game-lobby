@@ -1325,6 +1325,68 @@
       },
       "iconUrl": "https://pjh-eric.github.io/snake-3d/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/snake-3d/assets/images/cover.webp"
+    },
+    {
+      "id": "domino-push",
+      "title": "推骨牌",
+      "eyebrow": "木頭積木連鎖",
+      "description": "在木頭桌上擺好骨牌，輕輕一推看整串連鎖倒下；30 個機關挑戰關、無限隨機關，還有自由沙盒、分數與成就。",
+      "icon": "domino",
+      "accent": "peach",
+      "category": "brain",
+      "tags": [
+        "闖關",
+        "3D",
+        "單機"
+      ],
+      "modes": [
+        "挑戰關卡",
+        "隨機關",
+        "自由沙盒"
+      ],
+      "controls": "點桌墊擺骨牌、旋轉鈕轉向，按「推！」看連鎖倒下",
+      "launchUrl": "https://pjh-eric.github.io/domino-push/",
+      "localPort": 3110,
+      "projectFolder": "domino-push",
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "Domino Push",
+          "eyebrow": "Wooden Block Chains",
+          "description": "Line up wooden dominoes on a toy table and give them a push to watch the whole chain fall. 30 gadget puzzles, endless random levels, plus a free sandbox with scores and achievements.",
+          "tags": [
+            "Levels",
+            "3D",
+            "Solo"
+          ],
+          "modes": [
+            "Challenge Levels",
+            "Random Levels",
+            "Free Sandbox"
+          ],
+          "controls": "Tap the mat to place, use the turn buttons to aim, then press \"Push!\"",
+          "badge": "New"
+        },
+        "zh-Hans": {
+          "title": "推骨牌",
+          "eyebrow": "木头积木连锁",
+          "description": "在木头桌上摆好骨牌，轻轻一推看整串连锁倒下；30 个机关挑战关、无限随机关，还有自由沙盒、分数与成就。",
+          "tags": [
+            "闯关",
+            "3D",
+            "单机"
+          ],
+          "modes": [
+            "挑战关卡",
+            "随机关",
+            "自由沙盒"
+          ],
+          "controls": "点桌垫摆骨牌、旋转钮转向，按「推！」看连锁倒下",
+          "badge": "新游戏"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/domino-push/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/domino-push/assets/images/cover.webp"
     }
   ],
   "i18n": {

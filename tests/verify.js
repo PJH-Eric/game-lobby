@@ -11,7 +11,12 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 17);
+assert.equal(config.games.length, 18);
+const dominoPush = config.games.find((game) => game.id === 'domino-push');
+assert.ok(dominoPush, '清單要包含推骨牌');
+assert.equal(dominoPush.launchUrl, 'https://pjh-eric.github.io/domino-push/');
+assert.equal(dominoPush.icon, 'domino');
+assert.ok(!dominoPush.modes.some((mode) => /線上|電腦|AI/.test(mode)), '推骨牌是純單機，不可宣稱線上或電腦對戰');
 assert.equal(new Set(config.games.map((game) => game.id)).size, config.games.length);
 assert.ok(config.games.some((game) => game.id === config.featuredGameId));
 assert.ok(!config.games.some((game) => game.id === 'chinese-checkers'), '大廳不列出跳棋小島');
@@ -158,6 +163,8 @@ const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '
   '幼幼班', '單機', '電腦對戰', '線上多人', '線上雙人', '觀戰']);
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
 const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'curling-duel']);
+/* 純單機遊戲（沒有線上、電腦對手與觀戰） */
+const soloOnly = new Set(['domino-push']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
   'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll', 'house-stack', 'snake-3d']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
@@ -170,11 +177,11 @@ const tagTranslations = {
 for (const game of config.games) {
   assert.equal(game.tags.includes('線上雙人'), twoPlayerOnly.has(game.id), `${game.id} 的人數標籤要寫${twoPlayerOnly.has(game.id) ? '線上雙人' : '線上多人'}`);
   assert.ok(!(game.tags.includes('線上雙人') && game.tags.includes('線上多人')), `${game.id} 不可同時是雙人與多人`);
-  assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
+  assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id) && !soloOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel'].includes(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
-  assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match', `${game.id} 的觀戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, 2, `${game.id} 要有兩個玩法特色標籤`);
   assert.deepEqual(game.tags, [...gameplayTags, ...featureTags.filter((tag) => game.tags.includes(tag))], `${game.id} 的標籤順序要一致`);
@@ -258,7 +265,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 17);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 18);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');
