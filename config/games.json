@@ -1337,12 +1337,14 @@
       "tags": [
         "闖關",
         "3D",
+        "幼幼班",
         "單機"
       ],
       "modes": [
         "挑戰關卡",
         "隨機關",
-        "自由沙盒"
+        "自由沙盒",
+        "幼兒園模式"
       ],
       "controls": "點桌墊擺骨牌、旋轉鈕轉向，按「推！」看連鎖倒下",
       "launchUrl": "https://pjh-eric.github.io/domino-push/",
@@ -1357,12 +1359,14 @@
           "tags": [
             "Levels",
             "3D",
+            "Little Kids",
             "Solo"
           ],
           "modes": [
             "Challenge Levels",
             "Random Levels",
-            "Free Sandbox"
+            "Free Sandbox",
+            "Little Kids Mode"
           ],
           "controls": "Tap the mat to place, use the turn buttons to aim, then press \"Push!\"",
           "badge": "New"
@@ -1374,12 +1378,14 @@
           "tags": [
             "闯关",
             "3D",
+            "幼幼班",
             "单机"
           ],
           "modes": [
             "挑战关卡",
             "随机关",
-            "自由沙盒"
+            "自由沙盒",
+            "幼儿园模式"
           ],
           "controls": "点桌垫摆骨牌、旋转钮转向，按「推！」看连锁倒下",
           "badge": "新游戏"
