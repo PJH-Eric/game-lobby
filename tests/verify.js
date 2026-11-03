@@ -39,7 +39,7 @@ const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
 assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
 const poolDuel = config.games.find((game) => game.id === 'pool-duel');
-const iceDuel = config.games.find((game) => game.id === 'ice-duel');
+const iceDuel = config.games.find((game) => game.id === 'curling-duel');
 assert.ok(iceDuel, '清單要包含冰壺對決');
 assert.equal(iceDuel.launchUrl, 'https://pjh-eric.github.io/curling-duel/');
 assert.equal(iceDuel.icon, 'curling');
@@ -157,7 +157,7 @@ for (const game of config.games) {
 const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '派對', '策略', '3D', '棋類', '卡牌', '反應', '闖關', '閃避', '動作', '射擊', '運動', '三段 AI',
   '幼幼班', '單機', '電腦對戰', '線上多人', '線上雙人', '觀戰']);
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
-const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'ice-duel']);
+const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'curling-duel']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
   'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll', 'house-stack', 'snake-3d']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
@@ -173,7 +173,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'ice-duel'].includes(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel'].includes(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match', `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, 2, `${game.id} 要有兩個玩法特色標籤`);
