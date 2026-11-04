@@ -1196,7 +1196,7 @@
       "launchUrl": "https://pjh-eric.github.io/snake-3d/",
       "localPort": 3130,
       "projectFolder": "snake-3d",
-      "badge": "新遊戲",
+      "badge": "對戰",
       "i18n": {
         "en": {
           "title": "3D Snake",
@@ -1218,7 +1218,7 @@
             "Spectate"
           ],
           "controls": "Drag a finger or use arrows / WASD, hold the boost button to sprint",
-          "badge": "New"
+          "badge": "Versus"
         },
         "zh-Hans": {
           "title": "3D贪吃蛇",
@@ -1240,7 +1240,7 @@
             "观战"
           ],
           "controls": "手指拖曳或方向键／WASD 控制，按住加速钮冲刺",
-          "badge": "新游戏"
+          "badge": "对战"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/snake-3d/favicon-96.png",
@@ -1313,6 +1313,83 @@
       },
       "iconUrl": "https://pjh-eric.github.io/domino-push/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/domino-push/assets/images/cover.webp"
+    },
+    {
+      "id": "guess-ab",
+      "title": "密碼鎖 1A2B",
+      "eyebrow": "猜密碼保險箱",
+      "description": "猜出 4 格密碼，聽鎖發出 A、B 的提示；數字、字母、可愛圖案都能猜，五段難度、闖關與每日挑戰，也能線上競速或互相出題。",
+      "icon": "lock",
+      "accent": "mint",
+      "category": "brain",
+      "tags": [
+        "邏輯",
+        "數字",
+        "幼幼班",
+        "單機",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "單人闖關",
+        "每日挑戰",
+        "線上競速",
+        "互相出題",
+        "線上觀戰"
+      ],
+      "controls": "點符號或用鍵盤輸入 4 格，送出後看 A、B 提示",
+      "launchUrl": "https://pjh-eric.github.io/guess-ab/",
+      "localPort": 3100,
+      "projectFolder": "guess-ab",
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "Code Lock 1A2B",
+          "eyebrow": "Crack the Safe",
+          "description": "Crack the 4-slot code using the A and B clues. Guess numbers, letters or cute icons across five difficulty tiers, levels and a daily challenge, or race and duel online.",
+          "tags": [
+            "Logic",
+            "Numbers",
+            "Little Kids",
+            "Solo",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Solo Levels",
+            "Daily Challenge",
+            "Online Race",
+            "Online Duel",
+            "Spectate"
+          ],
+          "controls": "Tap symbols or type 4 slots, then read the A and B clues",
+          "badge": "New"
+        },
+        "zh-Hans": {
+          "title": "密码锁 1A2B",
+          "eyebrow": "猜密码保险箱",
+          "description": "猜出 4 格密码，听锁发出 A、B 的提示；数字、字母、可爱图案都能猜，五段难度、闯关与每日挑战，也能在线竞速或互相出题。",
+          "tags": [
+            "逻辑",
+            "数字",
+            "幼幼班",
+            "单机",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单人闯关",
+            "每日挑战",
+            "线上竞速",
+            "互相出题",
+            "线上观战"
+          ],
+          "controls": "点符号或用键盘输入 4 格，提交后看 A、B 提示",
+          "badge": "新游戏"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/guess-ab/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/guess-ab/assets/images/cover.webp"
     }
   ],
   "i18n": {

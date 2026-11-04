@@ -11,7 +11,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 17);
+assert.equal(config.games.length, 18);
 const dominoPush = config.games.find((game) => game.id === 'domino-push');
 assert.ok(dominoPush, '清單要包含推骨牌');
 assert.equal(dominoPush.launchUrl, 'https://pjh-eric.github.io/domino-push/');
@@ -165,7 +165,7 @@ const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
 const soloOnly = new Set(['domino-push']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push']);
+  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -179,7 +179,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id) && !soloOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, 2, `${game.id} 要有兩個玩法特色標籤`);
@@ -264,7 +264,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 17);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 18);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');
