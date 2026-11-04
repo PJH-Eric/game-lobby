@@ -11,7 +11,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 18);
+assert.equal(config.games.length, 17);
 const dominoPush = config.games.find((game) => game.id === 'domino-push');
 assert.ok(dominoPush, '清單要包含推骨牌');
 assert.equal(dominoPush.launchUrl, 'https://pjh-eric.github.io/domino-push/');
@@ -52,8 +52,7 @@ assert.equal(iceDuel.category, 'turn');
 assert.ok(iceDuel.additionalCategories.includes('sports'));
 assert.equal(poolDuel.category, 'turn', '撞球對決保留回合策略分類');
 assert.ok(poolDuel.additionalCategories.includes('sports'), '撞球對決同時歸類為運動競技');
-const pinballHoops = config.games.find((game) => game.id === 'pinball-hoops');
-assert.equal(pinballHoops.category, 'sports', '彈珠籃球歸入運動競技');
+assert.ok(!config.games.some((game) => game.id === 'pinball-hoops'), '大廳不列出彈珠籃球');
 for (const id of ['stair-kids', 'bomb-squad', 'maze-roll', 'house-stack']) {
   const game = config.games.find((item) => item.id === id);
   assert.equal(game.category, 'challenge', `${game.title} 要歸入動作挑戰`);
@@ -81,7 +80,7 @@ assert.ok(appSource.includes('image.remove()') && appSource.includes('icon.hidde
 assert.ok(appSource.includes('drawguess: `<svg'), '你畫我猜要有專屬圖示');
 assert.ok(appSource.includes('bomb: `<svg'), '炸彈小隊要有專屬圖示');
 assert.ok(appSource.includes('rainbow: `<svg'), '彩虹泡泡砲要有專屬圖示');
-assert.ok(appSource.includes('pinball: `<svg'), '彈珠籃球要有專屬圖示');
+assert.ok(!appSource.includes('pinball: `<svg'), '大廳不保留彈珠籃球專屬圖示');
 assert.ok(appSource.includes('balloon: `<svg'), '射氣球要有專屬圖示');
 const shootBalloon = config.games.find((game) => game.id === 'shoot-balloon');
 assert.ok(shootBalloon, '清單要包含射氣球');
@@ -166,7 +165,7 @@ const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
 const soloOnly = new Set(['domino-push']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'pinball-hoops', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push']);
+  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -265,7 +264,7 @@ function request(url) {
     assert.match(home.body, /遊戲小小島/);
     const servedConfig = await request(`http://127.0.0.1:${port}/config/games.json`);
     assert.equal(servedConfig.status, 200);
-    assert.equal(JSON.parse(servedConfig.body).games.length, 18);
+    assert.equal(JSON.parse(servedConfig.body).games.length, 17);
     const missing = await request(`http://127.0.0.1:${port}/missing-file.txt`);
     assert.equal(missing.status, 404);
     console.log('game-lobby verify passed');
