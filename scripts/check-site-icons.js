@@ -24,7 +24,10 @@ function webp(file) {
   assert.equal(bytes.subarray(12, 16).toString('ascii'), 'VP8L', file + ' lossless WebP chunk');
   assert.equal(bytes[20], 0x2f, file + ' lossless WebP header');
   assert.equal((((bytes[22] & 0x3f) << 8) | bytes[21]) + 1, 1200, file + ' width');
-  assert.equal((((bytes[22] >> 6) | (bytes[23] << 2) | ((bytes[24] & 0x0f) << 10)) + 1), 675, file + ' height');
+  // 封面 1200×675、SEO 分享圖 1200×630；以檔案真實高度為準，og:image:height 必須與它相同
+  const height = (((bytes[22] >> 6) | (bytes[23] << 2) | ((bytes[24] & 0x0f) << 10)) + 1);
+  assert.ok(height === 675 || height === 630, file + ' height ' + height + ' must be 675 (cover) or 630 (SEO image)');
+  return height;
 }
 
 function attributes(tag) {
@@ -47,7 +50,8 @@ function check(id, html, folder, siteUrl, sharePath) {
   const box = svg.match(/viewBox=["']([\d.\s-]+)["']/)[1].trim().split(/\s+/).map(Number);
   assert.equal(box[2], box[3], id + ' SVG must be square');
   const isWebp = sharePath.endsWith('.webp');
-  if (isWebp) webp(path.join(folder, sharePath));
+  let shareHeight = 630;
+  if (isWebp) shareHeight = webp(path.join(folder, sharePath));
   else png(path.join(folder, sharePath), 1200, 630);
   const metas = (head.match(/<meta\b[^>]*>/gi) || []).map(attributes);
   const og = metas.filter(meta => meta.property === 'og:image');
@@ -55,7 +59,7 @@ function check(id, html, folder, siteUrl, sharePath) {
   assert.equal(og[0].content, new URL(sharePath, siteUrl).href);
   assert.ok(metas.some(meta => meta.property === 'og:image:type' && meta.content === (isWebp ? 'image/webp' : 'image/png')));
   assert.ok(metas.some(meta => meta.property === 'og:image:width' && meta.content === '1200'));
-  assert.ok(metas.some(meta => meta.property === 'og:image:height' && meta.content === (isWebp ? '675' : '630')));
+  assert.ok(metas.some(meta => meta.property === 'og:image:height' && meta.content === String(shareHeight)));
   assert.ok(metas.some(meta => meta.name === 'twitter:image' && meta.content === og[0].content));
   const manifest = links.find(link => link.rel === 'manifest');
   if (manifest) {
@@ -82,27 +86,38 @@ function checkCover(id, html, folder, siteUrl, sharePath) {
 }
 
 try {
+  // ONLY=<遊戲 id> 只檢查單一遊戲（例如 ONLY=guess-ab node scripts/check-site-icons.js），並略過大廳與根網站
+  const only = process.env.ONLY;
   for (const game of config.games) {
+    if (only && game.id !== only) continue;
     const folder = path.join(workspace, game.projectFolder, 'public');
     let html = fs.readFileSync(path.join(folder, 'index.html'), 'utf8');
     const seoFile = path.join(workspace, game.projectFolder, 'seo.config.json');
     assert.equal(game.iconUrl, game.launchUrl + 'favicon-96.png');
     assert.equal(game.imageUrl, game.launchUrl + 'assets/images/cover.webp');
+    // 分享圖：遊戲的 seo.config.json 指定 seo.webp 就用 seo.webp，否則用 cover.webp
+    const seoCfg = fs.existsSync(seoFile) ? JSON.parse(fs.readFileSync(seoFile, 'utf8')) : {};
+    const sharePath = /\/assets\/images\/seo\.webp$/.test(seoCfg.ogImage || '') ? 'assets/images/seo.webp' : 'assets/images/cover.webp';
+    const shareUrl = game.launchUrl + sharePath;
     if (fs.existsSync(seoFile) && game.id !== 'maze-roll') {
       const copy = path.join(temp, game.id);
       fs.mkdirSync(path.join(copy, 'public'), { recursive: true });
       fs.copyFileSync(seoFile, path.join(copy, 'seo.config.json'));
+      // 注入器會讀分享圖的真實尺寸，所以把圖檔也放進暫存專案
+      fs.mkdirSync(path.dirname(path.join(copy, 'public', sharePath)), { recursive: true });
+      fs.copyFileSync(path.join(folder, sharePath), path.join(copy, 'public', sharePath));
       fs.writeFileSync(path.join(copy, 'public/index.html'), html, 'utf8');
       inject(copy, {});
       html = fs.readFileSync(path.join(copy, 'public/index.html'), 'utf8');
       inject(copy, {});
       assert.equal(fs.readFileSync(path.join(copy, 'public/index.html'), 'utf8'), html, 'Repeated builds must not duplicate image metadata');
       const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
-      assert.equal(ld.image, game.imageUrl);
-      assert.equal(ld.thumbnailUrl, game.imageUrl);
+      assert.equal(ld.image, shareUrl);
+      assert.equal(ld.thumbnailUrl, shareUrl);
     }
-    check(game.id, html, folder, game.launchUrl, 'assets/images/cover.webp');
+    check(game.id, html, folder, game.launchUrl, sharePath);
   }
+  if (only) { console.log('✓ ONLY=' + only + '：略過 snake-3d-unity、大廳與根網站'); return; }
   const unityTemplate = path.join(workspace, 'snake-3d-unity', 'Assets', 'WebGLTemplates', 'SnakeTemplate');
   const unityHtml = fs.readFileSync(path.join(unityTemplate, 'index.html'), 'utf8');
   const unityCover = 'assets/images/cover.webp';
