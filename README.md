@@ -102,7 +102,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 
 ## 啟動既有遊戲
 
-大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向十九個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
+大廳的正式遊戲連結集中在 `config/games.json` 的 `launchUrl`，目前指向二十個遊戲各自的 GitHub Pages。`localPort` 只供本機開發時使用，不會影響正式連結：
 
 | 遊戲 | 正式入口 | 本機測試埠 |
 | --- | --- | ---: |
@@ -119,6 +119,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 | 疊疊高樓 | `github.io/house-stack` | 3090 |
 | 密碼鎖 1A2B | `github.io/guess-ab` | 3100 |
 | 天使的策略 | `github.io/angel-strategy` | 3110 |
+| 水管接通 | `github.io/pipe-connect` | 3230 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 

@@ -11,12 +11,17 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 19);
+assert.equal(config.games.length, 20);
 const angelStrategy = config.games.find((game) => game.id === 'angel-strategy');
 assert.ok(angelStrategy, '清單要包含天使的策略');
 assert.equal(angelStrategy.launchUrl, 'https://pjh-eric.github.io/angel-strategy/');
 assert.equal(angelStrategy.icon, 'angel');
 assert.ok(!angelStrategy.modes.some((mode) => /電腦|AI/.test(mode)), '天使的策略沒有電腦對手');
+const pipeConnect = config.games.find((game) => game.id === 'pipe-connect');
+assert.ok(pipeConnect, '清單要包含水管接通');
+assert.equal(pipeConnect.launchUrl, 'https://pjh-eric.github.io/pipe-connect/');
+assert.equal(pipeConnect.icon, 'pipe');
+assert.ok(!pipeConnect.modes.some((mode) => /線上|電腦|AI/.test(mode)), '水管接通是純單機，不可宣稱線上或電腦對戰');
 const dominoPush = config.games.find((game) => game.id === 'domino-push');
 assert.ok(dominoPush, '清單要包含推骨牌');
 assert.equal(dominoPush.launchUrl, 'https://pjh-eric.github.io/domino-push/');
@@ -88,6 +93,7 @@ assert.ok(appSource.includes('rainbow: `<svg'), '彩虹泡泡砲要有專屬圖�
 assert.ok(!appSource.includes('pinball: `<svg'), '大廳不保留彈珠籃球專屬圖示');
 assert.ok(appSource.includes('balloon: `<svg'), '射氣球要有專屬圖示');
 assert.ok(appSource.includes('angel: `<svg'), '天使的策略要有專屬圖示');
+assert.ok(appSource.includes('pipe: `<svg'), '水管接通要有專屬圖示');
 const shootBalloon = config.games.find((game) => game.id === 'shoot-balloon');
 assert.ok(shootBalloon, '清單要包含射氣球');
 assert.equal(shootBalloon.launchUrl, 'https://pjh-eric.github.io/shoot-balloon/');
@@ -169,9 +175,9 @@ const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
 const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'curling-duel']);
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
-const soloOnly = new Set(['domino-push']);
+const soloOnly = new Set(['domino-push', 'pipe-connect']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy']);
+  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',

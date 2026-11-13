@@ -1341,7 +1341,7 @@
       "launchUrl": "https://pjh-eric.github.io/guess-ab/",
       "localPort": 3100,
       "projectFolder": "guess-ab",
-      "badge": "新遊戲",
+      "badge": "猜密碼",
       "i18n": {
         "en": {
           "title": "Code Lock 1A2B",
@@ -1363,7 +1363,7 @@
             "Spectate"
           ],
           "controls": "Tap symbols or type 4 slots, then read the A and B clues",
-          "badge": "New"
+          "badge": "Code Breaker"
         },
         "zh-Hans": {
           "title": "密码锁 1A2B",
@@ -1385,7 +1385,7 @@
             "线上观战"
           ],
           "controls": "点符号或用键盘输入 4 格，提交后看 A、B 提示",
-          "badge": "新游戏"
+          "badge": "猜密码"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/guess-ab/favicon-96.png",
@@ -1467,6 +1467,71 @@
       },
       "iconUrl": "https://pjh-eric.github.io/angel-strategy/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/angel-strategy/assets/images/cover.webp"
+    },
+    {
+      "id": "pipe-connect",
+      "title": "水管接通",
+      "eyebrow": "3D 水管益智",
+      "description": "點一下水管就會旋轉，把水從水源送到每個角落、不漏一滴水；3D 立體盤面，五段難度各 100 關、隨機出題與每日挑戰，還有鎖住的水管、多色水源與邊緣相通的盤面。",
+      "icon": "pipe",
+      "accent": "sky",
+      "category": "brain",
+      "tags": [
+        "邏輯",
+        "3D",
+        "幼幼班",
+        "單機"
+      ],
+      "modes": [
+        "單人闖關",
+        "隨機出題",
+        "每日挑戰"
+      ],
+      "controls": "點水管旋轉 90 度，拖曳轉視角、兩指或滾輪縮放",
+      "launchUrl": "https://pjh-eric.github.io/pipe-connect/",
+      "localPort": 3230,
+      "projectFolder": "pipe-connect",
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "Pipe Connect",
+          "eyebrow": "3D Pipe Puzzle",
+          "description": "Tap pipes to turn them and carry water from the source to every corner without a single leak. A 3D board with five difficulty tiers of 100 levels, random boards and a daily challenge, plus locked pipes, coloured sources and wrap-around edges.",
+          "tags": [
+            "Logic",
+            "3D",
+            "Little Kids",
+            "Solo"
+          ],
+          "modes": [
+            "Solo Levels",
+            "Random Boards",
+            "Daily Challenge"
+          ],
+          "controls": "Tap a pipe to turn it 90°, drag to orbit, pinch or scroll to zoom",
+          "badge": "New"
+        },
+        "zh-Hans": {
+          "title": "水管接通",
+          "eyebrow": "3D 水管益智",
+          "description": "点一下水管就会旋转，把水从水源送到每个角落、不漏一滴水；3D 立体盘面，五段难度各 100 关、随机出题与每日挑战，还有锁住的水管、多色水源与边缘相通的盘面。",
+          "tags": [
+            "逻辑",
+            "3D",
+            "幼幼班",
+            "单机"
+          ],
+          "modes": [
+            "单人闯关",
+            "随机出题",
+            "每日挑战"
+          ],
+          "controls": "点水管旋转 90 度，拖动转视角、两指或滚轮缩放",
+          "badge": "新游戏"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/pipe-connect/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/pipe-connect/assets/images/cover.webp"
     }
   ],
   "i18n": {
