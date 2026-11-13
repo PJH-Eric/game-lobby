@@ -1270,7 +1270,7 @@
       "launchUrl": "https://pjh-eric.github.io/domino-push/",
       "localPort": 3110,
       "projectFolder": "domino-push",
-      "badge": "新遊戲",
+      "badge": "連鎖",
       "i18n": {
         "en": {
           "title": "Domino Push",
@@ -1289,7 +1289,7 @@
             "Little Kids Mode"
           ],
           "controls": "Tap the mat to place, use the turn buttons to aim, then press \"Push!\"",
-          "badge": "New"
+          "badge": "Chain Reaction"
         },
         "zh-Hans": {
           "title": "推骨牌",
@@ -1308,7 +1308,7 @@
             "幼儿园模式"
           ],
           "controls": "点桌垫摆骨牌、旋转钮转向，按「推！」看连锁倒下",
-          "badge": "新游戏"
+          "badge": "连锁"
         }
       },
       "iconUrl": "https://pjh-eric.github.io/domino-push/favicon-96.png",
@@ -1390,6 +1390,83 @@
       },
       "iconUrl": "https://pjh-eric.github.io/guess-ab/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/guess-ab/assets/images/cover.webp"
+    },
+    {
+      "id": "angel-strategy",
+      "title": "天使的策略",
+      "eyebrow": "數學推理・心理戰",
+      "description": "地下設施風格的數學頭腦戰：密碼推理、算式湊數、算式金字塔、天平配重、找規則、湊近值六種題型，每題通關後附標註解法圖；五段難度各 200 關、每日與隨機挑戰，線上 2～6 人時間拍賣、大或小等心理戰。",
+      "icon": "angel",
+      "accent": "lilac",
+      "category": "brain",
+      "tags": [
+        "邏輯",
+        "數字",
+        "幼幼班",
+        "單機",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "單人闖關",
+        "每日挑戰",
+        "隨機挑戰",
+        "線上對戰",
+        "線上觀戰"
+      ],
+      "controls": "點數字與運算鍵作答，或用鍵盤輸入；線上用滑桿出價、點牌出手",
+      "launchUrl": "https://pjh-eric.github.io/angel-strategy/",
+      "localPort": 3110,
+      "projectFolder": "angel-strategy",
+      "badge": "新遊戲",
+      "i18n": {
+        "en": {
+          "title": "Angel Strategy",
+          "eyebrow": "Math Logic · Mind Games",
+          "description": "A math mind-game in an underground facility: code locks, make-the-target, number pyramids, balance scales, rule finding and closest-value puzzles, each with an annotated solution once cleared. Five tiers of 200 levels, daily and random challenges, plus 2–6 player online mind games like Time Auction and High or Low.",
+          "tags": [
+            "Logic",
+            "Numbers",
+            "Little Kids",
+            "Solo",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Solo Levels",
+            "Daily Challenge",
+            "Random Challenge",
+            "Online Match",
+            "Spectate"
+          ],
+          "controls": "Tap numbers and operators or type on the keyboard; online, bid with the slider and tap cards to play",
+          "badge": "New"
+        },
+        "zh-Hans": {
+          "title": "天使的策略",
+          "eyebrow": "数学推理・心理战",
+          "description": "地下设施风格的数学头脑战：密码推理、算式凑数、算式金字塔、天平配重、找规则、凑近值六种题型，每题通关后附标注解法图；五段难度各 200 关、每日与随机挑战，在线 2～6 人时间拍卖、大或小等心理战。",
+          "tags": [
+            "逻辑",
+            "数字",
+            "幼幼班",
+            "单机",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单人闯关",
+            "每日挑战",
+            "随机挑战",
+            "在线对战",
+            "线上观战"
+          ],
+          "controls": "点数字与运算键作答，或用键盘输入；在线用滑杆出价、点牌出手",
+          "badge": "新游戏"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/angel-strategy/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/angel-strategy/assets/images/cover.webp"
     }
   ],
   "i18n": {
