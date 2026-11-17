@@ -62,7 +62,18 @@
             <button class="filter-chip" type="button" data-filter="challenge" data-i18n="cat.challenge">動作挑戰</button>
             <button class="filter-chip" type="button" data-filter="action" data-i18n="cat.action">反應派</button>
           </div>
-          <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="game-search" type="search" placeholder="搜尋遊戲…" aria-label="搜尋遊戲" data-i18n-attr="placeholder=search.placeholder;aria-label=search.aria"></label>
+          <div class="toolbar-tools">
+            <label class="sort-box">
+              <span class="visually-hidden" data-i18n="sort.aria">遊戲排序</span>
+              <select id="game-sort" aria-label="遊戲排序" data-i18n-attr="aria-label=sort.aria">
+                <option value="published-newest" selected data-i18n="sort.publishedNewest">上架時間 近 → 遠</option>
+                <option value="published-oldest" data-i18n="sort.publishedOldest">上架時間 遠 → 近</option>
+                <option value="plays-most" data-i18n="sort.playsMost">遊玩次數 多 → 少</option>
+                <option value="plays-least" data-i18n="sort.playsLeast">遊玩次數 少 → 多</option>
+              </select>
+            </label>
+            <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="game-search" type="search" placeholder="搜尋遊戲…" aria-label="搜尋遊戲" data-i18n-attr="placeholder=search.placeholder;aria-label=search.aria"></label>
+          </div>
         </div>
         <div class="games-grid" id="games-grid" aria-live="polite">
           <!--SEO:GAMES-->
@@ -115,7 +126,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script data-goatcounter="https://pjh-games.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <script>
-    /* GA4 報表（訪客數、game_start 遊玩次數）由 Pages workflow 產生靜態快照；未設定授權時保留「–」。 */
+    /* GA4 報表（訪客數、整體與單款 game_start 次數）由 Pages workflow 產生靜態快照。 */
     fetch('visitor-count.json', { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('GA4 visitor count is unavailable');

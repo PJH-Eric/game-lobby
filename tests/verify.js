@@ -4,7 +4,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 const { spawn, spawnSync } = require('node:child_process');
-const { createReportRequest, createPlaysReportRequest, getAnalyticsCounts } = require('../scripts/update-ga-visitor-count');
+const {
+  createReportRequest,
+  createPlaysReportRequest,
+  createGamePlaysReportRequest,
+  getAnalyticsCounts,
+  getAnalyticsSnapshot,
+} = require('../scripts/update-ga-visitor-count');
 
 const root = path.resolve(__dirname, '..');
 const configPath = path.join(root, 'config', 'games.json');
@@ -76,6 +82,7 @@ assert.ok(!config.games.some((game) => game.id === 'cat-dog-war'));
 for (const game of config.games) {
   assert.ok(game.title && game.description && game.icon && game.launchUrl);
   assert.match(game.launchUrl, /^https?:\/\//);
+  assert.match(game.publishedAt, /^\d{4}-\d{2}-\d{2}$/, game.id + ' 要有 ISO 上架日期');
   assert.equal(game.imageUrl, game.launchUrl + 'assets/images/cover.webp', `${game.id} must use its dedicated WebP cover`);
   assert.ok(Array.isArray(game.tags) && game.tags.length > 0);
 }
@@ -86,6 +93,11 @@ for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 assert.ok(appSource.includes('class="card-cover"'), '遊戲卡片要顯示專屬封面');
+assert.ok(indexHtml.includes('id="game-sort"'), '大廳要有遊戲排序選單');
+for (const value of ['published-newest', 'published-oldest', 'plays-most', 'plays-least']) {
+  assert.ok(indexHtml.includes('value="' + value + '"'), '排序選單缺少 ' + value);
+}
+assert.ok(appSource.includes('card-play-count'), '卡片要顯示單款遊玩次數');
 assert.ok(appSource.includes('image.remove()') && appSource.includes('icon.hidden = false'), '封面載入失敗時使用遊戲專屬 SVG 備援');
 assert.ok(appSource.includes('drawguess: `<svg'), '你畫我猜要有專屬圖示');
 assert.ok(appSource.includes('bomb: `<svg'), '炸彈小隊要有專屬圖示');
@@ -232,6 +244,18 @@ async function verifyGaVisitorCountApi() {
     assert.equal(url, 'https://analyticsdata.googleapis.com/v1beta/properties/123456789:runReport');
     assert.equal(options.headers.authorization, 'Bearer mock-access-token');
     const body = JSON.parse(options.body);
+    if (body.dimensions) {
+      assert.deepEqual(body, createGamePlaysReportRequest());
+      return {
+        ok: true,
+        json: async () => ({
+          rows: [
+            { dimensionValues: [{ value: 'flip-match' }], metricValues: [{ value: '87' }] },
+            { dimensionValues: [{ value: 'sudoku' }], metricValues: [{ value: '12' }] },
+          ],
+        }),
+      };
+    }
     if (body.dimensionFilter) {
       assert.deepEqual(body, createPlaysReportRequest());
       assert.equal(body.dimensionFilter.filter.stringFilter.value, 'game_start');
@@ -244,6 +268,12 @@ async function verifyGaVisitorCountApi() {
   const counts = await getAnalyticsCounts({ propertyId: '123456789', serviceAccount, fetchImpl });
   assert.deepEqual(counts, { users: 42, plays: 1234 });
   assert.equal(calls.length, 3);
+  const snapshot = await getAnalyticsSnapshot({ propertyId: '123456789', serviceAccount, fetchImpl });
+  const expectedGameCounts = Object.fromEntries(config.games.map((game) => [game.id, 0]));
+  expectedGameCounts['flip-match'] = 87;
+  expectedGameCounts.sudoku = 12;
+  assert.deepEqual(snapshot, { users: 42, plays: 1234, gamePlays: expectedGameCounts });
+  assert.equal(calls.length, 7);
   await assert.rejects(getAnalyticsCounts({ propertyId: 'G-PG79WZK8Y', serviceAccount, fetchImpl }), /numeric GA4 property ID/);
 }
 

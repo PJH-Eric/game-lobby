@@ -50,6 +50,8 @@ GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`�
 
 ### 頁尾的 GA4 累計不重複訪客數與遊玩次數
 
+遊戲卡片也會顯示每款遊戲的 game_start 次數，並使用 GA4 事件範圍的 game_id 自訂維度分組；請先在 GA4 建立此自訂維度。個別遊玩數依靜態計數快照更新。
+
 頁尾讀取 GA4 Data API 的 `totalUsers` 指標（不重複訪客），以及 `game_start` 事件的 `eventCount`（累計遊玩次數：全部遊戲共用同一個 GA4 資源，每開一局算一次，觀戰不算），查詢範圍從 `2020-01-01` 到今天；實際數字只會包含 GA 標籤開始收集後的資料，不會匯入舊的 GoatCounter 計數。Pages workflow 在每次部署及每日排程時更新靜態計數檔，GA 報表資料可能有處理延遲。
 
 設定方式：
@@ -132,6 +134,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 ```json
 {
   "id": "new-game",
+  "publishedAt": "2026-11-17",
   "title": "新遊戲",
   "eyebrow": "新冒險",
   "description": "一段顯示在卡片上的簡介。",
@@ -151,6 +154,8 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`rainbow`、`balloon`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
 
 ### 分類、標籤與徽章規則
+
+publishedAt 使用 YYYY-MM-DD，供「上架時間」排序；若沒有正式日期，可採遊戲 repo 最早 commit 日期。
 
 - `category` 目前有 `brain`（動動腦）、`turn`（回合策略：棋類、大富翁、撞球、線上輪流作畫等有明確輪次的遊戲）、`sports`（運動競技：撞球等運動遊戲）、`challenge`（動作挑戰：下樓梯、放炸彈、迷宮滾球、疊高樓等需要持續操控或移動的遊戲）、`action`（反應派：需要快速辨識、瞄準或出手的遊戲）。遊戲可用 `additionalCategories` 加入其他相符分類，例如撞球同時屬於回合策略與運動競技。新增分類要同步更新 `index.html`、`app.js`、三種語系與分類檢查，而且每個分類至少要有一款遊戲。
 - `tags` 最多 7 個，順序固定為：兩個玩法特色（記憶、邏輯、數字、消除、畫畫、派對、策略、棋類、卡牌、反應、闖關、閃避、動作、射擊、運動、`3D`）→ `幼幼班`（有支援才加）→ `單機` → `電腦對戰` → `線上雙人` 或 `線上多人` → `觀戰`。模式依實際功能標示，不為了限制數量省略已支援的模式。

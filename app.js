@@ -3,7 +3,20 @@
 
   const STORAGE_KEY = 'game-lobby-preferences-v1';
   const FAVORITES_KEY = 'game-lobby-favorites-v1';
-  const state = { games: [], config: null, loadFailed: false, detailsId: null, filter: 'all', query: '', favorites: readList(FAVORITES_KEY), preferences: readPreferences(), lastFocus: null, openModal: null };
+  const state = {
+    games: [],
+    config: null,
+    loadFailed: false,
+    detailsId: null,
+    filter: 'all',
+    query: '',
+    sort: 'published-newest',
+    gamePlayCounts: null,
+    favorites: readList(FAVORITES_KEY),
+    preferences: readPreferences(),
+    lastFocus: null,
+    openModal: null
+  };
   const categoryLabels = {
     brain: 'cat.brain',
     turn: 'cat.turn',
@@ -13,6 +26,7 @@
   };
   const t = (key, params) => window.I18N.t(key, params);
   const catLabel = (category) => (categoryLabels[category] ? t(categoryLabels[category]) : '');
+  const numberLocales = { en: 'en-US', 'zh-Hans': 'zh-CN' };
   /* 目前語言的遊戲文案：繁中用原文，簡中與英文分別疊上對應欄位。 */
   const loc = (game) => {
     const extra = window.I18N.lang !== 'zh-Hant' && game.i18n && game.i18n[window.I18N.lang];
@@ -38,6 +52,39 @@
 
   function escapeHtml(value) {
     return String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+  }
+
+  function playCountText(gameId) {
+    const count = state.gamePlayCounts?.[gameId];
+    const locale = numberLocales[window.I18N.lang] || 'zh-TW';
+    const formattedCount = Number.isSafeInteger(count) && count >= 0
+      ? new Intl.NumberFormat(locale).format(count)
+      : '–';
+    return t('card.playCount', { n: formattedCount });
+  }
+
+  function sortGames(games) {
+    const compareNewest = (a, b) => {
+      const dateA = String(a.publishedAt || '');
+      const dateB = String(b.publishedAt || '');
+      return dateB.localeCompare(dateA);
+    };
+    const playCount = (game) => {
+      const count = state.gamePlayCounts?.[game.id];
+      return Number.isSafeInteger(count) ? count : 0;
+    };
+    const indexedGames = games.map((game, index) => ({ game, index }));
+
+    indexedGames.sort((a, b) => {
+      let comparison = 0;
+      if (state.sort === 'published-newest') comparison = compareNewest(a.game, b.game);
+      if (state.sort === 'published-oldest') comparison = compareNewest(b.game, a.game);
+      if (state.sort === 'plays-most') comparison = playCount(b.game) - playCount(a.game);
+      if (state.sort === 'plays-least') comparison = playCount(a.game) - playCount(b.game);
+      return comparison || a.index - b.index;
+    });
+
+    return indexedGames.map(({ game }) => game);
   }
 
   function iconSvg(type) {
@@ -82,7 +129,7 @@
 
   function visibleGames() {
     const query = state.query.trim().toLowerCase();
-    return state.games.filter((rawGame) => {
+    const filteredGames = state.games.filter((rawGame) => {
       const game = loc(rawGame);
       const matchesFilter = state.filter === 'all'
         || game.category === state.filter
@@ -90,6 +137,7 @@
       const haystack = [game.title, game.description, game.eyebrow, ...(game.tags || [])].join(' ').toLowerCase();
       return matchesFilter && (!query || haystack.includes(query));
     });
+    return sortGames(filteredGames);
   }
 
   function renderGames() {
@@ -117,6 +165,13 @@
     });
     $$('[data-details]').forEach((button) => button.addEventListener('click', () => openDetails(button.dataset.details)));
     $$('[data-favorite]').forEach((button) => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
+    $$('.game-card').forEach((card) => {
+      const count = document.createElement('span');
+      count.className = 'card-play-count';
+      count.dataset.gamePlayCount = card.dataset.gameId;
+      count.textContent = playCountText(card.dataset.gameId);
+      card.querySelector('.card-actions').append(count);
+    });
     $$('.play-link').forEach((link) => link.addEventListener('click', () => {
       trackSelection(link.closest('.game-card').dataset.gameId, 'card_link');
       playSfx('open');
@@ -242,6 +297,11 @@
       window.GameAnalytics.track('filter_games', { category: button.dataset.filter });
     }));
     $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; state.filter = 'all'; $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all')); renderGames(); });
+    $('#game-sort').addEventListener('change', (event) => {
+      state.sort = event.target.value;
+      playSfx('click');
+      renderGames();
+    });
     $('#clear-filter').addEventListener('click', () => { state.query = ''; $('#game-search').value = ''; setFilter('all'); });
     $('#settings-open').addEventListener('click', () => { playSfx('click'); openModal($('#settings-modal')); });
     $$('[data-close-modal]').forEach((button) => button.addEventListener('click', () => closeModal(button.closest('.modal-backdrop'))));
@@ -327,7 +387,29 @@
     }
   }
 
+  async function loadGamePlayCounts() {
+    try {
+      const response = await fetch('visitor-count.json', { cache: 'no-store' });
+      if (!response.ok) return;
+      const data = await response.json();
+      const report = data.playsByGame;
+      if (data.source !== 'google-analytics' || report?.eventName !== 'game_start'
+        || !report.counts || typeof report.counts !== 'object') return;
+
+      state.gamePlayCounts = Object.fromEntries(
+        Object.entries(report.counts).filter(([, count]) => Number.isSafeInteger(count) && count >= 0)
+      );
+      if (state.sort.startsWith('plays-')) renderGames();
+      else {
+        $$('.card-play-count').forEach((element) => {
+          element.textContent = playCountText(element.dataset.gamePlayCount);
+        });
+      }
+    } catch {}
+  }
+
   applyPreferences();
   setupEvents();
+  loadGamePlayCounts();
   loadGames();
 })();
