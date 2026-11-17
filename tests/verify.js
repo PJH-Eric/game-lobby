@@ -8,6 +8,8 @@ const {
   createReportRequest,
   createPlaysReportRequest,
   createGamePlaysReportRequest,
+  createGamePlaysByPagePathReportRequest,
+  gameIdCutoverDate,
   getAnalyticsCounts,
   getAnalyticsSnapshot,
 } = require('../scripts/update-ga-visitor-count');
@@ -63,6 +65,7 @@ const poolDuel = config.games.find((game) => game.id === 'pool-duel');
 const iceDuel = config.games.find((game) => game.id === 'curling-duel');
 assert.ok(iceDuel, '清單要包含冰壺對決');
 assert.equal(iceDuel.launchUrl, 'https://pjh-eric.github.io/curling-duel/');
+assert.deepEqual(iceDuel.legacyAnalyticsGameIds, ['ice-duel'], '大廳要保留冰壺舊 GA game_id 的歷史次數');
 assert.equal(iceDuel.icon, 'curling');
 assert.equal(iceDuel.category, 'turn');
 assert.ok(iceDuel.additionalCategories.includes('sports'));
@@ -93,9 +96,10 @@ for (const file of ['index.html', 'styles.css', 'app.js', 'server.js']) {
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 assert.ok(appSource.includes('class="card-cover"'), '遊戲卡片要顯示專屬封面');
-assert.ok(indexHtml.includes('id="game-sort"'), '大廳要有遊戲排序選單');
+assert.ok(indexHtml.includes('id="game-sort"') && indexHtml.includes('role="listbox"'), '大廳要有自訂遊戲排序選單');
+assert.ok(!/<select\b/i.test(indexHtml), '遊戲排序不可使用原生下拉選單');
 for (const value of ['published-newest', 'published-oldest', 'plays-most', 'plays-least']) {
-  assert.ok(indexHtml.includes('value="' + value + '"'), '排序選單缺少 ' + value);
+  assert.ok(indexHtml.includes('data-sort="' + value + '"'), '排序選單缺少 ' + value);
 }
 assert.ok(appSource.includes('card-play-count'), '卡片要顯示單款遊玩次數');
 assert.ok(appSource.includes('image.remove()') && appSource.includes('icon.hidden = false'), '封面載入失敗時使用遊戲專屬 SVG 備援');
@@ -244,18 +248,20 @@ async function verifyGaVisitorCountApi() {
     assert.equal(url, 'https://analyticsdata.googleapis.com/v1beta/properties/123456789:runReport');
     assert.equal(options.headers.authorization, 'Bearer mock-access-token');
     const body = JSON.parse(options.body);
-    if (body.dimensions) {
-      assert.deepEqual(body, createGamePlaysReportRequest());
+    if (body.dimensions?.[0]?.name === 'pagePath') {
+      assert.deepEqual(body, createGamePlaysByPagePathReportRequest({ startDate: '2020-01-01', endDate: '2026-11-19' }));
       return {
         ok: true,
         json: async () => ({
           rows: [
-            { dimensionValues: [{ value: 'flip-match' }], metricValues: [{ value: '87' }] },
-            { dimensionValues: [{ value: 'sudoku' }], metricValues: [{ value: '12' }] },
+            { dimensionValues: [{ value: '/flip-match/' }], metricValues: [{ value: '87' }] },
+            { dimensionValues: [{ value: '/sudoku' }], metricValues: [{ value: '12' }] },
+            { dimensionValues: [{ value: '/curling-duel/' }], metricValues: [{ value: '23' }] },
           ],
         }),
       };
     }
+    assert.notEqual(body.dimensions?.[0]?.name, 'customEvent:game_id', '11/20 前只能用 pagePath 查遊戲次數');
     if (body.dimensionFilter) {
       assert.deepEqual(body, createPlaysReportRequest());
       assert.equal(body.dimensionFilter.filter.stringFilter.value, 'game_start');
@@ -268,12 +274,73 @@ async function verifyGaVisitorCountApi() {
   const counts = await getAnalyticsCounts({ propertyId: '123456789', serviceAccount, fetchImpl });
   assert.deepEqual(counts, { users: 42, plays: 1234 });
   assert.equal(calls.length, 3);
-  const snapshot = await getAnalyticsSnapshot({ propertyId: '123456789', serviceAccount, fetchImpl });
+  const snapshot = await getAnalyticsSnapshot({ propertyId: '123456789', serviceAccount, fetchImpl, today: '2026-11-19' });
   const expectedGameCounts = Object.fromEntries(config.games.map((game) => [game.id, 0]));
   expectedGameCounts['flip-match'] = 87;
   expectedGameCounts.sudoku = 12;
-  assert.deepEqual(snapshot, { users: 42, plays: 1234, gamePlays: expectedGameCounts });
+  expectedGameCounts['curling-duel'] = 23;
+  assert.deepEqual(snapshot, { users: 42, plays: 122, allGameStarts: 1234, gamePlays: expectedGameCounts, gamePlayDimension: 'pagePath' });
+  assert.equal(snapshot.plays, Object.values(snapshot.gamePlays).reduce((total, count) => total + count, 0));
   assert.equal(calls.length, 7);
+
+  const fallbackFetch = async (url, options) => {
+    if (url === serviceAccount.token_uri) return { ok: true, json: async () => ({ access_token: 'mock-access-token' }) };
+    const body = JSON.parse(options.body);
+    if (body.dimensions?.[0]?.name === 'pagePath') return { ok: false, status: 400, text: async () => 'pagePath unavailable' };
+    assert.notEqual(body.dimensions?.[0]?.name, 'customEvent:game_id', '切換日前不可改用 game_id 補查');
+    if (body.dimensionFilter) return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '1234' }] }] }) };
+    return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '42' }] }] }) };
+  };
+  const fallbackSnapshot = await getAnalyticsSnapshot({ propertyId: '123456789', serviceAccount, fetchImpl: fallbackFetch, today: '2026-11-19' });
+  assert.equal(fallbackSnapshot.gamePlayDimension, null);
+  assert.equal(fallbackSnapshot.gamePlays, null, '11/20 前 pagePath 無法查詢時不可改用不同維度補出不完整數字');
+  assert.equal(fallbackSnapshot.plays, null, '單款次數無法查詢時不可顯示無法核對的總數');
+  assert.equal(fallbackSnapshot.allGameStarts, 1234, '原始 GA4 全事件數保留供核對');
+
+  const splitFetch = async (url, options) => {
+    if (url === serviceAccount.token_uri) return { ok: true, json: async () => ({ access_token: 'mock-access-token' }) };
+    const body = JSON.parse(options.body);
+    if (body.dimensions?.[0]?.name === 'pagePath') {
+      assert.deepEqual(body, createGamePlaysByPagePathReportRequest({ startDate: '2020-01-01', endDate: '2026-11-19' }));
+      return { ok: true, json: async () => ({ rows: [
+        { dimensionValues: [{ value: '/curling-duel/' }], metricValues: [{ value: '100' }] },
+        { dimensionValues: [{ value: '/flip-match/' }], metricValues: [{ value: '200' }] },
+      ] }) };
+    }
+    if (body.dimensions?.[0]?.name === 'customEvent:game_id') {
+      assert.deepEqual(body, createGamePlaysReportRequest({ startDate: gameIdCutoverDate, endDate: 'today' }));
+      return { ok: true, json: async () => ({ rows: [
+        { dimensionValues: [{ value: 'curling-duel' }], metricValues: [{ value: '5' }] },
+        { dimensionValues: [{ value: 'ice-duel' }], metricValues: [{ value: '19' }] },
+        { dimensionValues: [{ value: 'flip-match' }], metricValues: [{ value: '7' }] },
+      ] }) };
+    }
+    if (body.dimensionFilter) return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '1234' }] }] }) };
+    return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '42' }] }] }) };
+  };
+  const splitSnapshot = await getAnalyticsSnapshot({ propertyId: '123456789', serviceAccount, fetchImpl: splitFetch, today: '2026-11-20' });
+  assert.equal(splitSnapshot.gamePlayDimension, 'pagePath+game_id');
+  assert.equal(splitSnapshot.gamePlays['curling-duel'], 124, '切日前頁面路徑與新舊 game_id 次數要加總');
+  assert.equal(splitSnapshot.gamePlays['flip-match'], 207);
+  assert.equal(splitSnapshot.plays, 331, '切日後頁尾總數要和 20 款遊戲的卡片次數加總一致');
+  assert.equal(splitSnapshot.plays, Object.values(splitSnapshot.gamePlays).reduce((total, count) => total + count, 0));
+  assert.equal(splitSnapshot.allGameStarts - splitSnapshot.plays, 903, '未歸屬至大廳遊戲的事件留作對帳');
+  assert.equal(splitSnapshot.allGameStarts, 1234, '原始 GA4 全事件數保留供核對');
+
+  const overcountFetch = async (url, options) => {
+    if (url === serviceAccount.token_uri) return { ok: true, json: async () => ({ access_token: 'mock-access-token' }) };
+    const body = JSON.parse(options.body);
+    if (body.dimensions?.[0]?.name === 'pagePath') {
+      return { ok: true, json: async () => ({ rows: [
+        { dimensionValues: [{ value: '/flip-match/' }], metricValues: [{ value: '1300' }] },
+      ] }) };
+    }
+    if (body.dimensionFilter) return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '1234' }] }] }) };
+    return { ok: true, json: async () => ({ rows: [{ metricValues: [{ value: '42' }] }] }) };
+  };
+  const inconsistentSnapshot = await getAnalyticsSnapshot({ propertyId: '123456789', serviceAccount, fetchImpl: overcountFetch, today: '2026-11-19' });
+  assert.equal(inconsistentSnapshot.gamePlays, null, '卡片加總高於 GA4 全事件數時要隱藏不一致數字');
+  assert.equal(inconsistentSnapshot.plays, null);
   await assert.rejects(getAnalyticsCounts({ propertyId: 'G-PG79WZK8Y', serviceAccount, fetchImpl }), /numeric GA4 property ID/);
 }
 

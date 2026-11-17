@@ -27,6 +27,12 @@
   const t = (key, params) => window.I18N.t(key, params);
   const catLabel = (category) => (categoryLabels[category] ? t(categoryLabels[category]) : '');
   const numberLocales = { en: 'en-US', 'zh-Hans': 'zh-CN' };
+  const sortLabels = {
+    'published-newest': 'sort.publishedNewest',
+    'published-oldest': 'sort.publishedOldest',
+    'plays-most': 'sort.playsMost',
+    'plays-least': 'sort.playsLeast'
+  };
   /* 目前語言的遊戲文案：繁中用原文，簡中與英文分別疊上對應欄位。 */
   const loc = (game) => {
     const extra = window.I18N.lang !== 'zh-Hant' && game.i18n && game.i18n[window.I18N.lang];
@@ -85,6 +91,49 @@
     });
 
     return indexedGames.map(({ game }) => game);
+  }
+
+  function syncSortControl() {
+    const currentLabel = t(sortLabels[state.sort]);
+    $('#game-sort-label').textContent = currentLabel;
+    $('#game-sort').setAttribute('aria-label', t('sort.current', { label: currentLabel }));
+    $$('.sort-option').forEach((option) => {
+      option.setAttribute('aria-selected', String(option.dataset.sort === state.sort));
+    });
+  }
+
+  function setSortMenuOpen(open, focusSelected = false, restoreTrigger = false) {
+    const control = $('#sort-control');
+    const trigger = $('#game-sort');
+    const menu = $('#game-sort-options');
+    menu.hidden = !open;
+    trigger.setAttribute('aria-expanded', String(open));
+    control.classList.toggle('is-open', open);
+    if (open && focusSelected) $('.sort-option[aria-selected="true"]', menu)?.focus();
+    if (!open && restoreTrigger) trigger.focus();
+  }
+
+  function chooseSort(value) {
+    if (!Object.prototype.hasOwnProperty.call(sortLabels, value)) return;
+    state.sort = value;
+    syncSortControl();
+    setSortMenuOpen(false, false, true);
+    playSfx('click');
+    renderGames();
+  }
+
+  function moveSortOption(event) {
+    const options = $$('.sort-option');
+    const currentIndex = options.indexOf(document.activeElement);
+    let nextIndex;
+    if (event.key === 'ArrowDown') nextIndex = (currentIndex + 1 + options.length) % options.length;
+    else if (event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + options.length) % options.length;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = options.length - 1;
+    else return false;
+    event.preventDefault();
+    options[nextIndex].focus();
+    return true;
   }
 
   function iconSvg(type) {
@@ -291,16 +340,43 @@
   function setupEvents() {
     window.I18N.mountToggle({ after: $('#settings-open') });
     window.I18N.onChange(onLanguageChange);
+    syncSortControl();
     $$('.filter-chip').forEach((button) => button.addEventListener('click', () => {
       playSfx('click');
       setFilter(button.dataset.filter);
       window.GameAnalytics.track('filter_games', { category: button.dataset.filter });
     }));
     $('#game-search').addEventListener('input', (event) => { state.query = event.target.value; state.filter = 'all'; $$('.filter-chip').forEach((button) => button.classList.toggle('active', button.dataset.filter === 'all')); renderGames(); });
-    $('#game-sort').addEventListener('change', (event) => {
-      state.sort = event.target.value;
-      playSfx('click');
-      renderGames();
+    const sortTrigger = $('#game-sort');
+    const sortMenu = $('#game-sort-options');
+    sortTrigger.addEventListener('click', () => {
+      const open = sortTrigger.getAttribute('aria-expanded') !== 'true';
+      setSortMenuOpen(open, open);
+    });
+    sortTrigger.addEventListener('keydown', (event) => {
+      if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
+        event.preventDefault();
+        setSortMenuOpen(true, true);
+      }
+    });
+    sortMenu.addEventListener('click', (event) => {
+      const option = event.target.closest('.sort-option');
+      if (option) chooseSort(option.dataset.sort);
+    });
+    sortMenu.addEventListener('keydown', (event) => {
+      if (moveSortOption(event)) return;
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        chooseSort(document.activeElement.dataset.sort);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        setSortMenuOpen(false, false, true);
+      } else if (event.key === 'Tab') {
+        setSortMenuOpen(false);
+      }
+    });
+    document.addEventListener('pointerdown', (event) => {
+      if (!$('#sort-control').contains(event.target)) setSortMenuOpen(false);
     });
     $('#clear-filter').addEventListener('click', () => { state.query = ''; $('#game-search').value = ''; setFilter('all'); });
     $('#settings-open').addEventListener('click', () => { playSfx('click'); openModal($('#settings-modal')); });
@@ -364,6 +440,7 @@
   /* 切換語言：卡片、篩選說明、彈窗內容與 CSS 版面都跟著新語言重畫（靜態文字由 I18N.apply 處理）。 */
   function onLanguageChange() {
     if (state.config) applyLobbyTitle(state.config);
+    syncSortControl();
     if (state.loadFailed) renderLoadError();
     else if (state.games.length) renderGames();
     if (state.detailsId) fillDetails(state.detailsId);

@@ -63,15 +63,19 @@
             <button class="filter-chip" type="button" data-filter="action" data-i18n="cat.action">反應派</button>
           </div>
           <div class="toolbar-tools">
-            <label class="sort-box">
-              <span class="visually-hidden" data-i18n="sort.aria">遊戲排序</span>
-              <select id="game-sort" aria-label="遊戲排序" data-i18n-attr="aria-label=sort.aria">
-                <option value="published-newest" selected data-i18n="sort.publishedNewest">上架時間 近 → 遠</option>
-                <option value="published-oldest" data-i18n="sort.publishedOldest">上架時間 遠 → 近</option>
-                <option value="plays-most" data-i18n="sort.playsMost">遊玩次數 多 → 少</option>
-                <option value="plays-least" data-i18n="sort.playsLeast">遊玩次數 少 → 多</option>
-              </select>
-            </label>
+            <div class="sort-box" id="sort-control">
+              <button class="sort-trigger" id="game-sort" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="game-sort-options" aria-label="遊戲排序">
+                <svg class="sort-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M4.5 9 8 5l3.5 4M16 19V5m-3.5 4L16 5l3.5 4" /></svg>
+                <span class="sort-label" id="game-sort-label" data-i18n="sort.publishedNewest">上架時間 近 → 遠</span>
+                <svg class="sort-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5" /></svg>
+              </button>
+              <div class="sort-menu" id="game-sort-options" role="listbox" aria-label="遊戲排序" data-i18n-attr="aria-label=sort.aria" hidden>
+                <button class="sort-option" type="button" role="option" data-sort="published-newest" aria-selected="true" tabindex="-1"><span data-i18n="sort.publishedNewest">上架時間 近 → 遠</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" /></svg></button>
+                <button class="sort-option" type="button" role="option" data-sort="published-oldest" aria-selected="false" tabindex="-1"><span data-i18n="sort.publishedOldest">上架時間 遠 → 近</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" /></svg></button>
+                <button class="sort-option" type="button" role="option" data-sort="plays-most" aria-selected="false" tabindex="-1"><span data-i18n="sort.playsMost">遊玩次數 多 → 少</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" /></svg></button>
+                <button class="sort-option" type="button" role="option" data-sort="plays-least" aria-selected="false" tabindex="-1"><span data-i18n="sort.playsLeast">遊玩次數 少 → 多</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" /></svg></button>
+              </div>
+            </div>
             <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="game-search" type="search" placeholder="搜尋遊戲…" aria-label="搜尋遊戲" data-i18n-attr="placeholder=search.placeholder;aria-label=search.aria"></label>
           </div>
         </div>
@@ -137,7 +141,7 @@
         var format = new Intl.NumberFormat('zh-TW').format;
         var count = Number(d.count);
         if (d.metric === 'totalUsers' && Number.isSafeInteger(count)) document.getElementById('visitor-count').textContent = format(count);
-        var plays = d.plays && Number(d.plays.count);
+        var plays = d.plays && d.plays.count;
         if (d.plays && d.plays.eventName === 'game_start' && Number.isSafeInteger(plays)) document.getElementById('play-count').textContent = format(plays);
       })
       .catch(function () {});

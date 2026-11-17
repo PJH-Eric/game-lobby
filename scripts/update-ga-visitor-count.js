@@ -7,7 +7,18 @@ const tokenUrl = 'https://oauth2.googleapis.com/token';
 const apiScope = 'https://www.googleapis.com/auth/analytics.readonly';
 const reportUrl = 'https://analyticsdata.googleapis.com/v1beta/properties';
 const dateRange = { startDate: '2020-01-01', endDate: 'today' };
-const gameIds = require('../config/games.json').games.map((game) => game.id);
+const gameIdCutoverDate = '2026-11-20';
+const pagePathEndDate = '2026-11-19';
+const games = require('../config/games.json').games;
+const gameIds = games.map((game) => game.id);
+const analyticsToGameId = new Map(games.flatMap((game) => (
+  [game.id, ...(game.legacyAnalyticsGameIds || [])].map((analyticsGameId) => [analyticsGameId, game.id])
+)));
+const normalizePagePath = (value) => String(value || '').split('?')[0].replace(/\/+$/, '') || '/';
+const pagePathToGameId = new Map(games.map((game) => [
+  normalizePagePath(new URL(game.launchUrl).pathname),
+  game.id,
+]));
 
 function createAssertion(serviceAccount, nowSeconds = Math.floor(Date.now() / 1000)) {
   const header = {
@@ -47,10 +58,22 @@ function createPlaysReportRequest() {
   };
 }
 
-function createGamePlaysReportRequest() {
+function createGamePlaysReportRequest(reportDateRange = dateRange) {
   return {
-    dateRanges: [dateRange],
+    dateRanges: [reportDateRange],
     dimensions: [{ name: 'customEvent:game_id' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: {
+      filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: 'game_start' } },
+    },
+    limit: 1000,
+  };
+}
+
+function createGamePlaysByPagePathReportRequest(reportDateRange = dateRange) {
+  return {
+    dateRanges: [reportDateRange],
+    dimensions: [{ name: 'pagePath' }],
     metrics: [{ name: 'eventCount' }],
     dimensionFilter: {
       filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: 'game_start' } },
@@ -67,14 +90,28 @@ function readCount(report, metric) {
   return count;
 }
 
-function readGamePlayCounts(report) {
+function readGamePlayCounts(report, dimension = 'game_id') {
   const counts = Object.fromEntries(gameIds.map((gameId) => [gameId, 0]));
   for (const row of report.rows || []) {
-    const gameId = row.dimensionValues?.[0]?.value;
-    if (!Object.prototype.hasOwnProperty.call(counts, gameId)) continue;
-    counts[gameId] = readCount({ rows: [{ metricValues: row.metricValues }] }, 'game_start eventCount');
+    const dimensionValue = row.dimensionValues?.[0]?.value;
+    const gameId = dimension === 'pagePath'
+      ? pagePathToGameId.get(normalizePagePath(dimensionValue))
+      : analyticsToGameId.get(dimensionValue);
+    if (!gameId) continue;
+    counts[gameId] += readCount({ rows: [{ metricValues: row.metricValues }] }, 'game_start eventCount');
   }
   return counts;
+}
+
+function addGamePlayCounts(...reports) {
+  return Object.fromEntries(gameIds.map((gameId) => [
+    gameId,
+    reports.reduce((total, counts) => total + (counts[gameId] || 0), 0),
+  ]));
+}
+
+function sumGamePlayCounts(counts) {
+  return Object.values(counts || {}).reduce((total, count) => total + count, 0);
 }
 
 async function readJsonResponse(response, label) {
@@ -119,7 +156,13 @@ async function getAnalyticsCounts({ propertyId, serviceAccount, fetchImpl = fetc
   return { users, plays };
 }
 
-async function getAnalyticsSnapshot({ propertyId, serviceAccount, fetchImpl = fetch, nowSeconds }) {
+async function getAnalyticsSnapshot({
+  propertyId,
+  serviceAccount,
+  fetchImpl = fetch,
+  nowSeconds,
+  today = new Date().toISOString().slice(0, 10),
+}) {
   const id = String(propertyId || '');
   if (!/^\d+$/.test(id)) throw new Error('GA_PROPERTY_ID must be the numeric GA4 property ID');
   if (!serviceAccount.client_email || !serviceAccount.private_key) {
@@ -148,14 +191,47 @@ async function getAnalyticsSnapshot({ propertyId, serviceAccount, fetchImpl = fe
   }), 'Google Analytics Data API request');
 
   const users = readCount(await runReport(createReportRequest()), 'totalUsers');
-  const plays = readCount(await runReport(createPlaysReportRequest()), 'game_start eventCount');
+  const allGameStarts = readCount(await runReport(createPlaysReportRequest()), 'game_start eventCount');
   let gamePlays = null;
+  let gamePlayDimension = null;
+  let plays = null;
   try {
-    gamePlays = readGamePlayCounts(await runReport(createGamePlaysReportRequest()));
+    const pagePathRange = {
+      startDate: dateRange.startDate,
+      endDate: today < gameIdCutoverDate ? today : pagePathEndDate,
+    };
+    const pagePathCounts = readGamePlayCounts(
+      await runReport(createGamePlaysByPagePathReportRequest(pagePathRange)),
+      'pagePath',
+    );
+
+    if (today < gameIdCutoverDate) {
+      gamePlays = pagePathCounts;
+      gamePlayDimension = 'pagePath';
+    } else {
+      const gameIdCounts = readGamePlayCounts(
+        await runReport(createGamePlaysReportRequest({ startDate: gameIdCutoverDate, endDate: 'today' })),
+      );
+      gamePlays = addGamePlayCounts(pagePathCounts, gameIdCounts);
+      gamePlayDimension = 'pagePath+game_id';
+    }
   } catch (error) {
-    console.warn('GA4 per-game counts skipped: ' + error.message);
+    console.warn('GA4 per-game counts skipped to avoid an incomplete date range: ' + error.message);
   }
-  return { users, plays, gamePlays };
+
+  if (gamePlays) {
+    const listedGamePlays = sumGamePlayCounts(gamePlays);
+    if (listedGamePlays <= allGameStarts) {
+      plays = listedGamePlays;
+    } else {
+      console.warn(
+        `GA4 per-game total (${listedGamePlays}) exceeds all game_start events (${allGameStarts}); hiding inconsistent counts.`,
+      );
+      gamePlays = null;
+      gamePlayDimension = null;
+    }
+  }
+  return { users, plays, allGameStarts, gamePlays, gamePlayDimension };
 }
 
 async function main() {
@@ -167,16 +243,25 @@ async function main() {
   }
 
   const serviceAccount = JSON.parse(serviceAccountJson);
-  const { users: count, plays, gamePlays } = await getAnalyticsSnapshot({ propertyId, serviceAccount });
+  const {
+    users: count,
+    plays,
+    allGameStarts,
+    gamePlays,
+    gamePlayDimension,
+  } = await getAnalyticsSnapshot({ propertyId, serviceAccount });
   const output = {
     source: 'google-analytics',
     metric: 'totalUsers',
     count,
-    plays: { metric: 'eventCount', eventName: 'game_start', count: plays },
+    plays: { metric: 'eventCount', eventName: 'game_start', count: plays, allGameStarts },
     playsByGame: gamePlays ? {
       metric: 'eventCount',
       eventName: 'game_start',
-      dimension: 'game_id',
+      dimension: gamePlayDimension,
+      totalCount: plays,
+      allGameStarts,
+      unassignedCount: allGameStarts - plays,
       counts: gamePlays,
     } : null,
     dateRange,
@@ -200,6 +285,8 @@ module.exports = {
   createReportRequest,
   createPlaysReportRequest,
   createGamePlaysReportRequest,
+  createGamePlaysByPagePathReportRequest,
+  gameIdCutoverDate,
   getAnalyticsCounts,
   getAnalyticsSnapshot,
 };
