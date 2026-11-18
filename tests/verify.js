@@ -58,6 +58,12 @@ const rainbowBubble = config.games.find((game) => game.id === 'rainbow-bubble');
 assert.ok(rainbowBubble, '清單要包含彩虹泡泡砲');
 assert.equal(rainbowBubble.launchUrl, 'https://pjh-eric.github.io/rainbow-bubble/');
 assert.equal(rainbowBubble.icon, 'rainbow');
+assert.deepEqual(rainbowBubble.modes, ['單機自由玩', '闖關']);
+assert.ok(!/電腦|多人|線上|觀戰/.test(rainbowBubble.description + rainbowBubble.modes.join('')));
+assert.deepEqual(rainbowBubble.i18n.en.modes, ['Solo Play', 'Quest']);
+assert.ok(!/\bAI\b|online|spectat|computer/i.test(rainbowBubble.i18n.en.description + rainbowBubble.i18n.en.modes.join('')));
+assert.deepEqual(rainbowBubble.i18n['zh-Hans'].modes, ['单机自由玩', '闯关']);
+assert.ok(!/电脑|多人|线上|观战/.test(rainbowBubble.i18n['zh-Hans'].description + rainbowBubble.i18n['zh-Hans'].modes.join('')));
 const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
 assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
@@ -191,7 +197,7 @@ const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
 const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'curling-duel']);
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
-const soloOnly = new Set(['domino-push', 'pipe-connect']);
+const soloOnly = new Set(['domino-push', 'pipe-connect', 'rainbow-bubble']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
   'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
@@ -210,7 +216,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
-  assert.equal(gameplayTags.length, 2, `${game.id} 要有兩個玩法特色標籤`);
+  assert.equal(gameplayTags.length, game.id === 'rainbow-bubble' ? 3 : 2, `${game.id} 的玩法特色標籤數量要符合分類`);
   assert.deepEqual(game.tags, [...gameplayTags, ...featureTags.filter((tag) => game.tags.includes(tag))], `${game.id} 的標籤順序要一致`);
   assert.deepEqual(game.i18n.en.tags, game.tags.map((tag) => tagTranslations[tag]), `${game.id} 的英文標籤要逐一對應中文`);
 }
