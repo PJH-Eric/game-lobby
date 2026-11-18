@@ -164,6 +164,16 @@
     };
     icons.curling = '<svg viewBox="0 0 80 80" aria-hidden="true"><rect x="9" y="9" width="62" height="62" rx="16" fill="#e8f7ff" stroke="#352f3c" stroke-width="3"/><circle cx="34" cy="46" r="22" fill="#fff" stroke="#352f3c" stroke-width="2.6"/><circle cx="34" cy="46" r="14" fill="#74c9ef" stroke="#352f3c" stroke-width="2.4"/><circle cx="34" cy="46" r="6" fill="#ef7b91" stroke="#352f3c" stroke-width="2.2"/><ellipse cx="53" cy="29" rx="12" ry="8" fill="#f5fbff" stroke="#352f3c" stroke-width="2.6"/><path d="M46 27v-5c0-3 3-5 7-5s7 2 7 5v5" fill="none" stroke="#352f3c" stroke-width="3" stroke-linecap="round"/><path d="M49 29h8" stroke="#74c9ef" stroke-width="3" stroke-linecap="round"/><circle cx="49" cy="26" r="2" fill="#fff"/></svg>';
     icons.lock = `<svg viewBox="0 0 80 80" aria-hidden="true"><rect x="9" y="9" width="62" height="62" rx="16" fill="#e4f7ef" stroke="${iconStroke}" stroke-width="3"/><path d="M29 36V28a11 11 0 0 1 22 0v8" fill="none" stroke="${iconStroke}" stroke-width="8" stroke-linecap="round"/><path d="M29 36V28a11 11 0 0 1 22 0v8" fill="none" stroke="#ffc94a" stroke-width="4" stroke-linecap="round"/><rect x="20" y="34" width="40" height="28" rx="12" fill="#6bcfb0" stroke="${iconStroke}" stroke-width="2.6"/><circle cx="40" cy="46" r="3.6" fill="${iconStroke}"/><path d="M40 48v7" ${common}/></svg>`;
+    icons['bumper-sumo'] = `<svg viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="14" fill="#ef7baf"/>
+      <rect x="8" y="24" width="44" height="24" rx="12" fill="${iconStroke}"/>
+      <rect x="11" y="27" width="38" height="17" rx="8.5" fill="#6caff3"/>
+      <circle cx="23" cy="15" r="4" fill="#a8754a"/><circle cx="37" cy="15" r="4" fill="#a8754a"/>
+      <circle cx="30" cy="23" r="10" fill="#bb8659"/>
+      <ellipse cx="30" cy="26" rx="4.5" ry="3.5" fill="#ffe0b6"/>
+      <circle cx="26" cy="22" r="1.6" fill="${iconStroke}"/><circle cx="34" cy="22" r="1.6" fill="${iconStroke}"/>
+      <path d="m52 6 2.2 4.6 5 .6-3.7 3.4 1 5-4.5-2.5-4.5 2.5 1-5-3.7-3.4 5-.6Z" fill="#ffe36b"/>
+    </svg>`;
     return icons[type] || icons.cards;
   }
 

@@ -19,7 +19,13 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 20);
+assert.equal(config.games.length, 21);
+const bumperSumo = config.games.find((game) => game.id === 'bumper-sumo');
+assert.ok(bumperSumo, '清單要包含碰碰車大亂鬥');
+assert.equal(bumperSumo.launchUrl, 'https://pjh-eric.github.io/bumper-sumo/');
+assert.equal(bumperSumo.iconUrl, bumperSumo.launchUrl + 'favicon-96.png');
+assert.equal(bumperSumo.icon, 'bumper-sumo');
+assert.equal(bumperSumo.category, 'challenge');
 const angelStrategy = config.games.find((game) => game.id === 'angel-strategy');
 assert.ok(angelStrategy, '清單要包含天使的策略');
 assert.equal(angelStrategy.launchUrl, 'https://pjh-eric.github.io/angel-strategy/');
@@ -116,6 +122,7 @@ assert.ok(!appSource.includes('pinball: `<svg'), '大廳不保留彈珠籃球專
 assert.ok(appSource.includes('balloon: `<svg'), '射氣球要有專屬圖示');
 assert.ok(appSource.includes('angel: `<svg'), '天使的策略要有專屬圖示');
 assert.ok(appSource.includes('pipe: `<svg'), '水管接通要有專屬圖示');
+assert.ok(appSource.includes("icons['bumper-sumo'] = `<svg"), '碰碰車大亂鬥要有專屬圖示');
 const shootBalloon = config.games.find((game) => game.id === 'shoot-balloon');
 assert.ok(shootBalloon, '清單要包含射氣球');
 assert.equal(shootBalloon.launchUrl, 'https://pjh-eric.github.io/shoot-balloon/');
@@ -199,7 +206,7 @@ const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
 const soloOnly = new Set(['domino-push', 'pipe-connect', 'rainbow-bubble']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect']);
+  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'bumper-sumo']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -328,7 +335,7 @@ async function verifyGaVisitorCountApi() {
   assert.equal(splitSnapshot.gamePlayDimension, 'pagePath+game_id');
   assert.equal(splitSnapshot.gamePlays['curling-duel'], 124, '切日前頁面路徑與新舊 game_id 次數要加總');
   assert.equal(splitSnapshot.gamePlays['flip-match'], 207);
-  assert.equal(splitSnapshot.plays, 331, '切日後頁尾總數要和 20 款遊戲的卡片次數加總一致');
+  assert.equal(splitSnapshot.plays, 331, '切日後頁尾總數要和各款遊戲的卡片次數加總一致');
   assert.equal(splitSnapshot.plays, Object.values(splitSnapshot.gamePlays).reduce((total, count) => total + count, 0));
   assert.equal(splitSnapshot.allGameStarts - splitSnapshot.plays, 903, '未歸屬至大廳遊戲的事件留作對帳');
   assert.equal(splitSnapshot.allGameStarts, 1234, '原始 GA4 全事件數保留供核對');
