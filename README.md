@@ -116,7 +116,6 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 | 你畫我猜 | `github.io/draw-guess` | 3030 |
 | 炸彈小隊 | `github.io/bomb-squad` | 3120 |
 | 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
-| 射氣球 | `github.io/shoot-balloon` | 3220 |
 | 迷宮滾球 | `github.io/maze-roll` | 3090 |
 | 疊疊高樓 | `github.io/house-stack` | 3090 |
 | 密碼鎖 1A2B | `github.io/guess-ab` | 3100 |
