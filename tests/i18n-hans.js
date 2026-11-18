@@ -7,7 +7,7 @@ const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
-const lobby = path.basename(root) === 'game-lobby';
+const lobby = require('../package.json').name === 'game-lobby';
 const coreFile = lobby ? 'i18n.js' : 'public/js/i18n.js';
 const localeFile = lobby ? 'locales.js' : 'public/js/locales.js';
 const dictionaries = {};
