@@ -21,6 +21,7 @@
     'maze-roll': ['maze-roll-server', '/ws'],
     'snake-3d': ['snake-3d-server', '/ws'],
     'bumper-sumo': ['bumper-sumo-83kf', '/socket.io/'],
+    'bomb-squad': [null, '/ws'],
     'curling-duel': ['ice-duel-server', '/', false, 'curling-duel']
   };
 
@@ -32,16 +33,20 @@
     id: 'cloudflare', url: 'https://' + workerName + '.eric-games.workers.dev',
     websocketPath, timeoutMs: 5000
   };
-  const render = {
+  // The Render service for Bomb Squad needs a confirmed endpoint.
+  const origin = renderName ? {
     id: 'render', url: 'https://' + renderName + '.onrender.com',
     websocketPath, timeoutMs: 12000
+  } : {
+    id: 'oracle', url: 'https://bomb-squad.duckdns.org',
+    websocketPath, timeoutMs: 8000
   };
   const route = window.createBackendRouter({
-    primary: cloudflareFirst ? cloudflare : render,
-    standby: cloudflareFirst ? render : cloudflare,
+    primary: cloudflareFirst ? cloudflare : origin,
+    standby: cloudflareFirst ? origin : cloudflare,
     pin: query.get('backend')
   });
-  const hosts = new Set([new URL(cloudflare.url).host, new URL(render.url).host]);
+  const hosts = new Set([new URL(cloudflare.url).host, new URL(origin.url).host]);
   const NativeSocket = window.WebSocket;
 
   function manages(address) {
