@@ -137,6 +137,10 @@ for (const relativeFile of files) {
   fs.copyFileSync(path.join(root, relativeFile), path.join(output, relativeFile));
 }
 
+const backendScripts = ['backend-router.js', 'site-backend.js'].map(file =>
+  fs.readFileSync(path.join(root, 'cloudflare', file), 'utf8'));
+fs.writeFileSync(path.join(output, 'backend-routing.js'), backendScripts.join('\n'), 'utf8');
+
 const indexPath = path.join(output, 'index.html');
 let html = fs.readFileSync(indexPath, 'utf8');
 for (const marker of ['<!--SEO:HEAD-->', '<!--SEO:GAMES-->']) {
