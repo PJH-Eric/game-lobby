@@ -36,6 +36,10 @@ function gameFactory(id, game, serverFile) {
   if (['guess-ab', 'pool-duel', 'stair-kids', 'bomb-squad'].includes(id)) {
     source = replaceOnce(source, /require\('\.\/lib\/ws\.js'\)/, 'runtime.ws');
   }
+  if (id === 'guess-ab' && source.includes('const roomStore =')) {
+    source = replaceOnce(source, /const roomStore = process\.env\.GUESS_ROOM_DB_PATH[\s\S]+?\n  : null;/,
+      'const roomStore = runtime.roomStore;');
+  }
   if (['amaze-go', 'angel-strategy', 'maze-roll'].includes(id)) {
     source = replaceOnce(source, /require\('ws'\)/, 'runtime.ws');
   }

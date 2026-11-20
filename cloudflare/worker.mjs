@@ -46,9 +46,36 @@ export default {
   }
 };
 
+function createRoomStore(storage) {
+  const sql = storage.sql;
+  sql.exec('CREATE TABLE IF NOT EXISTS guess_ab_rooms (id TEXT PRIMARY KEY, checkpoint TEXT NOT NULL)');
+  return {
+    load() { return sql.exec('SELECT checkpoint FROM guess_ab_rooms').toArray().map(row => JSON.parse(row.checkpoint)); },
+    write(changes) {
+      storage.transactionSync(() => {
+        for (const [id, checkpoint] of changes) {
+          if (checkpoint) {
+            sql.exec('INSERT INTO guess_ab_rooms VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET checkpoint = excluded.checkpoint',
+              id, JSON.stringify(checkpoint));
+          } else {
+            sql.exec('DELETE FROM guess_ab_rooms WHERE id = ?', id);
+          }
+        }
+      });
+    }
+  };
+}
+
 export class GameLobby extends DurableObject {
-  runtime = createRuntime(game, socketIo);
-  server = createGame(this.runtime);
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.runtime = createRuntime(game, socketIo);
+    if (game.id === 'guess-ab') {
+      this.runtime.roomStore = createRoomStore(ctx.storage);
+      this.runtime.process.exit = () => ctx.abort('Guess AB room checkpoint failed');
+    }
+    this.server = createGame(this.runtime);
+  }
 
   async fetch(request) {
     if (request.headers.get('Upgrade')?.toLowerCase() === 'websocket') {

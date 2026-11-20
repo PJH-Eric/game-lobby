@@ -7,7 +7,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "test": "node tests/analytics.js && node tests/localization.js && node tests/verify.js && node tests/i18n.js && node tests/i18n-hans.js",
+    "test": "node tests/analytics.js && node tests/localization.js && node tests/verify.js && node tests/i18n.js && node tests/i18n-hans.js && node --test cloudflare/backend-router.test.cjs",
     "build:pages": "node scripts/build-pages.js",
     "verify": "npm test && npm run build:pages",
     "test:localization": "node tests/localization.js",

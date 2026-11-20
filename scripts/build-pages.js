@@ -128,6 +128,21 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 `;
 const robots = `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`;
 
+const oraclePilotOrigins = JSON.parse(process.env.ORACLE_PILOT_ORIGINS || '{}');
+const oraclePilotGames = new Set(['draw-guess', 'guess-ab', 'bumper-sumo', 'amaze-go', 'fruit-link']);
+if (!oraclePilotOrigins || typeof oraclePilotOrigins !== 'object' || Array.isArray(oraclePilotOrigins)) {
+  throw new Error('ORACLE_PILOT_ORIGINS 必須是遊戲代號對應 Oracle HTTPS 網址的 JSON 物件');
+}
+for (const [game, value] of Object.entries(oraclePilotOrigins)) {
+  if (!oraclePilotGames.has(game) || typeof value !== 'string') {
+    throw new Error(`ORACLE_PILOT_ORIGINS 含未支援的遊戲設定：${game}`);
+  }
+  const url = new URL(value);
+  if (url.protocol !== 'https:' || value !== url.origin) {
+    throw new Error(`ORACLE_PILOT_ORIGINS 必須提供 HTTPS origin：${game}`);
+  }
+}
+
 fs.rmSync(output, { recursive: true, force: true });
 fs.mkdirSync(path.join(output, 'config'), { recursive: true });
 fs.mkdirSync(path.join(output, 'assets'), { recursive: true });
@@ -139,7 +154,9 @@ for (const relativeFile of files) {
 
 const backendScripts = ['backend-router.js', 'site-backend.js'].map(file =>
   fs.readFileSync(path.join(root, 'cloudflare', file), 'utf8'));
-fs.writeFileSync(path.join(output, 'backend-routing.js'), backendScripts.join('\n'), 'utf8');
+const backendRouting = backendScripts.join('\n').replace('/* ORACLE_PILOT_ORIGINS */ {}',
+  () => JSON.stringify(oraclePilotOrigins));
+fs.writeFileSync(path.join(output, 'backend-routing.js'), backendRouting, 'utf8');
 
 const indexPath = path.join(output, 'index.html');
 let html = fs.readFileSync(indexPath, 'utf8');

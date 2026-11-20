@@ -33,21 +33,41 @@
     });
   }
 
-  function createBackendRouter({ primary, standby, pin, probe = socketProbe }) {
-    const pinned = [primary, standby].find(endpoint => endpoint?.id === pin);
+  async function tryProbe(probe, endpoint) {
+    try {
+      return await probe(endpoint);
+    } catch {
+      return false;
+    }
+  }
+
+  async function checkEndpoint(probe, endpoint) {
+    if (!endpoint.wakeTimeoutMs) return tryProbe(probe, endpoint);
+
+    const deadline = performance.now() + endpoint.wakeTimeoutMs;
+    let remaining = deadline - performance.now();
+    while (remaining > 0) {
+      const timeoutMs = Math.min(endpoint.timeoutMs, remaining);
+      if (await tryProbe(probe, { ...endpoint, timeoutMs })) return true;
+      remaining = deadline - performance.now();
+      if (remaining > 0) await new Promise(resolve => setTimeout(resolve, Math.min(3000, remaining)));
+      remaining = deadline - performance.now();
+    }
+    return false;
+  }
+
+  function createBackendRouter({ primary, standby, endpoints = [primary, standby], pinOnly = [], pin, probe = socketProbe }) {
+    const candidates = endpoints.filter(Boolean);
+    const pinned = [...candidates, ...pinOnly].find(endpoint => endpoint.id === pin);
     let selected = pinned;
     let pending;
 
     async function choose() {
-      for (const endpoint of [primary, standby]) {
-        if (!endpoint) continue;
-        try {
-          if (await probe(endpoint)) {
-            selected = endpoint;
-            return selected.url;
-          }
-        } catch {
-          // Check the standby if the primary cannot accept a connection.
+      for (const endpoint of candidates) {
+        if (endpoint.skipUntil > Date.now()) continue;
+        if (await checkEndpoint(probe, endpoint)) {
+          selected = endpoint;
+          return selected.url;
         }
       }
       return null;
@@ -55,7 +75,7 @@
 
     return {
       get url() {
-        return (selected || primary)?.url ?? null;
+        return (selected || candidates[0])?.url ?? null;
       },
       select() {
         if (selected) return Promise.resolve(selected.url);

@@ -1,4 +1,4 @@
-(function (window) {
+(function (window, oraclePilotOrigins) {
   'use strict';
 
   if (window.location.origin !== 'https://pjh-eric.github.io') return;
@@ -41,12 +41,18 @@
     id: 'oracle', url: 'https://bomb-squad.duckdns.org',
     websocketPath, timeoutMs: 8000
   };
-  const route = window.createBackendRouter({
-    primary: origin,
-    standby: cloudflare,
-    pin: query.get('backend')
-  });
-  const hosts = new Set([new URL(cloudflare.url).host, new URL(origin.url).host]);
+  const oracleUrl = oraclePilotOrigins[game];
+  let endpoints = [origin, cloudflare];
+  if (oracleUrl) {
+    const oracle = { id: 'oracle', url: oracleUrl, websocketPath, timeoutMs: 5000 };
+    const render = { ...origin, timeoutMs: 3000, wakeTimeoutMs: 45000 };
+    endpoints = [oracle, render, cloudflare];
+  }
+  const roomBackendKey = 'game-backend-room:' + game;
+  let roomBackend;
+  try { roomBackend = window.sessionStorage.getItem(roomBackendKey); } catch { /* storage may be unavailable */ }
+  const route = window.createBackendRouter({ endpoints, pin: query.get('backend') || roomBackend });
+  const hosts = new Set(endpoints.map(endpoint => new URL(endpoint.url).host));
   const NativeSocket = window.WebSocket;
 
   function manages(address) {
@@ -116,6 +122,15 @@
     },
     pinInvite(address) {
       return route.pinInvite(new URL(address, window.location.href)).toString();
+    },
+    rememberRoom() {
+      const backend = route.pinInvite(new URL(window.location.origin)).searchParams.get('backend');
+      if (backend) {
+        try { window.sessionStorage.setItem(roomBackendKey, backend); } catch { /* storage may be unavailable */ }
+      }
+    },
+    forgetRoom() {
+      try { window.sessionStorage.removeItem(roomBackendKey); } catch { /* storage may be unavailable */ }
     }
   };
-})(window);
+})(window, /* ORACLE_PILOT_ORIGINS */ {});
