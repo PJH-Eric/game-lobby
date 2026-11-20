@@ -142,4 +142,20 @@ ws.send(JSON.stringify({
 - 猜 AB 的 Oracle 獨立站使用本機 SQLite 保存房間。公開 WebSocket 測試強制終止 `guess-ab-pilot`，等 55 秒再使用原玩家身分重連。兩人回到同一房號、席位、輪次及已確認的猜測，炸彈小隊健康檢查正常。另以瀏覽器對公開試點建房並重新整理，驗證原後端、玩家身分、房號與座位都能保留。 [Oracle 試點](https://guess-ab.bomb-squad.duckdns.org/) · [猜 AB 試點分支](https://github.com/PJH-Eric/guess-ab/tree/oracle-room-pilot)
 - 五個 Render 端點仍處於暫停狀態。CLI 授權過期，Render 的持久儲存與重啟回房等待驗證。
 - 猜 AB 的 Cloudflare 復原版已上傳至獨立試點。測試時 Durable Objects 免費執行時長用完，Worker 回傳 `1101`。正式備援未切到試點版本。 [Cloudflare 免費額度](https://developers.cloudflare.com/durable-objects/platform/pricing/)
-- 其餘四款保留已驗證的路由預覽，尚未部署房間持久化。五款正式流量仍依原路由設定運作。
+
+四款後續試點依序部署至同一台東京 VM。每款都先通過本機回歸與獨立程序復原測試，再透過公開 WebSocket 建立雙人對局，強制終止該款程序，等 55 秒後驗證兩位原玩家可以回到同一房號、席位與對局。測試期間炸彈小隊持續服務。
+
+| Oracle 試點 | GitHub 試點版本 | 重啟後核對的進度 | 該階段最低可用記憶體 |
+| --- | --- | --- | --- |
+| [你畫我猜](https://draw-guess.bomb-squad.duckdns.org/) | [`a6560db`](https://github.com/PJH-Eric/draw-guess/commit/a6560db) | 房主、作畫輪次與已確認筆畫 | 323 MiB |
+| [箭頭解密](https://amaze-go.bomb-squad.duckdns.org/) | [`1ea43ef`](https://github.com/PJH-Eric/amaze-go/commit/1ea43ef) | 已移除的箭頭、棋盤與得分 | 264 MiB |
+| [水果連連看](https://fruit-link.bomb-squad.duckdns.org/) | [`2762084`](https://github.com/PJH-Eric/fruit-link/commit/2762084) | 已配對的格子、棋盤與得分 | 267 MiB |
+| [碰碰車大亂鬥](https://bumper-sumo.bomb-squad.duckdns.org/) | [`5ea794a`](https://github.com/PJH-Eric/bumper-sumo/commit/5ea794a) | 同一回合、已確認事件與已寫入的物理狀態 | 222 MiB |
+
+碰碰車大亂鬥在有遊戲事件時先存檔再推送。純移動狀態約每 250 毫秒寫入一次，復原以前一份成功寫入的狀態為準。水果連連看既有生產依賴仍有 npm 稽核項目，這次試點未升級依賴。
+
+五款各開一局雙人對局。第一次同時測試的最低可用記憶體為 213 MiB，延長至 40 秒後最低為 207 MiB，清理測試房後一度降到 184 MiB。確認沒有連線後，依序調整箭頭解密與碰碰車的 systemd 試點服務，在 `memory.conf` 設定 `NODE_OPTIONS=--max-semi-space-size=4`，限制 V8 年輕代的半空間大小。調整後再次讓五款同時對局 40 秒，最低可用記憶體為 232 MiB。結束對局後再觀察 40 秒，最低 221 MiB，兩個窗口均通過 200 MiB 門檻，六個 Oracle 服務的重啟次數都沒有增加。炸彈小隊的 WebSocket 延遲在各次抽測間有波動，五局同時對局的結果適用於這次容量抽測。
+
+水果連連看與碰碰車大亂鬥另外在公開試點用瀏覽器建房並重新整理，確認回到原房。水果連連看的本機瀏覽器全套檢查有 247 項通過，兩項因獨立站原先引用的 GitHub Pages 共用腳本回 `404` 而失敗。
+
+五款正式入口都維持既有路由。當天複測五個 Render 健康檢查皆回 `503 suspend`，五個既有 Cloudflare 健康檢查皆回 `500`。三級切換在共用路由測試通過，Render 與 Cloudflare 的正式復原仍待驗證。
