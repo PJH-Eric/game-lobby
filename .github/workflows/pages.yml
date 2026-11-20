@@ -33,6 +33,14 @@ jobs:
         run: npm run verify
         env:
           GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+          ORACLE_PILOT_ORIGINS: >-
+            {
+              "guess-ab": "https://guess-ab.bomb-squad.duckdns.org",
+              "draw-guess": "https://draw-guess.bomb-squad.duckdns.org",
+              "amaze-go": "https://amaze-go.bomb-squad.duckdns.org",
+              "fruit-link": "https://fruit-link.bomb-squad.duckdns.org",
+              "bumper-sumo": "https://bumper-sumo.bomb-squad.duckdns.org"
+            }
       - name: 更新 GA4 累計不重複訪客數與遊玩次數
         run: node scripts/update-ga-visitor-count.js
         continue-on-error: true
