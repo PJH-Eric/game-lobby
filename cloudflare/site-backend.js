@@ -8,13 +8,13 @@
   if (query.has('server')) return;
 
   const settings = {
-    'flip-match': ['flip-match-sg', '/', true],
-    'guess-ab': ['guess-ab', '/ws', true],
-    'angel-strategy': ['angel-strategy-server', '/ws', true],
-    'amaze-go': ['amaze-go-server', '/ws', true],
-    'fruit-link': ['fruit-link-sg', '/socket.io/', true],
-    'draw-guess': ['draw-guess-sg', '/socket.io/', true],
-    'pool-duel': ['pool-duel', '/ws', true],
+    'flip-match': ['flip-match-sg', '/'],
+    'guess-ab': ['guess-ab', '/ws'],
+    'angel-strategy': ['angel-strategy-server', '/ws'],
+    'amaze-go': ['amaze-go-server', '/ws'],
+    'fruit-link': ['fruit-link-sg', '/socket.io/'],
+    'draw-guess': ['draw-guess-sg', '/socket.io/'],
+    'pool-duel': ['pool-duel', '/ws'],
     'house-stack': ['house-stack-server', '/socket.io/'],
     'whack-a-mole': ['whack-a-mole-sg', '/socket.io/'],
     'stair-kids': ['stair-kids-sg', '/ws'],
@@ -22,12 +22,12 @@
     'snake-3d': ['snake-3d-server', '/ws'],
     'bumper-sumo': ['bumper-sumo-83kf', '/socket.io/'],
     'bomb-squad': [null, '/ws'],
-    'curling-duel': ['ice-duel-server', '/', false, 'curling-duel']
+    'curling-duel': ['ice-duel-server', '/', 'curling-duel']
   };
 
   const config = settings[game];
   if (!config) return;
-  const [renderName, path, cloudflareFirst, workerName = game + '-backup'] = config;
+  const [renderName, path, workerName = game + '-backup'] = config;
   const websocketPath = path === '/socket.io/' ? path + '?EIO=4&transport=websocket' : path;
   const cloudflare = {
     id: 'cloudflare', url: 'https://' + workerName + '.eric-games.workers.dev',
@@ -42,8 +42,8 @@
     websocketPath, timeoutMs: 8000
   };
   const route = window.createBackendRouter({
-    primary: cloudflareFirst ? cloudflare : origin,
-    standby: cloudflareFirst ? origin : cloudflare,
+    primary: origin,
+    standby: cloudflare,
     pin: query.get('backend')
   });
   const hosts = new Set([new URL(cloudflare.url).host, new URL(origin.url).host]);
