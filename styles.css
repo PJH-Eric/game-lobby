@@ -115,23 +115,27 @@ html[data-lang="en"] .brand small { letter-spacing: .14em; }
 .footer-visitors, .footer-plays { white-space: nowrap; }
 
 .footer-support {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px 24px;
-  margin-bottom: 28px;
-  padding: 16px 20px 21px;
-  border: 1px solid #eaded5;
-  border-radius: 20px;
-  background: var(--white);
+  margin: 0;
+  padding: 0 0 28px;
+  color: var(--ink-soft);
+  font-size: 14px;
 }
-.footer-support p { margin: 0; color: var(--ink-soft); font-size: 14px; }
-.footer-support-link { flex-shrink: 0; }
-.footer-support-link:hover { transform: translateY(-2px); }
-.footer-support-link:active { transform: translateY(3px); }
+.support-header {
+  min-height: 48px;
+  gap: 6px;
+  padding: 0 14px;
+  color: var(--white);
+  background: #a82854;
+  box-shadow: 0 4px 0 #761c3c;
+  white-space: nowrap;
+}
+.support-header:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #761c3c; }
+.support-header:active { transform: translateY(3px); }
 
 @media (max-width: 680px) {
   .site-header { flex-wrap: wrap; gap: 14px 10px; padding: 14px 0; }
+  .site-header .brand { flex: 1 1 0; min-width: 0; }
+  .site-header .brand-mark { flex-shrink: 0; }
   .header-tools { gap: 8px; margin-left: auto; }
   .main-nav { order: 3; flex-basis: 100%; margin-left: 0; gap: 20px; }
   .lang-toggle { min-width: 44px; width: 44px; height: 44px; border-radius: 14px; font-size: 14px; }
@@ -142,7 +146,13 @@ html[data-lang="en"] .brand small { letter-spacing: .14em; }
   .details-link, .play-link { min-height: 44px; }
   .details-link { display: inline-flex; align-items: center; }
   .footer-visitors, .footer-plays { white-space: normal; }
-  .footer-support { flex-direction: column; align-items: stretch; padding-inline: 16px; }
+  .support-header { flex-direction: column; gap: 1px; width: 50px; padding: 0; border-radius: 14px; font-size: 11px; }
+  .support-header span { font-size: 16px; }
+}
+@media (max-width: 360px) {
+  .site-header .brand { gap: 6px; }
+  .site-header .brand-mark { width: 36px; height: 36px; }
+  .site-header .brand-mark svg { width: 32px; height: 32px; }
 }
 html[data-lang="en"] .brand small { display: none; }
 
