@@ -67,7 +67,6 @@
     'footer.tagline': '把每一次點擊，都變成一點點開心。',
     'footer.visitors': '累計不重複訪客：',
     'footer.plays': '大廳遊戲累計遊玩次數：',
-    'footer.supportBody': '喜歡遊戲小小島嗎？你的贊助能支持大廳維護和新遊戲開發。',
     'footer.supportLink': '贊助遊戲小小島',
     'support.short': '贊助',
 
@@ -153,7 +152,6 @@
     'footer.tagline': 'Turning every click into a little bit of joy.',
     'footer.visitors': 'Unique visitors so far: ',
     'footer.plays': 'Lobby games total plays: ',
-    'footer.supportBody': 'Enjoying Playful Island? Your support helps us keep the lobby running and make more games.',
     'footer.supportLink': 'Support Playful Island',
     'support.short': 'Support',
 
@@ -240,7 +238,6 @@
     "footer.tagline": "把每一次点击，都变成一点点开心。",
     "footer.visitors": "累计不重复访客：",
     "footer.plays": "大厅游戏累计游玩次数：",
-    "footer.supportBody": "喜欢游戏小小岛吗？你的赞助能支持大厅维护和新游戏开发。",
     "footer.supportLink": "赞助游戏小小岛",
     "support.short": "赞助",
     "details.close": "关闭游戏介绍",
