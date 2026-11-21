@@ -159,3 +159,11 @@ ws.send(JSON.stringify({
 水果連連看與碰碰車大亂鬥另外在公開試點用瀏覽器建房並重新整理，確認回到原房。水果連連看的本機瀏覽器全套檢查有 247 項通過，兩項因獨立站原先引用的 GitHub Pages 共用腳本回 `404` 而失敗。
 
 五款正式入口都維持既有路由。當天複測五個 Render 健康檢查皆回 `503 suspend`，五個既有 Cloudflare 健康檢查皆回 `500`。三級切換在共用路由測試通過，Render 與 Cloudflare 的正式復原仍待驗證。
+
+## 2026-11-21 路由調整
+
+- 水果連連看移除 Oracle，入口依序嘗試 Render、Cloudflare。已在官方入口確認連到 Cloudflare，也用兩位玩家驗證配對得分同步。Oracle 舊服務等到房間與連線都歸零後停用，SQLite 檔案保留。
+- 小朋友下樓梯、疊疊高樓加入 Oracle → Render → Cloudflare。兩款都在 Oracle 真實雙人對局中強制重啟，等 55 秒後驗證原房、原席位及遊戲進度。小朋友下樓梯在對局中與復原後的最低可用記憶體為 325 與 318 MiB，疊疊高樓為 283 與 279 MiB。
+- 兩款各開一個雙人房同時抽測，最低剩 289 MiB。當時炸彈小隊和前四個 Oracle 遊戲服務均為執行中。
+- 主機的韌體更新服務 `fwupd` 設為閒置 30 秒後退出，週期更新計時器仍啟用。原設定留存於 `/var/backups/fwupd.conf.before-game-capacity`。
+- Render 的兩個端點仍回 `503`。Cloudflare 兩款備援已驗證雙人開局與操作同步。

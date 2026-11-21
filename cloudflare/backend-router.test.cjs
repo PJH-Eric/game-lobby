@@ -66,7 +66,8 @@ const pilotGames = [
   ['guess-ab', 'guess-ab', '/ws'],
   ['bumper-sumo', 'bumper-sumo-83kf', '/socket.io/?EIO=4&transport=websocket'],
   ['amaze-go', 'amaze-go-server', '/ws'],
-  ['fruit-link', 'fruit-link-sg', '/socket.io/?EIO=4&transport=websocket']
+  ['stair-kids', 'stair-kids-sg', '/ws'],
+  ['house-stack', 'house-stack-server', '/socket.io/?EIO=4&transport=websocket']
 ];
 
 function virtualRouter() {
@@ -91,6 +92,10 @@ function siteEndpoints(game, oracleOrigins = {}) {
   runInNewContext(source, { window, URL, URLSearchParams, EventTarget });
   return endpoints;
 }
+
+test('水果連連看使用 Render 與 Cloudflare', () => {
+  assert.deepEqual(siteEndpoints('fruit-link').map(endpoint => endpoint.id), ['render', 'cloudflare']);
+});
 
 for (const [game, renderName, websocketPath] of pilotGames) {
   test(`${game}: Oracle first, Render wake within 45 seconds, Cloudflare at 50 seconds`, async () => {
