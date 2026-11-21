@@ -114,6 +114,22 @@ html[data-lang="en"] .brand small { letter-spacing: .14em; }
 .tip-banner > div:nth-child(2) { min-width: 0; }
 .footer-visitors, .footer-plays { white-space: nowrap; }
 
+.footer-support {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: 28px;
+  padding: 16px 20px 21px;
+  border: 1px solid #eaded5;
+  border-radius: 20px;
+  background: var(--white);
+}
+.footer-support p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.footer-support-link { flex-shrink: 0; }
+.footer-support-link:hover { transform: translateY(-2px); }
+.footer-support-link:active { transform: translateY(3px); }
+
 @media (max-width: 680px) {
   .site-header { flex-wrap: wrap; gap: 14px 10px; padding: 14px 0; }
   .header-tools { gap: 8px; margin-left: auto; }
@@ -126,6 +142,7 @@ html[data-lang="en"] .brand small { letter-spacing: .14em; }
   .details-link, .play-link { min-height: 44px; }
   .details-link { display: inline-flex; align-items: center; }
   .footer-visitors, .footer-plays { white-space: normal; }
+  .footer-support { flex-direction: column; align-items: stretch; padding-inline: 16px; }
 }
 html[data-lang="en"] .brand small { display: none; }
 
