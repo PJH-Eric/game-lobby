@@ -150,13 +150,18 @@ assert.ok(head.includes(config.title), '備援標題要跟 config 的 title 同�
 assert.match(config.siteUrl || '', /^https:\/\/.+\/$/, 'config 要有以 / 結尾的 https siteUrl（供 canonical 與 sitemap）');
 assert.ok(indexHtml.includes('<!--SEO:HEAD-->'), 'index.html 缺少 SEO:HEAD 標記');
 assert.ok(indexHtml.includes('<!--SEO:GAMES-->'), 'index.html 缺少 SEO:GAMES 標記');
-assert.ok(fs.existsSync(path.join(root, 'assets', 'og-image.png')), '要有社群分享圖 assets/og-image.png');
+const shareImagePath = 'assets/og-image-island.png';
+assert.ok(fs.existsSync(path.join(root, shareImagePath)), `要有社群分享圖 ${shareImagePath}`);
 assert.ok(fs.existsSync(path.join(root, 'favicon.svg')), '要有 favicon.svg');
 
 /* 確認輸出的無 JS 後備頁包含三語玩法與 robots sitemap，且只存在 noscript 中。 */
 const pagesBuild = spawnSync(process.execPath, [path.join(root, 'scripts', 'build-pages.js')], { cwd: root, encoding: 'utf8' });
 assert.equal(pagesBuild.status, 0, pagesBuild.stderr || pagesBuild.stdout);
 const builtIndex = fs.readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+const shareImageUrl = new URL(shareImagePath, config.siteUrl).href;
+assert.ok(builtIndex.includes(`property="og:image" content="${shareImageUrl}"`));
+assert.ok(builtIndex.includes(`name="twitter:image" content="${shareImageUrl}"`));
+assert.ok(fs.existsSync(path.join(root, 'dist', shareImagePath)), '建置產物要包含新的社群分享圖');
 assert.match(builtIndex, /<noscript><div class="seo-games">[\s\S]*<\/div><\/noscript>/);
 for (const game of config.games) {
   assert.ok(builtIndex.includes(`src="${game.imageUrl}"`), `${game.id} 的無 JS 備援要包含遊戲封面`);

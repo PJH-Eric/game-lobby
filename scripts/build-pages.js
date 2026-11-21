@@ -3,6 +3,7 @@ const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
+const shareImagePath = 'assets/og-image-island.png';
 const files = [
   'index.html',
   'styles.css',
@@ -18,6 +19,7 @@ const files = [
   path.join('icons', 'icon-512.png'),
   path.join('config', 'games.json'),
   path.join('assets', 'og-image.png'),
+  shareImagePath,
 ];
 
 const config = JSON.parse(fs.readFileSync(path.join(root, 'config', 'games.json'), 'utf8'));
@@ -34,7 +36,8 @@ const games = config.games;
 const names = games.map((game) => game.title);
 const pageTitle = `${config.title}｜免費線上多人小遊戲・免下載・手機平板可玩`;
 const description = `${config.title}：免費線上多人小遊戲大廳，免下載、打開網頁就能玩，手機、平板、電腦都可以，親子與小朋友同樂也適合。收錄${names.join('、')}，支援單機、電腦對戰與線上房間。`;
-const ogImage = `${siteUrl}assets/og-image.png`;
+const ogImage = `${siteUrl}${shareImagePath}`;
+const ogImageAlt = `${config.title}的吉祥物戴著黃帽，身旁是星星配對牌和積木。`;
 
 /* Google Search Console 的 HTML 標籤驗證碼（選填）：
  * 預設讀 config/games.json 的 googleSiteVerification；
@@ -83,11 +86,12 @@ const headTags = [
   '<meta property="og:image:type" content="image/png">',
   '<meta property="og:image:width" content="1200">',
   '<meta property="og:image:height" content="630">',
-  `<meta property="og:image:alt" content="${escapeHtml(config.title)}">`,
+  `<meta property="og:image:alt" content="${escapeHtml(ogImageAlt)}">`,
   '<meta name="twitter:card" content="summary_large_image">',
   `<meta name="twitter:title" content="${escapeHtml(pageTitle)}">`,
   `<meta name="twitter:description" content="${escapeHtml(description)}">`,
   `<meta name="twitter:image" content="${escapeHtml(ogImage)}">`,
+  `<meta name="twitter:image:alt" content="${escapeHtml(ogImageAlt)}">`,
   `<script type="application/ld+json">\n${safeJson(jsonLd)}\n</script>`,
 ].filter(Boolean).join('\n  ');
 

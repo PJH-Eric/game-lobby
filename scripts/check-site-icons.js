@@ -127,7 +127,7 @@ try {
   assert.match(unityHtml, /<meta property="og:image:width" content="1200">/);
   assert.match(unityHtml, /<meta property="og:image:height" content="675">/);
   console.log('✓ cover snake-3d-unity: 1200×675 WebP in WebGL template');
-  check('game-lobby', fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8'), path.join(root, 'dist'), config.siteUrl, 'assets/og-image.png');
+  check('game-lobby', fs.readFileSync(path.join(root, 'dist/index.html'), 'utf8'), path.join(root, 'dist'), config.siteUrl, 'assets/og-image-island.png');
   const host = path.join(workspace, 'pjh-eric.github.io/dist');
   check('hostname-root', fs.readFileSync(path.join(host, 'index.html'), 'utf8'), host, 'https://pjh-eric.github.io/', 'og-image.png');
   assert.match(fs.readFileSync(path.join(host, 'robots.txt'), 'utf8'), /Allow: \//);
