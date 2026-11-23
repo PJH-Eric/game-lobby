@@ -1446,82 +1446,70 @@
       "imageUrl": "https://pjh-eric.github.io/bumper-sumo/assets/images/cover.webp"
     },
     {
-      "id": "ultimate-code",
+      "id": "merge-zoo",
       "publishedAt": "2026-11-23",
-      "title": "終極密碼",
-      "eyebrow": "猜數字派對",
-      "description": "密碼藏在 1～100，大家輪流猜，範圍越猜越小，猜中的人輸！還有 +1／+2／+3 累加模式、跳過／迴轉／指定道具，單人挑戰或線上紅藍組隊。",
-      "icon": "lock",
-      "accent": "peach",
-      "category": "turn",
-      "additionalCategories": [
-        "brain"
-      ],
+      "title": "合成動物園",
+      "eyebrow": "動物合成益智",
+      "description": "把一樣的小動物碰在一起，合成更大隻！八個世界各有不同手感，五段難度、經典無盡、任務闖關 400 關與每日挑戰，還有動物圖鑑與成就。",
+      "icon": "zoo",
+      "accent": "mint",
+      "category": "brain",
       "tags": [
-        "數字",
-        "派對",
-        "單機",
-        "線上多人",
-        "觀戰"
+        "消除",
+        "闖關",
+        "幼幼班",
+        "單機"
       ],
       "modes": [
-        "單人破解",
-        "單人踩點",
-        "線上房間",
-        "紅藍組隊",
-        "線上觀戰"
+        "經典無盡",
+        "任務闖關",
+        "每日挑戰"
       ],
-      "controls": "點數字格或數字鍵盤選數字送出；累加模式直接點 +1／+2／+3",
-      "launchUrl": "https://pjh-eric.github.io/ultimate-code/",
+      "controls": "拖曳選位置、放開讓動物落下；點箱子裡的動物可以戳一戳",
+      "launchUrl": "https://pjh-eric.github.io/merge-zoo/",
       "localPort": 3110,
-      "projectFolder": "ultimate-code",
-      "badge": "踩中就輸",
+      "projectFolder": "merge-zoo",
+      "badge": "療癒",
       "i18n": {
         "en": {
-          "title": "Ultimate Code",
-          "eyebrow": "Number Party",
-          "description": "The secret hides between 1 and 100. Take turns guessing as the range shrinks — whoever hits it loses! Plus a +1/+2/+3 count mode, Skip/Reverse/Assign items, solo challenges and red-vs-blue online teams.",
+          "title": "Merge Zoo",
+          "eyebrow": "Animal Merge Puzzle",
+          "description": "Bump matching animals together to merge them into bigger ones! Eight worlds that each feel different, five difficulty tiers, endless classic play, 400 mission levels and a daily challenge, plus an animal collection and achievements.",
           "tags": [
-            "Numbers",
-            "Party",
-            "Solo",
-            "Online Multiplayer",
-            "Spectate"
+            "Matching",
+            "Levels",
+            "Little Kids",
+            "Solo"
           ],
           "modes": [
-            "Solo Crack",
-            "Solo Step",
-            "Online Room",
-            "Red vs Blue",
-            "Spectate"
+            "Endless Classic",
+            "Mission Levels",
+            "Daily Challenge"
           ],
-          "controls": "Tap the grid or keypad and submit; tap +1/+2/+3 in count mode",
-          "badge": "Hit It, Lose It"
+          "controls": "Drag to aim and release to drop; tap an animal in the box to poke it",
+          "badge": "Cozy"
         },
         "zh-Hans": {
-          "title": "终极密码",
-          "eyebrow": "猜数字派对",
-          "description": "密码藏在 1～100，大家轮流猜，范围越猜越小，猜中的人输！还有 +1／+2／+3 累加模式、跳过／回转／指定道具，单人挑战或在线红蓝组队。",
+          "title": "合成动物园",
+          "eyebrow": "动物合成益智",
+          "description": "把一样的小动物碰在一起，合成更大只！八个世界各有不同手感，五档难度、经典无尽、任务闯关 400 关与每日挑战，还有动物图鉴与成就。",
           "tags": [
-            "数字",
-            "派对",
-            "单机",
-            "线上多人",
-            "观战"
+            "消除",
+            "闯关",
+            "幼幼班",
+            "单机"
           ],
           "modes": [
-            "单人破解",
-            "单人踩点",
-            "线上房间",
-            "红蓝组队",
-            "线上观战"
+            "经典无尽",
+            "任务闯关",
+            "每日挑战"
           ],
-          "controls": "点数字格或数字键盘选数字提交；累加模式直接点 +1／+2／+3",
-          "badge": "踩中就输"
+          "controls": "拖动选位置、松开让动物落下；点箱子里的动物可以戳一戳",
+          "badge": "疗愈"
         }
       },
-      "iconUrl": "https://pjh-eric.github.io/ultimate-code/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/ultimate-code/assets/images/cover.webp"
+      "iconUrl": "https://pjh-eric.github.io/merge-zoo/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/merge-zoo/assets/images/cover.webp"
     }
   ],
   "i18n": {

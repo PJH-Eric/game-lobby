@@ -20,12 +20,15 @@ const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
 assert.equal(config.games.length, 20);
-const ultimateCode = config.games.find((game) => game.id === 'ultimate-code');
-assert.ok(ultimateCode, '清單要包含終極密碼');
-assert.equal(ultimateCode.launchUrl, 'https://pjh-eric.github.io/ultimate-code/');
-assert.equal(ultimateCode.iconUrl, ultimateCode.launchUrl + 'favicon-96.png');
-assert.equal(ultimateCode.category, 'turn');
-assert.ok(!ultimateCode.modes.some((mode) => /電腦|AI/.test(mode)), '終極密碼沒有電腦對手');
+assert.ok(!config.games.some((game) => game.id === 'ultimate-code'), '大廳不列出終極密碼');
+const mergeZoo = config.games.find((game) => game.id === 'merge-zoo');
+assert.ok(mergeZoo, '清單要包含合成動物園');
+assert.equal(mergeZoo.launchUrl, 'https://pjh-eric.github.io/merge-zoo/');
+assert.equal(mergeZoo.iconUrl, mergeZoo.launchUrl + 'favicon-96.png');
+assert.equal(mergeZoo.imageUrl, mergeZoo.launchUrl + 'assets/images/cover.webp');
+assert.equal(mergeZoo.icon, 'zoo');
+assert.equal(mergeZoo.category, 'brain');
+assert.ok(!mergeZoo.modes.some((mode) => /線上|電腦|AI/.test(mode)), '合成動物園是純單機，不可宣稱線上或電腦對戰');
 const bumperSumo = config.games.find((game) => game.id === 'bumper-sumo');
 assert.ok(bumperSumo, '清單要包含碰碰車大亂鬥');
 assert.equal(bumperSumo.launchUrl, 'https://pjh-eric.github.io/bumper-sumo/');
@@ -121,6 +124,7 @@ assert.ok(!appSource.includes('pinball: `<svg'), '大廳不保留彈珠籃球專
 assert.ok(appSource.includes('angel: `<svg'), '天使的策略要有專屬圖示');
 assert.ok(appSource.includes('pipe: `<svg'), '水管接通要有專屬圖示');
 assert.ok(appSource.includes("icons['bumper-sumo'] = `<svg"), '碰碰車大亂鬥要有專屬圖示');
+assert.ok(appSource.includes('icons.zoo = `<svg'), '合成動物園要有專屬圖示');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
 
@@ -203,9 +207,9 @@ const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
 const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'curling-duel']);
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
-const soloOnly = new Set(['domino-push', 'pipe-connect']);
+const soloOnly = new Set(['domino-push', 'pipe-connect', 'merge-zoo']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'bumper-sumo']);
+  'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'bumper-sumo', 'merge-zoo']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -219,7 +223,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id) && !soloOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy', 'ultimate-code'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, 2, `${game.id} 的玩法特色標籤數量要符合分類`);
