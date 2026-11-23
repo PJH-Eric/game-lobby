@@ -19,7 +19,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 21);
+assert.equal(config.games.length, 20);
 const ultimateCode = config.games.find((game) => game.id === 'ultimate-code');
 assert.ok(ultimateCode, '清單要包含終極密碼');
 assert.equal(ultimateCode.launchUrl, 'https://pjh-eric.github.io/ultimate-code/');
@@ -68,16 +68,7 @@ assert.ok(bombSquad, '清單要包含炸彈小隊');
 assert.equal(bombSquad.launchUrl, 'https://pjh-eric.github.io/bomb-squad/');
 assert.equal(bombSquad.icon, 'bomb');
 assert.ok(!config.games.some((game) => game.id === 'shoot-balloon'), '大廳不列出射氣球');
-const rainbowBubble = config.games.find((game) => game.id === 'rainbow-bubble');
-assert.ok(rainbowBubble, '清單要包含彩虹泡泡砲');
-assert.equal(rainbowBubble.launchUrl, 'https://pjh-eric.github.io/rainbow-bubble/');
-assert.equal(rainbowBubble.icon, 'rainbow');
-assert.deepEqual(rainbowBubble.modes, ['單機自由玩', '闖關']);
-assert.ok(!/電腦|多人|線上|觀戰/.test(rainbowBubble.description + rainbowBubble.modes.join('')));
-assert.deepEqual(rainbowBubble.i18n.en.modes, ['Solo Play', 'Quest']);
-assert.ok(!/\bAI\b|online|spectat|computer/i.test(rainbowBubble.i18n.en.description + rainbowBubble.i18n.en.modes.join('')));
-assert.deepEqual(rainbowBubble.i18n['zh-Hans'].modes, ['单机自由玩', '闯关']);
-assert.ok(!/电脑|多人|线上|观战/.test(rainbowBubble.i18n['zh-Hans'].description + rainbowBubble.i18n['zh-Hans'].modes.join('')));
+assert.ok(!config.games.some((game) => game.id === 'rainbow-bubble'), '大廳不列出彩虹泡泡砲');
 const reversi = config.games.find((game) => game.id === 'reversi');
 assert.ok(reversi, '清單要包含黑白棋');
 assert.equal(reversi.launchUrl, 'https://pjh-eric.github.io/reversi/');
@@ -125,7 +116,7 @@ assert.ok(appSource.includes('card-play-count'), '卡片要顯示單款遊玩次
 assert.ok(appSource.includes('image.remove()') && appSource.includes('icon.hidden = false'), '封面載入失敗時使用遊戲專屬 SVG 備援');
 assert.ok(appSource.includes('drawguess: `<svg'), '你畫我猜要有專屬圖示');
 assert.ok(appSource.includes('bomb: `<svg'), '炸彈小隊要有專屬圖示');
-assert.ok(appSource.includes('rainbow: `<svg'), '彩虹泡泡砲要有專屬圖示');
+assert.ok(!appSource.includes('rainbow: `<svg'), '大廳不保留彩虹泡泡砲專屬圖示');
 assert.ok(!appSource.includes('pinball: `<svg'), '大廳不保留彈珠籃球專屬圖示');
 assert.ok(appSource.includes('angel: `<svg'), '天使的策略要有專屬圖示');
 assert.ok(appSource.includes('pipe: `<svg'), '水管接通要有專屬圖示');
@@ -212,9 +203,9 @@ const allowedTags = new Set(['記憶', '邏輯', '數字', '消除', '畫畫', '
 /* 線上固定只能兩個人的遊戲（各遊戲 repo 的規劃書／README 寫明 2 人）寫「線上雙人」，其餘寫「線上多人」 */
 const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi', 'curling-duel']);
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
-const soloOnly = new Set(['domino-push', 'pipe-connect', 'rainbow-bubble']);
+const soloOnly = new Set(['domino-push', 'pipe-connect']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'rainbow-bubble', 'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'bumper-sumo']);
+  'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'bumper-sumo']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -231,7 +222,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy', 'ultimate-code'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
-  assert.equal(gameplayTags.length, game.id === 'rainbow-bubble' ? 3 : 2, `${game.id} 的玩法特色標籤數量要符合分類`);
+  assert.equal(gameplayTags.length, 2, `${game.id} 的玩法特色標籤數量要符合分類`);
   assert.deepEqual(game.tags, [...gameplayTags, ...featureTags.filter((tag) => game.tags.includes(tag))], `${game.id} 的標籤順序要一致`);
   assert.deepEqual(game.i18n.en.tags, game.tags.map((tag) => tagTranslations[tag]), `${game.id} 的英文標籤要逐一對應中文`);
 }

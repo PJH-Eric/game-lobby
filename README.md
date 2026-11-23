@@ -1,6 +1,6 @@
 # 遊戲小小島
 
-一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的十八個遊戲：
+一個以 JSON 設定檔驅動的可愛遊戲連結大廳，集中入口到工作區裡的遊戲：
 
 - 翻牌配對碰
 - 數獨小學堂
@@ -9,7 +9,6 @@
 - 小朋友下樓梯
 - 你畫我猜
 - 炸彈小隊
-- 彩虹泡泡砲
 
 大廳本身不重寫既有遊戲，也不假裝提供跨遊戲的多人伺服器；每張卡片會在目前分頁帶到對應遊戲的獨立入口。
 
@@ -46,7 +45,7 @@ https://pjh-eric.github.io/game-lobby/
 3. 開啟 **Settings → Actions → General**，確認 Workflow permissions 允許 workflow 使用必要的 repository 權限；若目前是唯讀，改成 **Read and write permissions** 後儲存。
 4. 到 **Actions** 頁確認「建置並部署遊戲小小島」執行成功；之後每次 push `main` 都會自動重新部署。
 
-GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前十八個 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
+GitHub Pages 只會公開這個大廳的靜態頁面，不會執行 `server.js`。目前 `config/games.json` 的 `launchUrl` 已指向各遊戲的公開 GitHub Pages；如果日後改用其他主機，只要更新對應的 `launchUrl` 即可。
 
 ### 頁尾的 GA4 累計不重複訪客數與遊玩次數
 
@@ -115,7 +114,6 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 | 小朋友下樓梯 | `github.io/stair-kids` | 3060 |
 | 你畫我猜 | `github.io/draw-guess` | 3030 |
 | 炸彈小隊 | `github.io/bomb-squad` | 3120 |
-| 彩虹泡泡砲 | `github.io/rainbow-bubble` | 3140 |
 | 迷宮滾球 | `github.io/maze-roll` | 3090 |
 | 疊疊高樓 | `github.io/house-stack` | 3090 |
 | 密碼鎖 1A2B | `github.io/guess-ab` | 3100 |
@@ -150,7 +148,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 }
 ```
 
-目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`rainbow`、`balloon`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
+目前 `icon` 可用 `cards`、`sudoku`、`market`、`catdog`、`mole`、`stairs`、`caterpillar`、`fruit`、`drawguess`、`heartattack`、`bubble`、`bomb`、`balloon`；若使用未知值會回退成卡牌圖示。`accent` 可用 `sky`、`pink`、`lilac`、`mint`、`peach`、`lemon`、`lime`。若要加入新的圖示或分類，再修改 `app.js` 對應的圖示與色彩映射。
 
 ### 分類、標籤與徽章規則
 
