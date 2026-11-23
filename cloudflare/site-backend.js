@@ -23,7 +23,7 @@
     'bumper-sumo': ['bumper-sumo-83kf', '/socket.io/'],
     'bomb-squad': [null, '/ws'],
     'curling-duel': ['ice-duel-server', '/', 'curling-duel'],
-    'ultimate-code': ['ultimate-code', '/ws']
+    'ultimate-code': ['ultimate-code-sg', '/ws']
   };
 
   const config = settings[game];
