@@ -1510,6 +1510,84 @@
       },
       "iconUrl": "https://pjh-eric.github.io/bumper-sumo/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/bumper-sumo/assets/images/cover.webp"
+    },
+    {
+      "id": "ultimate-code",
+      "publishedAt": "2026-11-23",
+      "title": "終極密碼",
+      "eyebrow": "猜數字派對",
+      "description": "密碼藏在 1～100，大家輪流猜，範圍越猜越小，猜中的人輸！還有 +1／+2／+3 累加模式、跳過／迴轉／指定道具，單人挑戰或線上紅藍組隊。",
+      "icon": "lock",
+      "accent": "peach",
+      "category": "turn",
+      "additionalCategories": [
+        "brain"
+      ],
+      "tags": [
+        "數字",
+        "派對",
+        "單機",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "單人破解",
+        "單人踩點",
+        "線上房間",
+        "紅藍組隊",
+        "線上觀戰"
+      ],
+      "controls": "點數字格或數字鍵盤選數字送出；累加模式直接點 +1／+2／+3",
+      "launchUrl": "https://pjh-eric.github.io/ultimate-code/",
+      "localPort": 3110,
+      "projectFolder": "ultimate-code",
+      "badge": "踩中就輸",
+      "i18n": {
+        "en": {
+          "title": "Ultimate Code",
+          "eyebrow": "Number Party",
+          "description": "The secret hides between 1 and 100. Take turns guessing as the range shrinks — whoever hits it loses! Plus a +1/+2/+3 count mode, Skip/Reverse/Assign items, solo challenges and red-vs-blue online teams.",
+          "tags": [
+            "Numbers",
+            "Party",
+            "Solo",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Solo Crack",
+            "Solo Step",
+            "Online Room",
+            "Red vs Blue",
+            "Spectate"
+          ],
+          "controls": "Tap the grid or keypad and submit; tap +1/+2/+3 in count mode",
+          "badge": "Hit It, Lose It"
+        },
+        "zh-Hans": {
+          "title": "终极密码",
+          "eyebrow": "猜数字派对",
+          "description": "密码藏在 1～100，大家轮流猜，范围越猜越小，猜中的人输！还有 +1／+2／+3 累加模式、跳过／回转／指定道具，单人挑战或在线红蓝组队。",
+          "tags": [
+            "数字",
+            "派对",
+            "单机",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "单人破解",
+            "单人踩点",
+            "线上房间",
+            "红蓝组队",
+            "线上观战"
+          ],
+          "controls": "点数字格或数字键盘选数字提交；累加模式直接点 +1／+2／+3",
+          "badge": "踩中就输"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/ultimate-code/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/ultimate-code/assets/images/cover.webp"
     }
   ],
   "i18n": {

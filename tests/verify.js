@@ -19,7 +19,13 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 20);
+assert.equal(config.games.length, 21);
+const ultimateCode = config.games.find((game) => game.id === 'ultimate-code');
+assert.ok(ultimateCode, '清單要包含終極密碼');
+assert.equal(ultimateCode.launchUrl, 'https://pjh-eric.github.io/ultimate-code/');
+assert.equal(ultimateCode.iconUrl, ultimateCode.launchUrl + 'favicon-96.png');
+assert.equal(ultimateCode.category, 'turn');
+assert.ok(!ultimateCode.modes.some((mode) => /電腦|AI/.test(mode)), '終極密碼沒有電腦對手');
 const bumperSumo = config.games.find((game) => game.id === 'bumper-sumo');
 assert.ok(bumperSumo, '清單要包含碰碰車大亂鬥');
 assert.equal(bumperSumo.launchUrl, 'https://pjh-eric.github.io/bumper-sumo/');
@@ -222,7 +228,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id) && !soloOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy', 'ultimate-code'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, game.id === 'rainbow-bubble' ? 3 : 2, `${game.id} 的玩法特色標籤數量要符合分類`);
