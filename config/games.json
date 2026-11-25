@@ -607,7 +607,9 @@
     },
     {
       "id": "curling-duel",
-      "legacyAnalyticsGameIds": ["ice-duel"],
+      "legacyAnalyticsGameIds": [
+        "ice-duel"
+      ],
       "publishedAt": "2026-10-30",
       "title": "冰壺對決",
       "eyebrow": "回合運動",
@@ -1457,6 +1459,90 @@
       },
       "iconUrl": "https://pjh-eric.github.io/merge-zoo/favicon-96.png",
       "imageUrl": "https://pjh-eric.github.io/merge-zoo/assets/images/cover.webp"
+    },
+    {
+      "id": "schulte-table",
+      "publishedAt": "2026-11-25",
+      "title": "舒爾特方格",
+      "eyebrow": "專注力方格",
+      "description": "依序點完方格裡被打亂的數字、注音、英文字母或水果動物圖案，練專注力；五段難度、闖關 50 關與每日挑戰，也能線上同盤搶點或同題競速。",
+      "icon": "schulte",
+      "accent": "sky",
+      "category": "brain",
+      "tags": [
+        "數字",
+        "反應",
+        "幼幼班",
+        "單機",
+        "線上多人",
+        "觀戰"
+      ],
+      "modes": [
+        "經典計時",
+        "逆序與隨機",
+        "闖關 50 關",
+        "每日挑戰",
+        "同盤搶點",
+        "同題競速",
+        "線上觀戰"
+      ],
+      "controls": "依序點方格，也能用方向鍵與 Enter",
+      "launchUrl": "https://pjh-eric.github.io/schulte-table/",
+      "localPort": 3120,
+      "projectFolder": "schulte-table",
+      "badge": "練專注",
+      "i18n": {
+        "en": {
+          "title": "Schulte Table",
+          "eyebrow": "Focus Grid",
+          "description": "Tap the shuffled numbers, Zhuyin, letters or fruit & animal pictures in order to train your focus. Five difficulty tiers, 50 levels and a daily challenge, plus online grab battles and races.",
+          "tags": [
+            "Numbers",
+            "Reflex",
+            "Little Kids",
+            "Solo",
+            "Online Multiplayer",
+            "Spectate"
+          ],
+          "modes": [
+            "Classic Timer",
+            "Reverse & Random",
+            "50 Levels",
+            "Daily Challenge",
+            "Online Grab",
+            "Online Race",
+            "Spectate"
+          ],
+          "controls": "Tap cells in order, or use arrow keys and Enter",
+          "badge": "Focus"
+        },
+        "zh-Hans": {
+          "title": "舒尔特方格",
+          "eyebrow": "专注力方格",
+          "description": "依序点完方格里被打乱的数字、注音、英文字母或水果动物图案，练专注力；五段难度、闯关 50 关与每日挑战，也能在线同盘抢点或同题竞速。",
+          "tags": [
+            "数字",
+            "反应",
+            "幼幼班",
+            "单机",
+            "线上多人",
+            "观战"
+          ],
+          "modes": [
+            "经典计时",
+            "逆序与随机",
+            "闯关 50 关",
+            "每日挑战",
+            "同盘抢点",
+            "同题竞速",
+            "线上观战"
+          ],
+          "controls": "依序点方格，也能用方向键与 Enter",
+          "badge": "练专注"
+        }
+      },
+      "iconUrl": "https://pjh-eric.github.io/schulte-table/favicon-96.png",
+      "imageUrl": "https://pjh-eric.github.io/schulte-table/assets/images/cover.webp"
     }
   ],
   "i18n": {

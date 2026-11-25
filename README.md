@@ -120,6 +120,7 @@ GA4 後台可依報表需求建立事件範圍的自訂維度：`game_id`、`mod
 | 天使的策略 | `github.io/angel-strategy` | 3110 |
 | 水管接通 | `github.io/pipe-connect` | 3230 |
 | 合成動物園 | `github.io/merge-zoo` | 3110 |
+| 舒爾特方格 | `github.io/schulte-table` | 3120 |
 
 你畫我猜與打地鼠的本機預設埠同為 3030；若要同時啟動，請透過 `PORT` 調整其中一個服務。
 

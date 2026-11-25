@@ -19,7 +19,7 @@ const configPath = path.join(root, 'config', 'games.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 assert.equal(config.version, 1);
-assert.equal(config.games.length, 19);
+assert.equal(config.games.length, 20);
 assert.ok(!config.games.some((game) => game.id === 'ultimate-code'), '大廳不列出終極密碼');
 const mergeZoo = config.games.find((game) => game.id === 'merge-zoo');
 assert.ok(mergeZoo, '清單要包含合成動物園');
@@ -120,6 +120,14 @@ assert.ok(appSource.includes('angel: `<svg'), '天使的策略要有專屬圖示
 assert.ok(appSource.includes('pipe: `<svg'), '水管接通要有專屬圖示');
 assert.ok(!appSource.includes("icons['bumper-sumo']"), '大廳不保留碰碰車專屬圖示');
 assert.ok(appSource.includes('icons.zoo = `<svg'), '合成動物園要有專屬圖示');
+const schulte = config.games.find((game) => game.id === 'schulte-table');
+assert.ok(schulte, '清單要包含舒爾特方格');
+assert.equal(schulte.launchUrl, 'https://pjh-eric.github.io/schulte-table/');
+assert.equal(schulte.iconUrl, schulte.launchUrl + 'favicon-96.png');
+assert.equal(schulte.imageUrl, schulte.launchUrl + 'assets/images/cover.webp');
+assert.equal(schulte.icon, 'schulte');
+assert.ok(!schulte.modes.some((mode) => /電腦|AI/.test(mode)), '舒爾特方格沒有電腦對手');
+assert.ok(appSource.includes('icons.schulte = `<svg'), '舒爾特方格要有專屬圖示');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
 assert.ok(!appSource.includes('window.open('), '遊戲卡片不應另外開啟新分頁');
 
@@ -204,7 +212,7 @@ const twoPlayerOnly = new Set(['flip-match', 'stair-kids', 'pool-duel', 'reversi
 /* 純單機遊戲（沒有線上、電腦對手與觀戰） */
 const soloOnly = new Set(['domino-push', 'pipe-connect', 'merge-zoo']);
 const kidsGames = new Set(['fruit-link', 'stair-kids', 'bomb-squad',
-  'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'merge-zoo']);
+  'pool-duel', 'reversi', 'amaze-go', 'maze-roll', 'house-stack', 'snake-3d', 'domino-push', 'guess-ab', 'angel-strategy', 'pipe-connect', 'merge-zoo', 'schulte-table']);
 const featureTags = ['幼幼班', '單機', '電腦對戰', '三段 AI', '線上雙人', '線上多人', '觀戰'];
 const tagTranslations = {
   記憶: 'Memory', 邏輯: 'Logic', 數字: 'Numbers', 消除: 'Matching', 畫畫: 'Drawing', 派對: 'Party',
@@ -218,7 +226,7 @@ for (const game of config.games) {
   assert.equal(game.tags.includes('線上多人'), game.id !== 'sudoku' && !twoPlayerOnly.has(game.id) && !soloOnly.has(game.id), `${game.id} 的多人標籤要符合實際模式`);
   assert.equal(game.tags.includes('幼幼班'), kidsGames.has(game.id), `${game.id} 的幼幼班標籤要符合實際難度`);
   assert.ok(game.tags.includes('單機'), `${game.id} 要標示單機模式`);
-  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
+  assert.equal(game.tags.includes('電腦對戰'), !['sudoku', 'fruit-link', 'draw-guess', 'curling-duel', 'guess-ab', 'angel-strategy', 'schulte-table'].includes(game.id) && !soloOnly.has(game.id), `${game.id} 的電腦對戰標籤要符合實際功能`);
   assert.equal(game.tags.includes('觀戰'), game.id !== 'flip-match' && !soloOnly.has(game.id), `${game.id} 的觀戰標籤要符合實際功能`);
   const gameplayTags = game.tags.filter((tag) => !featureTags.includes(tag));
   assert.equal(gameplayTags.length, 2, `${game.id} 的玩法特色標籤數量要符合分類`);
