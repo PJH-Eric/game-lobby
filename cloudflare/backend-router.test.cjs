@@ -64,7 +64,6 @@ const siteSource = readFileSync(require.resolve('./site-backend.js'), 'utf8');
 const pilotGames = [
   ['draw-guess', 'draw-guess-sg', '/socket.io/?EIO=4&transport=websocket'],
   ['guess-ab', 'guess-ab', '/ws'],
-  ['bumper-sumo', 'bumper-sumo-83kf', '/socket.io/?EIO=4&transport=websocket'],
   ['amaze-go', 'amaze-go-server', '/ws'],
   ['stair-kids', 'stair-kids-sg', '/ws'],
   ['house-stack', 'house-stack-server', '/socket.io/?EIO=4&transport=websocket']

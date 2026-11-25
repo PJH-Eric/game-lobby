@@ -194,7 +194,7 @@ async function socketIoFlow(id, base, clients) {
       wait: (event, predicate) => find(messages, message => message.event === event && predicate(message.data))
     };
   }
-  if (['house-stack', 'whack-a-mole', 'bumper-sumo'].includes(id)) {
+  if (['house-stack', 'whack-a-mole'].includes(id)) {
     const client = await open();
     const created = await client.request('room:create', { name: 'Worker test', roomName: 'Worker test' });
     assert.ok(created.ok, JSON.stringify(created));

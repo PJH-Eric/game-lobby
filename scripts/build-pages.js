@@ -133,7 +133,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 const robots = `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`;
 
 const oraclePilotOrigins = JSON.parse(process.env.ORACLE_PILOT_ORIGINS || '{}');
-const oraclePilotGames = new Set(['draw-guess', 'guess-ab', 'bumper-sumo', 'amaze-go', 'stair-kids', 'house-stack']);
+const oraclePilotGames = new Set(['draw-guess', 'guess-ab', 'amaze-go', 'stair-kids', 'house-stack']);
 if (!oraclePilotOrigins || typeof oraclePilotOrigins !== 'object' || Array.isArray(oraclePilotOrigins)) {
   throw new Error('ORACLE_PILOT_ORIGINS 必須是遊戲代號對應 Oracle HTTPS 網址的 JSON 物件');
 }

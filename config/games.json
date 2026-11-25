@@ -1393,59 +1393,6 @@
       "imageUrl": "https://pjh-eric.github.io/pipe-connect/assets/images/cover.webp"
     },
     {
-      "id": "bumper-sumo",
-      "publishedAt": "2026-11-18",
-      "title": "碰碰車大亂鬥",
-      "eyebrow": "碰碰車擂台對戰",
-      "description": "駕駛動物碰碰車，在縮小的擂台上衝刺，把對手撞出場外。可自由練習、挑戰五段電腦，或揪 2～6 人線上混戰、組隊與觀戰。",
-      "icon": "bumper-sumo",
-      "accent": "pink",
-      "category": "challenge",
-      "tags": [
-        "動作",
-        "派對",
-        "幼幼班",
-        "單機",
-        "電腦對戰",
-        "線上多人",
-        "觀戰"
-      ],
-      "modes": [
-        "自由練習",
-        "五段電腦",
-        "線上房間",
-        "組隊對戰",
-        "觀戰"
-      ],
-      "controls": "方向鍵或 WASD 移動、空白鍵衝刺、E 使用道具。觸控用搖桿和衝刺、道具按鈕。",
-      "launchUrl": "https://pjh-eric.github.io/bumper-sumo/",
-      "localPort": 3250,
-      "projectFolder": "bumper-sumo",
-      "badge": "擂台對戰",
-      "i18n": {
-        "en": {
-          "title": "Bumper Brawl",
-          "eyebrow": "Bumper Car Arena",
-          "description": "Dash around a shrinking arena and knock rival animal bumper cars off the edge. Practice, challenge five AI levels, or join 2–6 players online for free-for-alls, team battles and spectating.",
-          "tags": ["Action", "Party", "Little Kids", "Solo", "vs Computer", "Online Multiplayer", "Spectate"],
-          "modes": ["Free Practice", "Five AI Levels", "Online Rooms", "Team Battles", "Spectate"],
-          "controls": "Use WASD or the arrow keys to move, Space to dash and E to use items. On touchscreens, use the joystick and action buttons.",
-          "badge": "Arena Battle"
-        },
-        "zh-Hans": {
-          "title": "碰碰车大乱斗",
-          "eyebrow": "碰碰车擂台对战",
-          "description": "驾驶动物碰碰车，在缩小的擂台上冲刺，把对手撞出场外。可自由练习、挑战五档电脑，也可以和 2～6 人在线混战、组队和观战。",
-          "tags": ["动作", "派对", "幼幼班", "单机", "电脑对战", "线上多人", "观战"],
-          "modes": ["自由练习", "五档电脑", "在线房间", "组队对战", "观战"],
-          "controls": "方向键或 WASD 移动、空格键冲刺、E 使用道具。触屏可用虚拟摇杆和冲刺、道具按钮。",
-          "badge": "擂台对战"
-        }
-      },
-      "iconUrl": "https://pjh-eric.github.io/bumper-sumo/favicon-96.png",
-      "imageUrl": "https://pjh-eric.github.io/bumper-sumo/assets/images/cover.webp"
-    },
-    {
       "id": "merge-zoo",
       "publishedAt": "2026-11-23",
       "title": "合成動物園",

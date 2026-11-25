@@ -20,7 +20,6 @@
     'stair-kids': ['stair-kids-sg', '/ws'],
     'maze-roll': ['maze-roll-server', '/ws'],
     'snake-3d': ['snake-3d-server', '/ws'],
-    'bumper-sumo': ['bumper-sumo-83kf', '/socket.io/'],
     'bomb-squad': [null, '/ws'],
     'curling-duel': ['ice-duel-server', '/', 'curling-duel'],
     'ultimate-code': ['ultimate-code-sg', '/ws']

@@ -38,7 +38,6 @@ jobs:
               "guess-ab": "https://guess-ab.bomb-squad.duckdns.org",
               "draw-guess": "https://draw-guess.bomb-squad.duckdns.org",
               "amaze-go": "https://amaze-go.bomb-squad.duckdns.org",
-              "bumper-sumo": "https://bumper-sumo.bomb-squad.duckdns.org",
               "stair-kids": "https://stair-kids.bomb-squad.duckdns.org",
               "house-stack": "https://house-stack.bomb-squad.duckdns.org"
             }

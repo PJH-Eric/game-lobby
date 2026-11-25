@@ -11,7 +11,6 @@ module.exports = {
   'stair-kids': { path: '/ws', maxPayload: 64 * 1024 },
   'maze-roll': { path: '/ws', maxPayload: 4096 },
   'snake-3d': { path: '/ws', maxPayload: 4000, entry: 'server/server.js' },
-  'bumper-sumo': { path: '/socket.io/', maxPayload: 100000, socketIo: true },
   'bomb-squad': { path: '/ws', maxPayload: 4000 },
   'ultimate-code': { path: '/ws', maxPayload: 8192 }
 };
