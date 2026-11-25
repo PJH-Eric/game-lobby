@@ -27,7 +27,7 @@ assert.equal(mergeZoo.launchUrl, 'https://pjh-eric.github.io/merge-zoo/');
 assert.equal(mergeZoo.iconUrl, mergeZoo.launchUrl + 'favicon-96.png');
 assert.equal(mergeZoo.imageUrl, mergeZoo.launchUrl + 'assets/images/cover.webp');
 assert.equal(mergeZoo.icon, 'zoo');
-assert.equal(mergeZoo.category, 'brain');
+assert.equal(mergeZoo.category, 'casual');
 assert.ok(!mergeZoo.modes.some((mode) => /線上|電腦|AI/.test(mode)), '合成動物園是純單機，不可宣稱線上或電腦對戰');
 assert.ok(!config.games.some((game) => game.id === 'bumper-sumo'), '大廳不列出碰碰車大亂鬥');
 const angelStrategy = config.games.find((game) => game.id === 'angel-strategy');

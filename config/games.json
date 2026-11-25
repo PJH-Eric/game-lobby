@@ -1398,11 +1398,11 @@
       "id": "merge-zoo",
       "publishedAt": "2026-11-23",
       "title": "合成動物園",
-      "eyebrow": "動物合成益智",
+      "eyebrow": "動物合成休閒",
       "description": "把一樣的小動物碰在一起，合成更大隻！八個世界各有不同手感，五段難度、經典無盡、任務闖關 400 關與每日挑戰，還有動物圖鑑與成就。",
       "icon": "zoo",
       "accent": "mint",
-      "category": "brain",
+      "category": "casual",
       "tags": [
         "消除",
         "闖關",
@@ -1422,7 +1422,7 @@
       "i18n": {
         "en": {
           "title": "Merge Zoo",
-          "eyebrow": "Animal Merge Puzzle",
+          "eyebrow": "Cozy Animal Merge",
           "description": "Bump matching animals together to merge them into bigger ones! Eight worlds that each feel different, five difficulty tiers, endless classic play, 400 mission levels and a daily challenge, plus an animal collection and achievements.",
           "tags": [
             "Matching",
@@ -1440,7 +1440,7 @@
         },
         "zh-Hans": {
           "title": "合成动物园",
-          "eyebrow": "动物合成益智",
+          "eyebrow": "动物合成休闲",
           "description": "把一样的小动物碰在一起，合成更大只！八个世界各有不同手感，五档难度、经典无尽、任务闯关 400 关与每日挑战，还有动物图鉴与成就。",
           "tags": [
             "消除",

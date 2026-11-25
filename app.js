@@ -19,6 +19,7 @@
   };
   const categoryLabels = {
     brain: 'cat.brain',
+    casual: 'cat.casual',
     turn: 'cat.turn',
     sports: 'cat.sports',
     challenge: 'cat.challenge',
