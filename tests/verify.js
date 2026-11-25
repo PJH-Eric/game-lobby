@@ -126,6 +126,7 @@ assert.equal(schulte.launchUrl, 'https://pjh-eric.github.io/schulte-table/');
 assert.equal(schulte.iconUrl, schulte.launchUrl + 'favicon-96.png');
 assert.equal(schulte.imageUrl, schulte.launchUrl + 'assets/images/cover.webp');
 assert.equal(schulte.icon, 'schulte');
+assert.equal(schulte.category, 'action', '舒爾特方格比快速辨識，歸入反應派');
 assert.ok(!schulte.modes.some((mode) => /電腦|AI/.test(mode)), '舒爾特方格沒有電腦對手');
 assert.ok(appSource.includes('icons.schulte = `<svg'), '舒爾特方格要有專屬圖示');
 assert.ok(!indexHtml.includes('target="_blank"'), '遊戲入口不應開啟新分頁');
