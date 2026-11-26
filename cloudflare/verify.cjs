@@ -138,6 +138,22 @@ async function rawFlow(id, base, clients) {
     return 'two players completed a duel';
   }
 
+  if (id === 'ultimate-code') {
+    a.send({ type: 'create', name: 'Worker test', settings: { mode: 'range', turnSec: 30, rounds: 1 } });
+    const { room } = await a.wait('room');
+    b.send({ type: 'join', roomId: room.id, token: room.invite.token, name: 'Worker test', want: 'player' });
+    await b.wait('room', message => message.room.you.role === 'player');
+    b.send({ type: 'ready', value: true });
+    await a.wait('room', message => message.room.seats[1]?.ready);
+    a.send({ type: 'start' });
+    const { room: playing } = await b.wait('room', message => message.room.status === 'playing');
+    assert.equal(playing.id, room.id);
+    assert.equal(playing.match.game.secret, null);
+    a.send({ type: 'leave' });
+    b.send({ type: 'leave' });
+    return 'two players started a match with the room secret hidden';
+  }
+
   a.send({ type: 'create', name: 'Worker test', kind: 'eight' });
   const room = await a.wait('joined');
   b.send({ type: 'join', roomId: room.roomId });
